@@ -1,0 +1,22 @@
+
+#login{
+  display: none;
+
+  margin-top: -20vh;
+}
+
+#userSelection{
+  display: none;
+
+  width: 600px;
+  height: 1000px;
+  margin-top: 10vh;
+}
+
+#dashboard{
+  //display: none;
+}
+
+#order{
+  display: none;
+}

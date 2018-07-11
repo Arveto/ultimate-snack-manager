@@ -1,0 +1,192 @@
+
+<!-- END NAV -->
+<div class="container">
+  <div class="columns">
+    <div class="column is-3">
+      <aside class="menu">
+        <p class="menu-label">
+          General
+        </p>
+        <ul class="menu-list">
+          <li><a id="toDashboard" class= <% if (theme == 'BLUE'){ %> "is-active" <% } else { %> "has-text-danger" <% } %> >Dashboard</a></li>
+          <li><a id="toLogin">Login</a></li>
+        </ul>
+        <p class="menu-label">
+          Administration
+        </p>
+        <ul class="menu-list">
+          <li><a>Ajouter un produit</a></li>
+          <li>
+            <a>Modifier un produit</a>
+            <ul>
+              <li><a>Faire un truc</a></li>
+              <li><a>Faire un truc</a></li>
+              <li><a>Faire un truc</a></li>
+            </ul>
+          </li>
+          <li><a>Là aussi</a></li>
+          <li><a>Là aussi</a></li>
+          <li><a>Là aussi</a></li>
+        </ul>
+      </aside>
+    </div>
+    <div class="column is-9">
+      <section class= <% if (theme == 'BLUE'){ %> "is-info hero welcome is-small" <% } else { %> "hero is-danger welcome is-small" <% } %> >
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+                Yo mec.
+            </h1>
+            <h2 class="subtitle">
+              Bien ou bien ?
+            </h2>
+          </div>
+        </div>
+      </section>
+      <section class="info-tiles">
+        <div class="tile is-ancestor has-text-centered">
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Coca</p>
+              <p class="subtitle">12</p>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Cocaine</p>
+              <p class="subtitle">127g du sale mamène</p>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Aze</p>
+              <p class="subtitle">Oui</p>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Une autre stat</p>
+              <p class="subtitle">132%</p>
+            </article>
+          </div>
+        </div>
+        <div class="tile is-ancestor has-text-centered">
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Là un graph stylé</p>
+              <p class="subtitle">On vous met bien</p>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Là aussi</p>
+              <p class="subtitle">On ne compte pas</p>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Non sérieux</p>
+              <p class="subtitle">Hein</p>
+            </article>
+          </div>
+          <div class="tile is-parent">
+            <article class="tile is-child box">
+              <p class="title">Ca va etre bien</p>
+              <p class="subtitle">Le monde en sueur</p>
+            </article>
+          </div>
+        </div>
+      </section>
+      <div class="columns">
+        <div class="column is-6">
+          <div class="card events-card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Liste de course
+              </p>
+              <a href="#" class="card-header-icon" aria-label="more options">
+                  <span class="icon">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </a>
+            </header>
+            <div class="card-table">
+              <div class="content">
+                <table class="table is-fullwidth is-striped">
+                  <tbody>
+                    <%
+                      shoppingList.forEach((list)=>{
+                    %>
+                      <tr>
+                        <td width="5%"><i class="fa fa-bell-o"></i></td>
+                        <td> <%=list%> </td>
+                        <td><a class= <% if (theme=='BLUE') { %> "button is-small is-info" <% }else{ %> "button is-small is-danger" <% } %> href="#">Action</a></td>
+                      </tr>
+                    <%
+                      })
+                    %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <footer class="card-footer">
+              <a href="#" class="card-footer-item">View All</a>
+            </footer>
+          </div>
+        </div>
+        <div class="column is-6">
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Recherche dans l'inventaire
+              </p>
+              <a href="#" class="card-header-icon" aria-label="more options">
+                  <span class="icon">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </a>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" type="text" placeholder="">
+                  <span class="icon is-medium is-left">
+                      <i class="fa fa-search"></i>
+                    </span>
+                  <span class="icon is-medium is-right">
+                      <i class="fa fa-check"></i>
+                    </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">
+                Utilisateurs
+              </p>
+              <a href="#" class="card-header-icon" aria-label="more options">
+                  <span class="icon">
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </a>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                <div class="control has-icons-left has-icons-right">
+                  <input class="input is-large" type="text" placeholder="">
+                  <span class="icon is-medium is-left">
+                      <i class="fa fa-search"></i>
+                    </span>
+                  <span class="icon is-medium is-right">
+                      <i class="fa fa-check"></i>
+                    </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
