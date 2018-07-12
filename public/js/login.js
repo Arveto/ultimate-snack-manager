@@ -24,7 +24,6 @@ function login(username, password) {
 //Main login
 $('#submitLogin, #submitLoginPopup').on('click', () => {
 
-console.log('iu');
   let clear = $('#password').val()
 
   login('ESSAIM', clear);
