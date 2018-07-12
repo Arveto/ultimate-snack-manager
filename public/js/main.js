@@ -1,17 +1,17 @@
 
-const socket = io.connect('127.0.0.1:4242');
+const socket = io.connect('localhost');
 
 const theme = 'BLUE' // two themes : 'RED' or 'BLUE'
 
-let pannel = 'dashboard';
+let currentView = 'login';
 let logged = false;
 let gotoOrder = false;
 
 function changeView(target) {
-  $('#'+pannel).hide();
+  $('#'+currentView).hide();
   $('#'+target).show();
 
-  pannel = target;
+  currentView = target;
 
   $('#to'+capitalizeFirstLetter(target)).removeClass( (theme == 'BLUE') ? 'is-active' : 'is-danger');
   $('#to'+capitalizeFirstLetter(target)).addClass( (theme == 'BLUE') ? 'is-active' : 'is-danger');
@@ -32,7 +32,7 @@ $("#toOrder").on('click', ()=>{
     gotoOrder = true;
     changeView('login');
   } else {
-    changeView('order');
+    changeView('userSelection');
   }
 });
 
@@ -45,3 +45,9 @@ $("#toLogin").on('click', ()=>{
   if(!logged)
     changeView('login');
 });
+
+$("#loginNav").on('click', ()=>{
+  if(currentView!="login")
+    $("#loginPopup").toggle();
+
+})

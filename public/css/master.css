@@ -3,6 +3,16 @@
   //display: none;
   margin-top: -20vh;
 }
+#loginPopup{
+  display: none;
+  position: absolute;
+  top:7vh;
+  right: 2vw;
+  height: 10vh;
+  width: 25vw;
+
+  z-index: 100;
+}
 
 #userSelection{
   display: none;

@@ -56,15 +56,15 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('login', (user)=>{
         //For now, allow any password
-    if ( (user.name=='terruss' && user.password==passwordHash) || 1){
-      console.log('TERRUSS IS LOGGED');
+    if ( (user.name=='ESSAIM' && user.password==passwordHash) ){
       socket.emit('login', true);
+      console.log('ESSAIM IS LOGGED');
     } else {
-      console.log('LONGIN FAILED');
+      console.log('LOGIN FAILED');
       socket.emit('login', false);
     }
   })
 });
 
 
-server.listen(4242);
+server.listen(80);
