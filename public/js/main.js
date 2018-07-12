@@ -1,5 +1,5 @@
 
-const socket = io.connect('192.168.1.20');
+const socket = io.connect('127.0.0.1:4242');
 
 const theme = 'BLUE' // two themes : 'RED' or 'BLUE'
 
@@ -23,7 +23,8 @@ function capitalizeFirstLetter(string) {
 
 //HEADER EVENTS
 $("#toDashboard").on('click', ()=>{
-  changeView('dashboard');
+  if(logged)
+    changeView('dashboard');
 });
 
 $("#toOrder").on('click', ()=>{
@@ -36,9 +37,11 @@ $("#toOrder").on('click', ()=>{
 });
 
 $("#toAutre").on('click', ()=>{
-  changeView('dashboard');
+    if(logged)
+        changeView('dashboard');
 });
 
 $("#toLogin").on('click', ()=>{
-  changeView('login');
+  if(!logged)
+    changeView('login');
 });

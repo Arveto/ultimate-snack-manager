@@ -1,7 +1,6 @@
 
 #login{
-  display: none;
-
+  //display: none;
   margin-top: -20vh;
 }
 
@@ -14,7 +13,7 @@
 }
 
 #dashboard{
-  //display: none;
+ display: none;
 }
 
 #order{

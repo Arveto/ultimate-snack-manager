@@ -4,3 +4,15 @@ article.tile:hover, article.media p:hover{
 
   cursor: pointer;
 }
+
+.validate-button{
+    background-color: #4577dc !important;
+}
+
+.cancel-button{
+    background-color: #db3535 !important;
+}
+
+.total{
+    margin-top: 25px;
+}

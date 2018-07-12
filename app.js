@@ -11,37 +11,36 @@ const jsSHA = require("jssha");
    *  TODO: fill them with weird SQL stuff...
    */
 
-let users = [ {name: "Soursou", money: 24, hasOrdered: false},  //All users
-              {name: "Calcado", money: -238, hasOrdered: true},
-              {name: "Pian", money: 1000, hasOrdered: false},
-              {name: "Sadre", money: 654, hasOrdered: false} ];
+let users = [ {name: "Soursou", money: 24.03, hasOrdered: false},  //All users
+              {name: "Calcado", money: -238.00, hasOrdered: true},
+              {name: "Pian", money: 999.99, hasOrdered: false},
+              {name: "Sadre", money: 654.58, hasOrdered: false} ];
 
-let user = "Alberto"; //login to TERRUSS account
+let user = "ESSAIM"; //login to TERRUSS account
 
 let shaObj = new jsSHA("SHA-512", "TEXT");
 shaObj.update("toor");
 let passwordHash = shaObj.getHash("HEX");
 
-let products = [  {name: 'Coca-cola', price: 321.5},
-                  {name: 'cookie', price: 0.1},
-                  {name: 'vaseline', price: 18.99},
-                  {name: 'jeune thailandais', price: 'OUT OF ORDER'},
-                  {name: 'sushi', price: 18.99},
-                  {name: 'Senzu rouge', price: 1832.99},
-                  {name: 'Senzu bleu', price: 0.99999},
-                  {name: 'Senzu jaune', price: 32.123},
-                  {name: 'Senzu vert', price: 123.123},
-                  {name: 'Senzu #2f2f2f', price: 666},
-                  {name: 'Senzu cyan', price: 42424242},
-                  {name: 'Senzu plantulaire', price: 1111},
-                  {name: 'Senzu nature', price: 'nature'},
-                  {name: 'Senzu gentil', price: '01 47 20 00001'}  ];
+let products = [  {name: 'Coca-cola', price: 1.49},
+                  {name: 'Fanta', price: 1.37},
+                  {name: 'Cafe', price: 0.49},
+                  {name: 'Mountain Dew', price: 'Rupture de stock'},
+                  {name: 'Kinder Bueno', price: 1.99},
+                  {name: 'Bon pilon', price: 9.99},
+                  {name: 'Lion', price: 1.79},
+                  {name: 'Schweppes', price: 1.20},
+                  {name: 'Prostituée russe', price: 123.12},
+                  {name: 'Skittles', price: 1.08},
+                  {name: 'Eau', price: 0.45}
+];
 
-let shoppingList = [  "Bla blabla blablabla blablabnal",
-                      "Bla blabla blablabla blablabnal",
-                      "Bla blabla blablabla blablabnal",
-                      "Bla blabla blablabla blablabnal",
-                      "Bla blabla blablabla blablabnal" ];
+let shoppingList = [  "Cafe (x1442)",
+                      "Skittles de qualité",
+                      "Ice Tea (x98)",
+                      "Kinder Buenos",
+                      "Des choses",
+                      "D'autres choses"];
 
 
 
@@ -56,7 +55,8 @@ io.sockets.on('connection', function(socket) {
   console.log('new connected');
 
   socket.on('login', (user)=>{
-    if (user.name=='terruss' && user.password==passwordHash){
+        //For now, allow any password
+    if ( (user.name=='terruss' && user.password==passwordHash) || 1){
       console.log('TERRUSS IS LOGGED');
       socket.emit('login', true);
     } else {

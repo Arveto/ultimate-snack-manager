@@ -16,9 +16,11 @@ $('#submitLogin').on('click', ()=>{
 
   socket.on('login', (res)=>{
     if (res) {
+        console.log("Connected")
       logged = true;
-      $("#loginNav").removeClass('is-loading').html('Logged as : <b>T3RRUSS</b>');
+      $("#loginNav").removeClass('is-loading').html('Connecté: <b> ESSAIM</b>');
       changeView(gotoOrder ? 'order' : 'dashboard');
+      $('#login').css("display", "none");
     }
 
     $('#password').val('');

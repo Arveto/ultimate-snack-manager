@@ -1,6 +1,6 @@
 
 :root{
-  --main-color: #276cda;
+  --main-color: #db3535;
   /*
    *  blue theme : #276cda
    *  red theme : #db3535
@@ -15,6 +15,12 @@ html, body {
   line-height: 1.5;
   height: 100%;
   background: #ECF0F3;
+}
+
+.welcome{
+    background-color: var(--main-color);
+    border-radius: 7px;
+    box-shadow: 0px 1px 2px grey;
 }
 
 nav.navbar {
@@ -101,4 +107,9 @@ nav.navbar {
 .events-card .card-table {
   max-height: 250px;
   overflow-y: scroll;
+}
+
+.button{
+    background-color: var(--main-color);
+    color: #ECF0F3;
 }
