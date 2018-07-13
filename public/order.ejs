@@ -1,133 +1,81 @@
+<div class="container">
+  <div class="columns animated fadeIn">
 
-  <div class="container">
-    <div class="columns animated fadeIn">
-
-      <div class="column is-9">
-        <section class= "hero welcome is-small">
-          <div class="hero-body">
-            <div class="container">
-              <h1 class="title">
-                Commande pour : Calcado
+    <div class="column is-9">
+      <section class="hero welcome is-small">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+                Commande pour : <b id="commandFor"></b>
               </h1>
-              <h2 class="subtitle">
+            <h2 class="subtitle">
                 Select products!
               </h2>
-            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section class="info-tiles">
-          <div class="tile is-ancestor has-text-centered">
-            <%
-            let i
+      <section class="info-tiles">
+        <div class="tile is-ancestor has-text-centered">
+          <%
+            let i;
             for (i=0 ; i<products.length; i++ ) {
-
-                if (i!=0 && i%4 == 0){
-              %>
+              if (i!=0 && i%4 == 0){
+          %>
                 </div>
                 <div class="tile is-ancestor has-text-centered">
-              <%
-                }
-              %>
-
-              <div class="tile is-parent">
-                <article class="tile is-child box">
-                  <p class="title"><%=products[i].name%></p>
-                  <p class="subtitle"><%=products[i].price%>€</p>
-                </article>
-              </div>
-
-            <%
+          <%
               }
+          %>
 
-              if (i!=0 && i%4 == 0){
-            %>
+            <script>
+            productsList.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
+            </script>
+            <div class="tile is-parent <%=i%> product">
+              <article class="tile is-child box">
+                <p class="title">
+                  <%=products[i].name%>
+                </p>
+                <p class="subtitle">
+                  <%=products[i].price%>€</p>
+              </article>
+            </div>
+
+          <%
+            }
+
+            if (i!=0 && i%4 == 0){
+          %>
               </div>
-            <%
-              }
-            %>
-        </section>
-        </div>
+          <%
+            }
+          %>
+      </section>
+    </div>
 
 
-        <div class="column is-4">
-          <aside class="box">
-            <div class="level">
-              <div class="title level-left">Commande</div>
-              <button class= "button is-large cancel-button" >
+    <div class="column is-4">
+      <aside class="box">
+        <div class="level">
+          <div class="title level-left">Commande</div>
+          <button class="button is-large cancel-button">
                   <span class="icon is-medium is-left">
                     <i class="fa fa-ban"></i>
                   </span>
               </button>
 
-              <button class= "button is-large validate-button" >
+          <button class="button is-large validate-button">
               <span class="icon is-medium is-left">
                 <i class="fa fa-arrow-right"></i>
               </span>
             </button>
-            </div>
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img src="https://bulma.io/images/placeholders/128x128.png">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>Fanta (x1)</strong><br/>
-                    <small>Prix <a>1.37</a> €</small>
-                  </p>
-                </div>
-              </div>
-              <div class="media-right">
-                <button class="delete is-big"></button>
-              </div>
-            </article>
-
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img src="https://bulma.io/images/placeholders/128x128.png">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>Kinder Bueno (x21)</strong><br/>
-                    <small>Prix <a>41.79</a> €</small>
-                  </p>
-                </div>
-              </div>
-              <div class="media-right">
-                <button class="delete is-big"></button>
-              </div>
-            </article>
-
-            <article class="media">
-              <figure class="media-left">
-                <p class="image is-48x48">
-                  <img src="https://bulma.io/images/placeholders/128x128.png">
-                </p>
-              </figure>
-              <div class="media-content">
-                <div class="content">
-                  <p>
-                    <strong>Cafe (x1)</strong><br/>
-                    <small>Prix <a>0.49</a> €</small>
-                  </p>
-                </div>
-              </div>
-              <div class="media-right">
-                <button class="delete is-big"></button>
-              </div>
-            </article>
-
-            <div class="level total">
-              <div class="title level-left">Total: 43.65 €</div>
-            </div>
-
-          </aside>
         </div>
-      </div>
+
+        <div id="commandList" class="box is-shadowless"></div>
+        <div class="level total">
+          <div class="title level-left">Total: 43.65 €</div>
+        </div>
+      </aside>
     </div>
+  </div>
+</div>

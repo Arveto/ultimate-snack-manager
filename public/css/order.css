@@ -16,3 +16,25 @@ article.tile:hover, article.media p:hover{
 .total{
     margin-top: 25px;
 }
+
+div.column.is-4 aside.box{
+  overflow-x: hidden;
+}
+#commandList{
+  height: 50vh;
+  width: 26vw;
+  overflow-y: scroll;
+}
+
+.order-small-modifiers{
+  display: flex;
+  flex-direction: column;
+}
+.order-small-modifiers div{
+  height: 17px;
+  width: 5px;
+}
+.order-small-modifiers div i{
+  height: 10px;
+  width: 10px;
+}

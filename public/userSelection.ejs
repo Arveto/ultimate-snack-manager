@@ -1,6 +1,4 @@
-
-
-      <!-- TODO:
+<!-- TODO:
         > theme handler on userSelection.ejs
         > logic LOGIN -> USERSELECTION -> ORDER
         > serverside
@@ -29,10 +27,14 @@
       </div>
     </div>
 
-
     <%
+      let i=0;
       users.forEach((user)=>{
     %>
+      <script>
+        usersList.push({id: <%=user.id%>, name: '<%=user.name%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>});
+      </script>
+
       <article class="media">
         <figure class="media-left">
           <p class="image is-48x48">
@@ -56,14 +58,15 @@
           </div>
         </div>
         <div class="media-right">
-          <button class=<% if (theme=='BLUE'){ %> "button order is-large is-success" <% }else{ %> "button is-large is-danger" <% } %> >
+          <button class=<% if (theme=='BLUE' ){ %> "button order is-medium is-success <%=i%>" <% }else{ %> "button is-large is-danger" <% } %> >
               <span class="icon is-large is-left">
                 <i class="fa fa-arrow-right"></i>
               </span>
             </button>
         </div>
       </article>
-      <%
+    <%
+      i++;
       })
     %>
 

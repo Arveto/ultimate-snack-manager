@@ -11,11 +11,9 @@ function login(username, password) {
   socket.emit("login", {
     name: username,
     password: hash
-  }); //TODO: dynamic name
+  });
 
 }
-
-
 
 
 /*
@@ -45,7 +43,7 @@ $('#submitLogin, #submitLoginPopup').on('click', () => {
 
   /*  });
    */
-  $("#loginNav").removeClass('is-loading').html('Connecté: <b> ESSAIM</b>');
+  $("#loginNav").removeClass('is-loading').html('Connecté: <b> &nbsp; ESSAIM</b>');
   $('#loginPopup').hide();
 });
 
@@ -77,3 +75,8 @@ $('.password').on('keypress', (e) => {
     $("#loginNav").removeClass('is-loading').html('Connecté: <b> ESSAIM</b>');
   }
 });
+
+$("input.password, input.username").on('keypress', (e)=>{
+  if (e.charCode == 0)
+    $("#loginPopup").hide();
+})
