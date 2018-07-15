@@ -23,13 +23,17 @@ function capitalizeFirstLetter(string) {
 
 //HEADER EVENTS
 $(".toDashboard").on('click', () => {
+  if(clientId)
+    leaveOrdering();
   gotoOrder = false;
   if (logged)
     changeView('dashboard');
 });
 
 $(".toOrder").on('click', () => {
-  if (!logged) { //XXX: change that for session system
+  if(clientId)
+    leaveOrdering();
+  if (!logged) {
     gotoOrder = true;
     changeView('login');
   } else {
@@ -38,18 +42,24 @@ $(".toOrder").on('click', () => {
 });
 
 $(".toAutre").on('click', () => {
+  if(clientId)
+    leaveOrdering();
   gotoOrder = false;
   if (logged)
     changeView('dashboard');
 });
 
 $(".toLogin").on('click', () => {
+  if(clientId)
+    leaveOrdering();
   gotoOrder = false;
   if (!logged)
     changeView('login');
 });
 
 $("#loginNav").on('click', () => {
+  if(clientId)
+    leaveOrdering();
   gotoOrder = false;
   if (currentView != "login")
     $("#loginPopup").toggle();
