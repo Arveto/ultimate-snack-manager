@@ -22,13 +22,13 @@ function capitalizeFirstLetter(string) {
 
 
 //HEADER EVENTS
-$("#toDashboard").on('click', () => {
+$(".toDashboard").on('click', () => {
   gotoOrder = false;
   if (logged)
     changeView('dashboard');
 });
 
-$("#toOrder").on('click', () => {
+$(".toOrder").on('click', () => {
   if (!logged) { //XXX: change that for session system
     gotoOrder = true;
     changeView('login');
@@ -37,13 +37,13 @@ $("#toOrder").on('click', () => {
   }
 });
 
-$("#toAutre").on('click', () => {
+$(".toAutre").on('click', () => {
   gotoOrder = false;
   if (logged)
     changeView('dashboard');
 });
 
-$("#toLogin").on('click', () => {
+$(".toLogin").on('click', () => {
   gotoOrder = false;
   if (!logged)
     changeView('login');

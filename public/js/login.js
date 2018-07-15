@@ -54,7 +54,7 @@ $('.password').on('keypress', (e) => {
 
     let clear = $((currentView == 'login') ? '#password' : '#passwordPopup').val()
 
-    // login('ESSAIM', clear);
+    login('ESSAIM', clear);
   }
 });
 

@@ -57,7 +57,6 @@ io.sockets.on('connection', function(socket) {
 
     //New user connection
   socket.on('login', (user)=>{
-        //For now, allow any password
     if ( (user.name=='ESSAIM' && user.password==passwordHash) ){
       socket.emit('login', true);
       console.log('ESSAIM IS LOGGED');
@@ -69,13 +68,14 @@ io.sockets.on('connection', function(socket) {
 
     //An admin is placing an order -> trigger an UI event
   socket.on('ordering', (data)=>{
+    console.log(data);
     if (data.admin.login && data.admin.hash == passwordHash) {
       if (!data.leave){
         console.log(users[data.clientId].name + ' est servi par '+ data.admin.login);
-        socket.broadcast.emit('ordering', {clientId: data.clientId, adminName: data.admin.login});
+        socket.broadcast.emit('ordering', {clientId: data.clientId, adminName: data.admin.login, leave: data.leave});
       } else {
         console.log(data.admin.login +' quitte la commande de ' + users[data.clientId].name);
-        socket.broadcast.emit('ordering', {clientId: data.clientId, adminName: ''});
+        socket.broadcast.emit('ordering', {clientId: data.clientId, adminName: '', leave: data.leave});
       }
     }
   })

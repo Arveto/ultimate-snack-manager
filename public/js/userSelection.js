@@ -13,7 +13,8 @@ $("button.order").on('click', (e)=>{
 });
 
 socket.on('ordering', (data)=>{
-  if (data.adminName){
+  if (!data.leave){
+    console.log(data);
     $(".order."+data.clientId).removeClass('is-success').addClass('is-warning');
   } else {
     $(".order."+data.clientId).removeClass('is-warning').addClass('is-success');
