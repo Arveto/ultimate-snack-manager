@@ -4,3 +4,11 @@ article.media p:hover{
 
   cursor: pointer;
 }
+
+article{
+  margin-bottom: 5px;
+}
+
+.bell{
+  margin-bottom: -1em;
+}

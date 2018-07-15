@@ -31,10 +31,10 @@ div.column.is-4 aside.box{
   flex-direction: column;
 }
 .order-small-modifiers div{
-  height: 17px;
-  width: 5px;
+  height: 20px;
+  width: 20px;
 }
 .order-small-modifiers div i{
-  height: 10px;
-  width: 10px;
+  height: 20px;
+  width: 20px;
 }

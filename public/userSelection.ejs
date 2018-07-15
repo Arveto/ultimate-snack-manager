@@ -44,12 +44,12 @@
         <div class="media-content">
           <div class="content">
             <p>
-              <strong><%= user.name %></strong><br/>
+              <strong><%= user.name %></strong><small class="<%=i%> admin-in-charge"></small><br/>
               <small>PO : <a><%= user.money %>€</a>
                 <%
                   if(user.hasOrdered) {  //Display the red bell
                 %>
-                   · <button class="button is-small is-danger"><i class="fa fa-bell"></i></button>
+                   · <button class="button is-small is-danger bell"><i class="fa fa-bell"></i></button>
                 <%
                   }
                 %>
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="media-right">
-          <button class=<% if (theme=='BLUE' ){ %> "button order is-medium is-success <%=i%>" <% }else{ %> "button is-large is-danger" <% } %> >
+          <button class="button order is-medium is-success <%=i%>">
               <span class="icon is-large is-left">
                 <i class="fa fa-arrow-right"></i>
               </span>

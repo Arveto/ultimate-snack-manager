@@ -25,7 +25,7 @@ let passwordHash = shaObj.getHash("HEX");
 let products = [  {id: 0, name: 'Coca-cola', price: 1.49},
                   {id: 1, name: 'Fanta', price: 1.37},
                   {id: 2, name: 'Cafe', price: 0.49},
-                  {id: 3, name: 'Mountain Dew', price: 'Rupture de stock'},
+                  {id: 3, name: 'Mountain Dew', price: 1111},
                   {id: 4, name: 'Kinder Bueno', price: 1.99},
                   {id: 5, name: 'Bon pilon', price: 9.99},
                   {id: 6, name: 'Lion', price: 1.79},
@@ -55,6 +55,7 @@ app.get('/', (req, res) => {
 io.sockets.on('connection', function(socket) {
   console.log('new connected');
 
+    //New user connection
   socket.on('login', (user)=>{
         //For now, allow any password
     if ( (user.name=='ESSAIM' && user.password==passwordHash) ){
@@ -63,6 +64,30 @@ io.sockets.on('connection', function(socket) {
     } else {
       console.log('LOGIN FAILED');
       socket.emit('login', false);
+    }
+  });
+
+    //An admin is placing an order -> trigger an UI event
+  socket.on('ordering', (data)=>{
+    if (data.admin.login && data.admin.hash == passwordHash) {
+      if (!data.leave){
+        console.log(users[data.clientId].name + ' est servi par '+ data.admin.login);
+        socket.broadcast.emit('ordering', {clientId: data.clientId, adminName: data.admin.login});
+      } else {
+        console.log(data.admin.login +' quitte la commande de ' + users[data.clientId].name);
+        socket.broadcast.emit('ordering', {clientId: data.clientId, adminName: ''});
+      }
+    }
+  })
+
+  socket.on('command', (command)=>{
+    if ( (command.admin.login == 'ESSAIM' && command.admin.hash == passwordHash ) ){
+      console.log("COMMAND FROM "+command.admin.login+" FOR "+users[command.clientId].name+" : ");
+      socket.emit('commandRecived');
+      console.log(command.commandList);
+
+        // TODO: debit the account
+      socket.emit('accountSold', {clientId: command.clientId, money: -666.0});
     }
   })
 });

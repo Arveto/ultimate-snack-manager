@@ -23,6 +23,7 @@ function capitalizeFirstLetter(string) {
 
 //HEADER EVENTS
 $("#toDashboard").on('click', () => {
+  gotoOrder = false;
   if (logged)
     changeView('dashboard');
 });
@@ -37,16 +38,19 @@ $("#toOrder").on('click', () => {
 });
 
 $("#toAutre").on('click', () => {
+  gotoOrder = false;
   if (logged)
     changeView('dashboard');
 });
 
 $("#toLogin").on('click', () => {
+  gotoOrder = false;
   if (!logged)
     changeView('login');
 });
 
 $("#loginNav").on('click', () => {
+  gotoOrder = false;
   if (currentView != "login")
     $("#loginPopup").toggle();
 })
