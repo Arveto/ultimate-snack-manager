@@ -76,19 +76,17 @@ $('#submitCommand').on('click', ()=>{
 
     socket.on('commandRecived', ()=>{
       $("#submitLogin").removeClass('is-loading');
-      new Notification('success', 'La commande #000042 a bien été effectuée');
+      notif('success', 'La commande #000042 a bien été effectuée');
       leaveOrdering();
     })
     socket.on('accountSold', (data)=>{
-      new Notification('success', 'Solde de <b>'+usersList[data.clientId].name+'</b> : <b>'+data.money+'</b>');
+      notif('success', 'Solde de <b>'+usersList[data.clientId].name+'</b> : <b>'+data.money+'</b>');
     });
   } else {
     notif('danger', "Vous n'êtes pas connecté !")
   }
-
-  clientId = undefined;
 });
-  
+
 
 
 //UTILS
@@ -135,4 +133,5 @@ function leaveOrdering(){
   socket.emit('ordering', {clientId: clientId, admin: connected, leave: true});
   deleteAllProducts();
   changeView("userSelection");
+  clientId = undefined;
 }
