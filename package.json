@@ -10,7 +10,8 @@
     "express": "",
     "socket.io": "",
     "ejs": "",
-    "jssha": ""
+    "jssha": "",
+    "mysql": ""
   },
   "author": "ARVETO Ink.",
   "license": "GPU"

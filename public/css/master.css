@@ -3,6 +3,11 @@
   //display: none;
   margin-top: -20vh;
 }
+
+#signup{
+    display: none;
+}
+
 #loginPopup{
   display: none;
   position: absolute;

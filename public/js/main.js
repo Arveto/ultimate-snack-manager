@@ -1,4 +1,4 @@
-const socket = io.connect('localhost');
+const socket = io.connect('192.168.1.20:8080'); //Put your local IP here
 
 const theme = 'BLUE' // two themes : 'RED' or 'BLUE'
 
@@ -7,61 +7,61 @@ let logged = false;
 let gotoOrder = false;
 
 function changeView(target) {
-  $('#' + currentView).hide();
-  $('#' + target).show();
+    $('#' + currentView).hide();
+    $('#' + target).show();
 
-  currentView = target;
+    currentView = target;
 
-  $('#to' + capitalizeFirstLetter(target)).removeClass((theme == 'BLUE') ? 'is-active' : 'is-danger');
-  $('#to' + capitalizeFirstLetter(target)).addClass((theme == 'BLUE') ? 'is-active' : 'is-danger');
+    $('#to' + capitalizeFirstLetter(target)).removeClass((theme == 'BLUE') ? 'is-active' : 'is-danger');
+    $('#to' + capitalizeFirstLetter(target)).addClass((theme == 'BLUE') ? 'is-active' : 'is-danger');
 }
 
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 
 //HEADER EVENTS
 $(".toDashboard").on('click', () => {
-  if(clientId)
+    if(clientId)
     leaveOrdering();
-  gotoOrder = false;
-  if (logged)
+    gotoOrder = false;
+    if (logged)
     changeView('dashboard');
 });
 
 $(".toOrder").on('click', () => {
-  if(clientId)
+    if(clientId)
     leaveOrdering();
-  if (!logged) {
-    gotoOrder = true;
-    changeView('login');
-  } else {
-    changeView('userSelection');
-  }
+    if (!logged) {
+        gotoOrder = true;
+        changeView('login');
+    } else {
+        changeView('userSelection');
+    }
 });
 
 $(".toAutre").on('click', () => {
-  if(clientId)
+    if(clientId)
     leaveOrdering();
-  gotoOrder = false;
-  if (logged)
+    gotoOrder = false;
+    if (logged)
     changeView('dashboard');
 });
 
 $(".toLogin").on('click', () => {
-  if(clientId)
+    if(clientId)
     leaveOrdering();
-  gotoOrder = false;
-  if (!logged)
+    gotoOrder = false;
+    if (!logged)
     changeView('login');
 });
 
 $("#loginNav").on('click', () => {
-  if(clientId)
+    if(clientId)
     leaveOrdering();
-  gotoOrder = false;
-  if (currentView != "login")
+    gotoOrder = false;
+    if (currentView != "login")
     $("#loginPopup").toggle();
 })
 
