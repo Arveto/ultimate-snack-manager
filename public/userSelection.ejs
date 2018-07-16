@@ -16,7 +16,7 @@
     <div class="card-content">
       <div class="content">
         <div class="control has-icons-left has-icons-right">
-          <input class="input is-large" type="text" placeholder="">
+          <input id="userSelectionInput" class="input is-large" type="text" placeholder="">
           <span class="icon is-medium is-left">
             <i class="fa fa-search"></i>
           </span>
@@ -35,7 +35,7 @@
         usersList.push({id: <%=user.id%>, name: '<%=user.name%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>});
       </script>
 
-      <article class="media">
+      <article class="media user<%=user.id%>">
         <figure class="media-left">
           <p class="image is-48x48">
             <img src="https://bulma.io/images/placeholders/128x128.png">
@@ -44,7 +44,7 @@
         <div class="media-content">
           <div class="content">
             <p>
-              <strong><%= user.name %></strong><small class="<%=i%> admin-in-charge"></small><br/>
+              <strong><%= user.name %></strong><small class="<%=user.id%> admin-in-charge"></small><br/>
               <small>Solde : <a><%= user.money %>€</a>
                 <%
                   if(user.hasOrdered) {  //Display the red bell
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="media-right">
-          <button class="button order is-medium is-success <%=i%>">
+          <button class="button order is-medium is-success <%=user.id%>">
               <span class="icon is-large is-left">
                 <i class="fa fa-arrow-right"></i>
               </span>

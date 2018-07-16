@@ -21,3 +21,34 @@ socket.on('ordering', (data)=>{
   }
   $('.amdin-in-charge.'+data.clientId).html('--servi par '+ data.adminName);
 })
+
+
+  //AUTOCOMPLETE
+
+  $('#userSelectionInput').on('keyup', (e)=>{
+    let keycode = e.keyCode || e.which;
+
+    switch (keycode) {
+      case 38:  //arrow up
+        e.preventDefault();
+        break;
+      case 40:  //arrow down
+        e.preventDefault();
+        break;
+      case 13:  //enter key
+        e.preventDefault();
+        break;
+      default:
+        let input = $('#userSelectionInput').val();
+
+        console.log(input);
+      usersList.forEach((user)=>{
+          if (user.name.toLowerCase().search(input.toLowerCase()) < 0){
+              $('.user'+user.id).hide();
+          } else {
+            console.log(user.name + ' match !');
+            $('.user'+user.id).show();
+          }
+        })
+    }
+  })

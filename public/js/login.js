@@ -76,7 +76,7 @@ $("#usernamePopup").on('keypress', (e)=>{
 })
 
 $(document).on('keypress', (e)=>{
-  let keycode = e.keyCode || e.which
+  let keycode = e.keyCode || e.which;
   if (keycode == 46){
     $('#loginNav').trigger('click');
   }
