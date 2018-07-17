@@ -24,6 +24,7 @@
   <link rel="stylesheet" type="text/css" href="css/dashboard.css">
   <link rel="stylesheet" type="text/css" href="css/login.css">
   <link rel="stylesheet" type="text/css" href="css/notifications.css">
+  <link rel="stylesheet" type="text/css" href="css/preorders.css">
 
 </head>
 
@@ -130,6 +131,49 @@
     <section id="notifications"></section>
     <!-- /NOTIFICATIONS -->
 
+    <!-- PREORDER -->
+    <section id="preordersContainer">
+      <article class="message">
+        <div class="message-header">
+          <p>Liste des précommandes :</p>
+          <i class="fa fa-sort-up"></i>
+        </div>
+        <div id="preorders" class="message-body">
+
+          <article class="media box preco">
+            <figure class="media-left">
+              <p class="image is-48x48">
+                <img src="https://bulma.io/images/placeholders/128x128.png">
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <p>
+                  <strong>TERRUS //hardcoded</strong>&nbsp;·&nbsp;<small class="preorder-uptime">il y a 3h42m</small><br/>
+                  <ul>
+                    <li>Coca</li>
+                    <li>Skittles</li>
+                    <li>Petite pipe</li>
+                  </ul>
+                </p>
+              </div>
+            </div>
+            <div class="media-right">
+              <button class="button is-medium is-success">
+                  <span class="icon is-large is-left">
+                    <i class="fa fa-arrow-right"></i>
+                  </span>
+                </button>
+            </div>
+          </article>
+
+        </div>
+      </article>
+    </section>
+    <!-- /PREORDER -->
+
+
+
 
     <!-- JS INCLUDES -->
     <script type="text/javascript" src="js/bulma.js"></script>
@@ -140,6 +184,7 @@
     <script type="text/javascript" src="js/userSelection.js"></script>
     <script type="text/javascript" src="js/order.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
+    <script type="text/javascript" src="js/preorder.js"></script>
 
   </body>
 

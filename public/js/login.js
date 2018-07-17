@@ -22,7 +22,10 @@ function login(username, password) {
     if (res) {
       notif('success', "Connecté en tant que <b>" + connected.login + "</b>");
       logged = true;
+
       changeView(gotoOrder ? 'userSelection' : 'dashboard');
+      $("#preordersContainer").show();
+
       $('.login').val('');
       $("#loginNav").html('Connecté: <b> &nbsp; ' + connected.login + '</b>');
       $('#loginPopup').hide();

@@ -111,6 +111,9 @@ let shoppingList = ["Cafe (x1442)",
   "D'autres choses"
 ];
 
+let preordersList = { 1: {clientId: 1, timestamp: '14h12000', commandList: [{id: 6, amount: 12}, {id: 5, amount: 4}]},};
+
+
 /******************************************************************************/
 
 // Creation of database connection
@@ -147,6 +150,10 @@ app.get('/', (req, res) => {
 
 io.sockets.on('connection', function(socket) {
   console.log('new connected');
+
+  //testing preorder display
+/*                      v this is the clientId, to find more simply the order */
+  socket.emit('preorders', preordersList);
 
 
   //New user connection
@@ -187,7 +194,7 @@ io.sockets.on('connection', function(socket) {
   //An admin is placing an order -> trigger an UI event
   //WARNING Uncomplete
   socket.on('ordering', (data) => {
-    console.log(data);
+    // console.log(data);
     if (data.admin.login && data.admin.hash == passwordHash) {
       if (!data.leave) {
         console.log(users[data.clientId].name + ' est servi par ' + data.admin.login);
@@ -213,6 +220,16 @@ io.sockets.on('connection', function(socket) {
       console.log("COMMAND FROM " + command.admin.login + " FOR " + users[command.clientId].name + " : ");
       socket.emit('commandRecived');
       console.log(command.commandList);
+
+      //If command was a preorder, check it
+      if ( typeof preordersList[command.clientId] != 'undefined' || if(users[command.clientId].hasOrdered) ){
+        console.log('oiu');
+        socket.broadcast.emit('preorderDone', command.clientId);
+        socket.emit('preorderDone', command.clientId);
+        
+        delete preordersList[command.clientId];
+        users[command.clientId].hasOrdered = false;
+      }
 
       // TODO: debit the account
       socket.emit('accountSold', {

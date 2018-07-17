@@ -1,4 +1,14 @@
 
+body{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
 #login{
   //display: none;
   margin-top: -20vh;
@@ -30,7 +40,14 @@
 #dashboard{
  display: none;
 }
+column.is-9.animated.fadeIn{
+  overflow-y: scroll;
+}
 
 #order{
+  display: none;
+}
+
+#preordersContainer{
   display: none;
 }

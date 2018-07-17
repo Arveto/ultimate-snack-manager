@@ -129,7 +129,6 @@ function updateTotal(){
 }
 
 function leaveOrdering(){
-  console.log("oiu");
   socket.emit('ordering', {clientId: clientId, admin: connected, leave: true});
   deleteAllProducts();
   changeView("userSelection");

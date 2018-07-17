@@ -2,6 +2,7 @@
 let clientId;
 
 $("button.order").on('click', (e)=>{
+  console.log('CLIENT SELECTED');
    //get Id of the user selected
   clientId = getIdFromClassName( e.target );
 
@@ -46,7 +47,6 @@ socket.on('ordering', (data)=>{
           if (user.name.toLowerCase().search(input.toLowerCase()) < 0){
               $('.user'+user.id).hide();
           } else {
-            console.log(user.name + ' match !');
             $('.user'+user.id).show();
           }
         })
