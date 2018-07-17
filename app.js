@@ -222,11 +222,11 @@ io.sockets.on('connection', function(socket) {
       console.log(command.commandList);
 
       //If command was a preorder, check it
-      if ( typeof preordersList[command.clientId] != 'undefined' || if(users[command.clientId].hasOrdered) ){
+      if ( typeof preordersList[command.clientId] != 'undefined' || (users[command.clientId].hasOrdered) ){
         console.log('oiu');
         socket.broadcast.emit('preorderDone', command.clientId);
         socket.emit('preorderDone', command.clientId);
-        
+
         delete preordersList[command.clientId];
         users[command.clientId].hasOrdered = false;
       }
