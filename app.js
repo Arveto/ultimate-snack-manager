@@ -40,7 +40,7 @@ let users = [{
   }
 ];
 
-let user = "ESSAIM"; //login to TERRUSS account
+let user = "ESSAIM";
 
 let shaObj = new jsSHA("SHA-512", "TEXT");
 shaObj.update("toor");
@@ -111,7 +111,9 @@ let shoppingList = ["Cafe (x1442)",
   "D'autres choses"
 ];
 
-let preordersList = { 1: {clientId: 1, timestamp: '14h12000', commandList: [{id: 6, amount: 12}, {id: 5, amount: 4}]},};
+/*                    v this is the clientId, to find more simply the order */
+let preordersList = { 1: {clientId: 1, timestamp: '14h12000', commandList: [{id: 6, amount: 12}, {id: 5, amount: 4}]},
+                      3: {clientId: 3, timestamp: '123h4 du matin', commandList: [{id: 1, amount: 1}]}};
 
 
 /******************************************************************************/
@@ -152,14 +154,16 @@ io.sockets.on('connection', function(socket) {
   console.log('new connected');
 
   //testing preorder display
-/*                      v this is the clientId, to find more simply the order */
   socket.emit('preorders', preordersList);
 
 
   //New user connection
   socket.on('login', (user) => {
-    if ((user.name == 'ESSAIM' && user.password == passwordHash) || 1) {
-      socket.emit('login', true);
+    if ((user.name == 'ESSAIM' && user.password == passwordHash)) {
+      socket.emit('login', {ok: true, id: 0, isAdmin: true});
+      console.log('ESSAIM IS LOGGED');
+    } else if (user.name == 'TERRUSS' && user.password == passwordHash) {
+      socket.emit('login', {ok: true, id: 1, isAdmin: false});
       console.log('ESSAIM IS LOGGED');
     } else {
       console.log('LOGIN FAILED');
@@ -190,12 +194,12 @@ io.sockets.on('connection', function(socket) {
       });
   });
 
-
   //An admin is placing an order -> trigger an UI event
   //WARNING Uncomplete
   socket.on('ordering', (data) => {
-    // console.log(data);
     if (data.admin.login && data.admin.hash == passwordHash) {
+      // console.log(data);
+
       if (!data.leave) {
         console.log(users[data.clientId].name + ' est servi par ' + data.admin.login);
         socket.broadcast.emit('ordering', {
@@ -204,39 +208,45 @@ io.sockets.on('connection', function(socket) {
           leave: data.leave
         });
       } else {
-        console.log(data.admin.login + ' quitte la commande de ' + users[data.clientId].name);
-        socket.broadcast.emit('ordering', {
-          clientId: data.clientId,
-          adminName: '',
-          leave: data.leave
-        });
+        // if (data.clientId){ //prevent sovketevents duplication
+          console.log(data.admin.login + ' quitte la commande de ' + users[data.clientId].name);
+          socket.broadcast.emit('ordering', {
+            clientId: data.clientId,
+            adminName: '',
+            leave: data.leave
+          });
+        // }
       }
     }
   })
 
-  socket.on('command', (command) => {
+
+  socket.on('order', (order) => {
     //WARNING Uncomplete
-    if ((command.admin.login == 'ESSAIM' && command.admin.hash == passwordHash)) {
-      console.log("COMMAND FROM " + command.admin.login + " FOR " + users[command.clientId].name + " : ");
+    if ((order.admin.login == 'ESSAIM' && order.admin.hash == passwordHash)) {
+      console.log("Command from " + order.admin.login + " for " + users[order.clientId].name + " : ");
       socket.emit('commandRecived');
-      console.log(command.commandList);
 
       //If command was a preorder, check it
-      if ( typeof preordersList[command.clientId] != 'undefined' || (users[command.clientId].hasOrdered) ){
-        console.log('oiu');
-        socket.broadcast.emit('preorderDone', command.clientId);
-        socket.emit('preorderDone', command.clientId);
+      if ( typeof preordersList[order.clientId] != 'undefined' || (users[order.clientId].hasOrdered) ){
+        socket.broadcast.emit('preorderDone', order.clientId);
+        socket.emit('preorderDone', order.clientId);
 
-        delete preordersList[command.clientId];
-        users[command.clientId].hasOrdered = false;
+        delete preordersList[order.clientId];
+        users[order.clientId].hasOrdered = false;
       }
 
       // TODO: debit the account
       socket.emit('accountSold', {
-        clientId: command.clientId,
+        clientId: order.clientId,
         money: -666.0
       });
     }
+  })
+
+
+  socket.on('preorder', (order)=>{
+    preordersList.push({order.clientId: order})
   })
 });
 

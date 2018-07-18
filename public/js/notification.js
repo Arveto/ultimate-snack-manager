@@ -4,21 +4,18 @@
  *  >animate notifiation apparition
  */
 
- let notifCount = 0;
 
 function notif(type, content) {
-  notifCount++; //avoid notif duplication
-  let notif = $('<div>').addClass(notifCount +' notification is-'+type);
-  notif.html('<button onclick="removeNotif('+notifCount+')" class="delete"></button>' + content);
-  notif.appendTo('#notifications');
+  let el = $('<div>').addClass('notification is-'+type).appendTo('#notifications');
+  el.html('<button onclick="removeNotif('+el+')" class="delete"></button>' + content);
 
   setTimeout(()=>{
-    removeNotif(notifCount);
-  }, 3000);
+    removeNotif(el);
+  }, 2000);
 }
 
-function removeNotif(id){
-  $('.notification.'+id).remove();
+function removeNotif(el){
+  el.remove();
 }
 
 

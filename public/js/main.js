@@ -37,7 +37,7 @@ $(".toOrder").on('click', () => {
         gotoOrder = true;
         changeView('login');
     } else {
-        changeView('userSelection');
+        changeView(connected.isAdmin ? 'userSelection' : 'order');
     }
 });
 

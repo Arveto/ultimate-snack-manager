@@ -66,27 +66,41 @@ $('#deleteAllProducts').on('click', ()=>{
 $('#submitCommand').on('click', ()=>{
   if (logged && connected.login && connected.hash){
     $("#submitLogin").addClass('is-loading');
-      //prepare command
-    let command = {};
-    command.admin = connected;
-    command.clientId = clientId;
-    command.commandList = commandList;
-      //send it
-    socket.emit('command', command);
 
-    socket.on('commandRecived', ()=>{
-      $("#submitLogin").removeClass('is-loading');
-      notif('success', 'La commande #000042 a bien été effectuée');
-      leaveOrdering();
-    })
-    socket.on('accountSold', (data)=>{
-      notif('success', 'Solde de <b>'+usersList[data.clientId].name+'</b> : <b>'+data.money+'</b>');
-    });
+    if (connected.isAdmin) {
+      //prepare command
+      let order = {};
+      order.admin = connected;
+      order.clientId = clientId;
+      order.commandList = commandList;
+      //send it
+      socket.emit('order', order);
+
+    } else {  //It's a preorder
+      //prepare command
+      let order = {};
+      order.clientId = connected.id;
+      order.commandList = commandList;
+      //send it
+      socket.emit('preorder', order);
+    }
+
   } else {
     notif('danger', "Vous n'êtes pas connecté !")
   }
 });
 
+  //SOCKETIO EVENTS
+
+socket.on('commandRecived', ()=>{
+  console.log('RECEVED');
+  $("#submitLogin").removeClass('is-loading');
+  notif('success', 'La commande #000042 a bien été effectuée');
+  leaveOrdering();
+})
+socket.on('accountSold', (data)=>{
+  notif('success', 'Solde de <b>'+usersList[data.clientId].name+'</b> : <b>'+data.money+'</b>');
+});
 
 
 //UTILS
@@ -129,8 +143,9 @@ function updateTotal(){
 }
 
 function leaveOrdering(){
-  socket.emit('ordering', {clientId: clientId, admin: connected, leave: true});
+  // if (clientId)
+    socket.emit('ordering', {clientId: clientId, admin: connected, leave: true});
   deleteAllProducts();
   changeView("userSelection");
-  clientId = undefined;
+  clientId = null;
 }

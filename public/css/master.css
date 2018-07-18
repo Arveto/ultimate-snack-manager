@@ -9,6 +9,11 @@ body{
   overflow-x: hidden;
 }
 
+.admin{
+  visibility: collapse; /*some confilics whit "display: none"*/
+  display: none; /*for elements that are okay with that*/
+}
+
 #login{
   //display: none;
   margin-top: -20vh;

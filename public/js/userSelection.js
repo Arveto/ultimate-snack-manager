@@ -2,7 +2,6 @@
 let clientId;
 
 $("button.order").on('click', (e)=>{
-  console.log('CLIENT SELECTED');
    //get Id of the user selected
   clientId = getIdFromClassName( e.target );
 
@@ -10,12 +9,11 @@ $("button.order").on('click', (e)=>{
 
   changeView('order');
 
-  socket.emit('ordering', {clientId: clientId, admin: connected});
+  socket.emit('ordering', {clientId: clientId, admin: connected, leave: false});
 });
 
 socket.on('ordering', (data)=>{
   if (!data.leave){
-    console.log(data);
     $(".order."+data.clientId).removeClass('is-success').addClass('is-warning');
   } else {
     $(".order."+data.clientId).removeClass('is-warning').addClass('is-success');
@@ -42,7 +40,6 @@ socket.on('ordering', (data)=>{
       default:
         let input = $('#userSelectionInput').val();
 
-        console.log(input);
       usersList.forEach((user)=>{
           if (user.name.toLowerCase().search(input.toLowerCase()) < 0){
               $('.user'+user.id).hide();

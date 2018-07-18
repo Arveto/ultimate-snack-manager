@@ -9,26 +9,26 @@ function signup(formData) {
         email: formData.email,
         password: formData.password1,
     });
-
-    socket.on('signupSuccess', (res)=>{
-        new Notification('success', "Connecté en tant que <b>"+connected.login+"</b>")
-        logged = true;
-        changeView(gotoOrder ? 'userSelection' : 'dashboard');  //TODO Account management for random unprivileged user
-        $('.username').val('');
-        $("#loginNav").removeClass('is-loading').html('Connecté: <b> &nbsp; '+connected.login+'</b>');
-        $('#loginPopup').hide();
-
-        //Empty password fields (4 security, yaknow?)
-        $('#password1').val('');
-        $('#password2').val('');
-    });
-
-    socket.on('signupFailure', (res)=>{
-        new Notification('danger', "Addresse déjà utilisée")
-        $("#loginNav").removeClass('is-loading').html('Login');
-        $('#loginPopup').hide();
-    });
 }
+
+socket.on('signupSuccess', (res)=>{
+  notif('success', "Connecté en tant que <b>"+connected.login+"</b>")
+  logged = true;
+  changeView(gotoOrder ? 'userSelection' : 'dashboard');  //TODO Account management for random unprivileged user
+  $('.username').val('');
+  $("#loginNav").removeClass('is-loading').html('Connecté: <b> &nbsp; '+connected.login+'</b>');
+  $('#loginPopup').hide();
+
+  //Empty password fields (4 security, yaknow?)
+  $('#password1').val('');
+  $('#password2').val('');
+});
+
+socket.on('signupFailure', (res)=>{
+  notif('danger', "Addresse déjà utilisée")
+  $("#loginNav").removeClass('is-loading').html('Login');
+  $('#loginPopup').hide();
+});
 
 
 function hash(string){

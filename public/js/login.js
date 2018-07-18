@@ -1,6 +1,8 @@
 let connected = {
-  login: 'ESSAIM',
-  hash: null
+  id: null,
+  login: null,
+  hash: null,
+  isAdmin: false
 };
 
 /*
@@ -17,25 +19,32 @@ function login(username, password) {
     name: username,
     password: connected.hash
   });
-
-  socket.on('login', (res) => {
-    if (res) {
-      notif('success', "Connecté en tant que <b>" + connected.login + "</b>");
-      logged = true;
-
-      changeView(gotoOrder ? 'userSelection' : 'dashboard');
-      $("#preordersContainer").show();
-
-      $('.login').val('');
-      $("#loginNav").html('Connecté: <b> &nbsp; ' + connected.login + '</b>');
-      $('#loginPopup').hide();
-    } else {
-      notif('danger', 'Wrong credancials');
-    }
-    $('#loginNav').removeClass('is-loading');
-    $('.password').val('');
-  });
 }
+
+socket.on('login', (res) => {
+  if (res.ok) {
+    notif('success', "Connecté en tant que <b>" + connected.login + "</b>");
+    connected.id = res.id;
+    if (res.isAdmin){
+      notif('success', 'You are <b>ADMIN</b>')
+      connected.isAdmin = true;
+      $(".admin").css('display', 'flex').css('visibility', 'visible');
+      $('.moldu').hide().css('visibility', 'collapse');
+    }
+    logged = true;
+
+    changeView(gotoOrder ? 'userSelection' : 'dashboard');
+    $("#preordersContainer").show();
+
+    $('.login').val('');
+    $("#loginNav").html('Connecté: <b> &nbsp; ' + connected.login + '</b>');
+    $('#loginPopup').hide();
+  } else {
+    notif('danger', 'Wrong credancials');
+  }
+  $('#loginNav').removeClass('is-loading');
+  $('.password').val('');
+});
 
 
 /*
