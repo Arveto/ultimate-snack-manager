@@ -1,4 +1,6 @@
 
+let date = new Date;
+
 let commandList = {}; //IDs of selected products & amount of it
 let total = [];
 
@@ -67,8 +69,10 @@ $('#submitCommand').on('click', ()=>{
   if (logged && connected.login && connected.hash){
     $("#submitLogin").addClass('is-loading');
 
+    order.timestamp = date.getTime();
+
     if (connected.isAdmin) {
-      //prepare command
+      //prepare the order json
       let order = {};
       order.admin = connected;
       order.clientId = clientId;
@@ -77,7 +81,7 @@ $('#submitCommand').on('click', ()=>{
       socket.emit('order', order);
 
     } else {  //It's a preorder
-      //prepare command
+      //prepare the order json
       let order = {};
       order.clientId = connected.id;
       order.commandList = commandList;

@@ -164,7 +164,7 @@ io.sockets.on('connection', function(socket) {
       console.log('ESSAIM IS LOGGED');
     } else if (user.name == 'TERRUSS' && user.password == passwordHash) {
       socket.emit('login', {ok: true, id: 1, isAdmin: false});
-      console.log('ESSAIM IS LOGGED');
+      console.log('TERRUSS IS LOGGED');
     } else {
       console.log('LOGIN FAILED');
       socket.emit('login', false);
@@ -247,6 +247,7 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('preorder', (order)=>{
     preordersList[order.clientId] = order;
+    socket.emit('preorder', [order]);
   })
 });
 
