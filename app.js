@@ -246,7 +246,7 @@ io.sockets.on('connection', function(socket) {
 
 
   socket.on('preorder', (order)=>{
-    preordersList.push({order.clientId: order})
+    preordersList.push({"order.clientId": order})
   })
 });
 
