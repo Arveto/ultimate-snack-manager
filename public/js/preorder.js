@@ -28,11 +28,9 @@ socket.on('preorders', (commands)=>{
     </button>\
     </div><br/>');
 
-    for (let product in command.commandList){
-      if (command.commandList.hasOwnProperty(product)) {
-        $('<li>').html(productsList[product.id].name + '(x'+product.amount+')').appendTo('#preco'+command.clientId);
-      }
-    }
+    command.commandList.forEach((product)=>{
+      $('<li>').html(productsList[product.id].name + '(x'+product.amount+')').appendTo('#preco'+command.clientId);
+    })
   })
 });
 

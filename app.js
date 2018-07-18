@@ -37,6 +37,12 @@ let users = [{
     name: "Sadre",
     money: 654.58,
     hasOrdered: false
+  },
+  {
+    id: 4,
+    name: "TERRUSS",
+    money: 100000000,
+    hasOrdered: false
   }
 ];
 
@@ -163,7 +169,7 @@ io.sockets.on('connection', function(socket) {
       socket.emit('login', {ok: true, id: 0, isAdmin: true});
       console.log('ESSAIM IS LOGGED');
     } else if (user.name == 'TERRUSS' && user.password == passwordHash) {
-      socket.emit('login', {ok: true, id: 1, isAdmin: false});
+      socket.emit('login', {ok: true, id: 4, isAdmin: false});
       console.log('TERRUSS IS LOGGED');
     } else {
       console.log('LOGIN FAILED');
@@ -247,7 +253,8 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('preorder', (order)=>{
     preordersList[order.clientId] = order;
-    socket.emit('preorder', [order]);
+    console.log(order);
+    socket.broadcast.emit('preorders', [order]);
   })
 });
 
