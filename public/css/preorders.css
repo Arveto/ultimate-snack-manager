@@ -1,0 +1,27 @@
+
+#preordersContainer{
+  position: absolute;
+  top: 90vh;
+  left : 20px;
+  width: 30vw;
+  height: 60vh;
+
+  transition-property: all;
+	transition-duration: .5s;
+	transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+
+  overflow-x: hidden;
+}
+#preordersContainer:hover{
+  top : 50vh;
+}
+
+
+#preorders{
+  height: 45vh;
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  padding-bottom: 10px;
+}
