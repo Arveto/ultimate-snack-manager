@@ -4,8 +4,8 @@
 }
 
 .chart-container {
-  position: relative;
-  margin: auto;
-  height: 27vh;
-  width: 27vw;
+    position: relative;
+    margin: auto;
+    height: 27vh;
+    width: 25vw;
 }

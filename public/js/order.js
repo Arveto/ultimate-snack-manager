@@ -6,150 +6,153 @@ let total = [];
 
 //UI EVENTS
 $(".product").on('click', function(e) {
-  e.stopPropagation()
+    e.stopPropagation()
 
-  //get Id of the product selected
-  let productId = getIdFromClassName(this);
+    //get Id of the product selected
+    let productId = getIdFromClassName(this);
 
-  if (typeof commandList[productId] == 'undefined') {
-    commandList[productId] = {
-      id: productId,
-      amount: 1
+    if (typeof commandList[productId] == 'undefined') {
+        commandList[productId] = {
+            id: productId,
+            amount: 1
+        }
+
+        $("<article>").addClass('media productContainer' + productId).html('\
+        <figure class="media-left">\
+        <p class="image is-48x48">\
+        <img src="https://bulma.io/images/placeholders/128x128.png">\
+        </p>\
+        </figure>\
+        <div class="media-content">\
+        <div class="content">\
+        <p>\
+        <strong id="p' + productId + '">' + productsList[productId].name + '</strong><br/>\
+        <small>Prix <a>' + productsList[productId].price + '</a> €</small>\
+        </p>\
+        </div>\
+        </div>\
+        <div class="media-right order-small-modifiers">\
+        <button onclick="deleteProduct('+productId+')" class="delete is-bigger"></button>\
+        <div onclick="incrementProduct('+productId+')" class="incProd is-big">\
+        <i class="fa fa-plus-circle" ></i>\
+        </div>\
+        <div onclick="decrementProduct('+productId+')" class="decProd is-small">\
+        <i class="fa fa-minus-circle"></i>\
+        </div>\      </div>\
+        ').appendTo('#commandList');
+
+        total.push(1*productsList[productId].price);
+        updateTotal();
+    } else {
+        incrementProduct(productId);
     }
 
-    $("<article>").addClass('media productContainer' + productId).html('\
-      <figure class="media-left">\
-      <p class="image is-48x48">\
-      <img src="https://bulma.io/images/placeholders/128x128.png">\
-      </p>\
-      </figure>\
-      <div class="media-content">\
-      <div class="content">\
-      <p>\
-      <strong id="p' + productId + '">' + productsList[productId].name + '</strong><br/>\
-      <small>Prix <a>' + productsList[productId].price + '</a> €</small>\
-      </p>\
-      </div>\
-      </div>\
-      <div class="media-right order-small-modifiers">\
-      <button onclick="deleteProduct('+productId+')" class="delete is-bigger"></button>\
-      <div onclick="incrementProduct('+productId+')" class="incProd is-big">\
-        <i class="fa fa-plus-circle" ></i>\
-      </div>\
-      <div onclick="decrementProduct('+productId+')" class="decProd is-small">\
-        <i class="fa fa-minus-circle"></i>\
-      </div>\      </div>\
-      ').appendTo('#commandList');
-
-      total.push(1*productsList[productId].price);
-      updateTotal();
-  } else {
-    incrementProduct(productId);
-  }
-
-  scrollDown("#commandList");
+    scrollDown("#commandList");
 });
 
 $("div.product").on('contextmenu', function(e) {
-  e.stopPropagation();
-  e.preventDefault();
-  let productId = getIdFromClassName(this);
+    e.stopPropagation();
+    e.preventDefault();
+    let productId = getIdFromClassName(this);
 
-  if (commandList.hasOwnProperty(productId) > -1)
+    if (commandList.hasOwnProperty(productId) > -1)
     decrementProduct(productId);
 })
 
 
 
 $('#deleteAllProducts').on('click', ()=>{
-  deleteAllProducts();
+    deleteAllProducts();
 })
 
 $('#submitCommand').on('click', ()=>{
-  if (logged && connected.login && connected.hash){
-    $("#submitLogin").addClass('is-loading');
+    if (logged && connected.login && connected.hash){
+        $("#submitLogin").addClass('is-loading');
 
-    order.timestamp = date.getTime();
+        order.timestamp = date.getTime();
 
-    if (connected.isAdmin) {
-      //prepare the order json
-      let order = {};
-      order.admin = connected;
-      order.clientId = clientId;
-      order.commandList = commandList;
-      //send it
-      socket.emit('order', order);
+        if (connected.isAdmin) {
+            //prepare the order json
+            let order = {};
+            order.admin = connected;
+            order.clientId = clientId;
+            order.commandList = commandList;
+            //send it
 
-    } else {  //It's a preorder
-      //prepare the order json
-      let order = {};
-      order.clientId = connected.id;
-      order.commandList = commandList;
-      //send it
-      socket.emit('preorder', order);
+            console.log(order);
+
+            socket.emit('order', order);
+
+        } else {  //It's a preorder
+        //prepare the order json
+        let order = {};
+        order.clientId = connected.id;
+        order.commandList = commandList;
+        //send it
+        socket.emit('preorders', order);
     }
 
-  } else {
+} else {
     notif('danger', "Vous n'êtes pas connecté !")
-  }
+}
 });
 
-  //SOCKETIO EVENTS
+//SOCKETIO EVENTS
 
 socket.on('commandRecived', ()=>{
-  console.log('RECEVED');
-  $("#submitLogin").removeClass('is-loading');
-  notif('success', 'La commande #000042 a bien été effectuée');
-  leaveOrdering();
+    console.log('RECEVED');
+    $("#submitLogin").removeClass('is-loading');
+    notif('success', 'La commande #000042 a bien été effectuée');
+    leaveOrdering();
 })
 socket.on('accountSold', (data)=>{
-  notif('success', 'Solde de <b>'+usersList[data.clientId].name+'</b> : <b>'+data.money+'</b>');
+    notif('success', 'Solde de <b>'+usersList[data.clientId].name+'</b> : <b>'+data.money+'</b>');
 });
 
 
 //UTILS
 function incrementProduct(productId) {
-  commandList[productId].amount++;
-  $("#p" + productId).html(productsList[productId].name + '&nbsp; (&times ' + commandList[productId].amount + ')');
-  total.push(1*productsList[productId].price);
-  updateTotal();
+    commandList[productId].amount++;
+    $("#p" + productId).html(productsList[productId].name + '&nbsp; (&times ' + commandList[productId].amount + ')');
+    total.push(1*productsList[productId].price);
+    updateTotal();
 }
 
 function decrementProduct(productId) {
-  commandList[productId].amount--;
-  if (commandList[productId].amount > 0) {
-    $("#p" + productId).html(productsList[productId].name + '&nbsp; (&times ' + commandList[productId].amount + ')');
-    total.push( -1 * productsList[productId].price );
-  } else {
-    deleteProduct(productId);
-  }
-  updateTotal();
+    commandList[productId].amount--;
+    if (commandList[productId].amount > 0) {
+        $("#p" + productId).html(productsList[productId].name + '&nbsp; (&times ' + commandList[productId].amount + ')');
+        total.push( -1 * productsList[productId].price );
+    } else {
+        deleteProduct(productId);
+    }
+    updateTotal();
 }
 
 
 function deleteProduct(productId) {
-  $('article.media.productContainer' + productId).remove();
-  total.push(-1*productsList[productId].price*commandList[productId].amount);
-  updateTotal();
+    $('article.media.productContainer' + productId).remove();
+    total.push(-1*productsList[productId].price*commandList[productId].amount);
+    updateTotal();
 
-  delete commandList[productId];
+    delete commandList[productId];
 }
 
 function deleteAllProducts(){
-  commandList = {};
-  total = [];
-  $("#commandList").empty();
-  updateTotal();
+    commandList = {};
+    total = [];
+    $("#commandList").empty();
+    updateTotal();
 }
 
 function updateTotal(){
-  $('#total').html((total.reduce((pv, cv) => pv+cv, 0).toFixed(2)));
+    $('#total').html((total.reduce((pv, cv) => pv+cv, 0).toFixed(2)));
 }
 
 function leaveOrdering(){
-  // if (clientId)
+    // if (clientId)
     socket.emit('ordering', {clientId: clientId, admin: connected, leave: true});
-  deleteAllProducts();
-  changeView("userSelection");
-  clientId = null;
+    deleteAllProducts();
+    changeView("userSelection");
+    clientId = null;
 }

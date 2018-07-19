@@ -1,4 +1,4 @@
-const socket = io.connect('192.168.1.20'); //Put your local IP here
+const socket = io.connect('192.168.1.26:8080'); //Put your local IP here
 
 const theme = 'BLUE' // two themes : 'RED' or 'BLUE'
 
