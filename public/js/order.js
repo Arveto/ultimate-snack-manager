@@ -1,21 +1,51 @@
 
 let date = new Date;
 
-let commandList = {}; //IDs of selected products & amount of it
-let total = [];
+let commandList = []; //IDs of selected products & amount of it
+let totalPrice;
+
 
 //UI EVENTS
 $(".product").on('click', function(e) {
+
     e.stopPropagation()
 
     //get Id of the product selected
     let productId = getIdFromClassName(this);
 
-    if (typeof commandList[productId] == 'undefined') {
-        commandList[productId] = {
+    //First, check if product is already in list
+    let itemFound = false;
+
+    for(let i=0; i<commandList.length; i++){
+        if(commandList[i].id == productId){
+            //If the product is already in list
+            itemFound = true;
+            incrementProduct(productId);
+        }
+    }
+
+    if(!itemFound){
+        //Append to list
+        commandList.push({
             id: productId,
             amount: 1
+        });
+
+
+        //Append to HTML
+        //First, we look for the product's name and price, from its ID
+
+        let productName = '';
+        let productPrice = 0;
+        for(let i=0; i<products.length; i++){
+            if(products[i].id == productId){
+                console.log('Found! Naisuuu!');
+                productName = products[i].name;
+                productPrice = products[i].price;
+                break;
+            }
         }
+
 
         $("<article>").addClass('media productContainer' + productId).html('\
         <figure class="media-left">\
@@ -26,8 +56,8 @@ $(".product").on('click', function(e) {
         <div class="media-content">\
         <div class="content">\
         <p>\
-        <strong id="p' + productId + '">' + productsList[productId].name + '</strong><br/>\
-        <small>Prix <a>' + productsList[productId].price + '</a> €</small>\
+        <strong id="p' + productId + '">' + productName+ ' (x1)'+'</strong><br/>\
+        <small>Prix <a>' + productPrice + '</a> €</small>\
         </p>\
         </div>\
         </div>\
@@ -41,14 +71,14 @@ $(".product").on('click', function(e) {
         </div>\      </div>\
         ').appendTo('#commandList');
 
-        total.push(1*productsList[productId].price);
-        updateTotal();
-    } else {
-        incrementProduct(productId);
-    }
 
-    scrollDown("#commandList");
+        updatePrice();
+
+        scrollDown("#commandList");
+    }
 });
+
+
 
 $("div.product").on('contextmenu', function(e) {
     e.stopPropagation();
@@ -65,42 +95,58 @@ $('#deleteAllProducts').on('click', ()=>{
     deleteAllProducts();
 })
 
+
+
 $('#submitCommand').on('click', ()=>{
     if (logged && connected.login && connected.hash){
         $("#submitLogin").addClass('is-loading');
 
-        order.timestamp = date.getTime();
+        //Build order array
 
-        if (connected.isAdmin) {
+        orderArray = [];
+        for(let i=0; i<commandList.length; i++){
+            for(let j=0; j<commandList[0].amount; j++){
+                orderArray.push(commandList[i].id);
+            }
+        }
+
+        if (connected.isAdmin == 1) {
             //prepare the order json
             let order = {};
             order.admin = connected;
             order.clientId = clientId;
-            order.commandList = commandList;
+            order.commandList = orderArray.toString();
+            order.isPreorder = false;
+            order.price = totalPrice;
+
             //send it
-
-            console.log(order);
-
             socket.emit('order', order);
 
         } else {  //It's a preorder
         //prepare the order json
         let order = {};
         order.clientId = connected.id;
-        order.commandList = commandList;
-        //send it
-        socket.emit('preorders', order);
-    }
+        order.commandList = orderArray.toString();
+        order.isPreorder = true;
+        order.price = totalPrice;
 
-} else {
-    notif('danger', "Vous n'êtes pas connecté !")
+
+        socket.emit('preorder', order);
+    }
 }
+
+
+//Reset vars
+commandList = [];
+$("#commandList").empty();
+updatePrice();
 });
+
+
 
 //SOCKETIO EVENTS
 
 socket.on('commandRecived', ()=>{
-    console.log('RECEVED');
     $("#submitLogin").removeClass('is-loading');
     notif('success', 'La commande #000042 a bien été effectuée');
     leaveOrdering();
@@ -110,44 +156,118 @@ socket.on('accountSold', (data)=>{
 });
 
 
+
 //UTILS
 function incrementProduct(productId) {
-    commandList[productId].amount++;
-    $("#p" + productId).html(productsList[productId].name + '&nbsp; (&times ' + commandList[productId].amount + ')');
-    total.push(1*productsList[productId].price);
-    updateTotal();
+
+    productIndex = -1;
+    for(let i=0; i<products.length; i++){
+        if(products[i].id == productId){
+            productIndex = i;
+            break;
+        }
+    }
+
+    //Update list
+    commandIndex = -1
+    for(let i=0; i<commandList.length; i++){
+        if(productId == commandList[i].id){
+            commandList[i].amount++;
+            commandIndex = i;
+            break;
+        }
+    }
+
+    //Update HTML
+    $("#p" + productId).html(products[productIndex].name + '&nbsp; (&times ' + commandList[commandIndex].amount + ')');
+
+    updatePrice();
 }
 
+
+
 function decrementProduct(productId) {
-    commandList[productId].amount--;
-    if (commandList[productId].amount > 0) {
-        $("#p" + productId).html(productsList[productId].name + '&nbsp; (&times ' + commandList[productId].amount + ')');
-        total.push( -1 * productsList[productId].price );
-    } else {
-        deleteProduct(productId);
+
+    productIndex = -1;
+    for(let i=0; i<products.length; i++){
+        if(products[i].id == productId){
+            productIndex = i;
+            break;
+        }
     }
-    updateTotal();
+
+    //Update list
+    commandIndex = -1
+    for(let i=0; i<commandList.length; i++){
+        if(productId == commandList[i].id){
+            commandList[i].amount--;
+
+            if(commandList[i].amount == 0)
+            deleteProduct(productId)
+
+            commandIndex = i;
+            break;
+        }
+    }
+
+    //Update HTML
+    if(commandList.length > 0){
+        if(commandList[commandIndex].amount > 0)
+        $("#p" + productId).html(products[productIndex].name + '&nbsp; (&times ' + commandList[commandIndex].amount + ')');
+    }
+
+
+    updatePrice();
 }
+
 
 
 function deleteProduct(productId) {
+    //Update HTML
     $('article.media.productContainer' + productId).remove();
-    total.push(-1*productsList[productId].price*commandList[productId].amount);
-    updateTotal();
 
-    delete commandList[productId];
+    //Update list
+    for(let i=0; i<commandList.length; i++){
+        if(commandList[i].id == productId){
+            commandList.splice(i, 1);
+            break;
+        }
+    }
+
+    updatePrice();
 }
+
+
 
 function deleteAllProducts(){
-    commandList = {};
-    total = [];
+    //Update list
+    commandList = [];
     $("#commandList").empty();
-    updateTotal();
+
+
+    updatePrice();
 }
 
-function updateTotal(){
-    $('#total').html((total.reduce((pv, cv) => pv+cv, 0).toFixed(2)));
+
+
+function updatePrice(){
+    totalPrice = 0;  //TODO: Calcuate from commandList (ez)
+
+    //Cycle order array
+    for(let i=0; i<commandList.length; i++){
+        //Look for price in corresponding 'products' index
+        for(let j=0; j<products.length; j++){
+            if(products[j].id == commandList[i].id){
+                totalPrice += commandList[i].amount * products[j].price;
+            }
+        }
+    }
+
+    //OLD VERSION: $('#total').html((total.reduce((pv, cv) => pv+cv, 0).toFixed(2)));
+    $('#total').html(totalPrice);
 }
+
+
 
 function leaveOrdering(){
     // if (clientId)
@@ -155,4 +275,8 @@ function leaveOrdering(){
     deleteAllProducts();
     changeView("userSelection");
     clientId = null;
+
+    commandList = [];
+    $("#commandList").empty();
+    updatePrice();
 }

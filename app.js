@@ -52,62 +52,63 @@ let shaObj = new jsSHA("SHA-512", "TEXT");
 shaObj.update("toor");
 let passwordHash = shaObj.getHash("HEX");
 
-let products = [{
-    id: 0,
-    name: 'Coca-cola',
-    price: 1.49
-},
-{
-    id: 1,
-    name: 'Fanta',
-    price: 1.37
-},
-{
-    id: 2,
-    name: 'Cafe',
-    price: 0.49
-},
-{
-    id: 3,
-    name: 'Mountain Dew',
-    price: 1111
-},
-{
-    id: 4,
-    name: 'Kinder Bueno',
-    price: 1.99
-},
-{
-    id: 5,
-    name: 'Bon pilon',
-    price: 9.99
-},
-{
-    id: 6,
-    name: 'Lion',
-    price: 1.79
-},
-{
-    id: 7,
-    name: 'Schweppes',
-    price: 1.20
-},
-{
-    id: 8,
-    name: 'Prostituée russe',
-    price: 123.12
-},
-{
-    id: 9,
-    name: 'Skittles',
-    price: 1.08
-},
-{
-    id: 10,
-    name: 'Eau',
-    price: 0.45
-}
-];
+    //OLD: Now fetched by DB on demand
+// let products = [{
+//     id: 0,
+//     name: 'Coca-cola',
+//     price: 1.49
+// },
+// {
+//     id: 1,
+//     name: 'Fanta',
+//     price: 1.37
+// },
+// {
+//     id: 2,
+//     name: 'Cafe',
+//     price: 0.49
+// },
+// {
+//     id: 3,
+//     name: 'Mountain Dew',
+//     price: 1111
+// },
+// {
+//     id: 4,
+//     name: 'Kinder Bueno',
+//     price: 1.99
+// },
+// {
+//     id: 5,
+//     name: 'Bon pilon',
+//     price: 9.99
+// },
+// {
+//     id: 6,
+//     name: 'Lion',
+//     price: 1.79
+// },
+// {
+//     id: 7,
+//     name: 'Schweppes',
+//     price: 1.20
+// },
+// {
+//     id: 8,
+//     name: 'Prostituée russe',
+//     price: 123.12
+// },
+// {
+//     id: 9,
+//     name: 'Skittles',
+//     price: 1.08
+// },
+// {
+//     id: 10,
+//     name: 'Eau',
+//     price: 0.45
+// }
+// ];
 
 let shoppingList = ["Cafe (x1442)",
 "Skittles de qualité",
@@ -143,12 +144,21 @@ app.use(require('express').static(__dirname + '/public'));
 
 //Get main page
 app.get('/', (req, res) => {
-    res.render(__dirname + '/public/index.ejs', {
-        users: users,
-        user: user,
-        products: products,
-        shoppingList: shoppingList
+    //TODO Dynamically fetch users (on admin login?)
+
+    //This query only contains useful data for page generation
+    let query = 'SELECT id, name, price FROM items WHERE on_sale = 1 ORDER BY id ASC;'
+    database.query(query)
+    .then(rows => {
+        res.render(__dirname + '/public/index.ejs', {
+            users: users,
+            user: user,
+            products: rows,
+            shoppingList: shoppingList
+        });
     });
+
+
 });
 
 
@@ -165,14 +175,28 @@ io.sockets.on('connection', function(socket) {
 
     //New user connection
     socket.on('login', (user) => {
-
-        let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
-        let createUser = database.query(query, [user.email, user.password])
+    let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
+        database.query(query, [user.email, user.password])
         .then(rows => {
-            if(rows.length)
-                socket.emit('login', {ok: true, id: rows[0].id, isAdmin: rows[0].admin});
-            else
+            if(rows.length){
+                console.log("Admin value: "+rows[0].admin);
+
+                if(rows.length > 0){
+                    //User found
+                    let isAdmin = rows[0].admin;
+                    let id = rows[0].id;
+
+                    //We need to fetch the items (and later users) list(s)
+                    //For items, we currently select needed data only => Fetch graph data later?
+                    let query = 'SELECT id, name, price, stock FROM items ORDER BY id ASC;';
+                    database.query(query)
+                    .then(rows => {
+                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : rows});
+                    });
+                } else
+                //User not found
                 socket.emit('login', {ok: false});
+            }
         });
     });
 
@@ -183,7 +207,7 @@ io.sockets.on('connection', function(socket) {
         //TODO Maybe add more contraints for account creation?
 
         let query = 'SELECT email FROM users WHERE email = ?;';
-        let createUser = database.query(query, data.email)
+        database.query(query, data.email)
         .then(rows => {
             //If the mail doesn't exist yet in DB
             if (rows.length) {
@@ -200,16 +224,13 @@ io.sockets.on('connection', function(socket) {
     });
 
 
-    //TODO: An admin wants to access list of users
-    //Send it on login, or make an event here?
-
 
     //An admin is placing an order -> trigger an UI event
     //WARNING Uncomplete: how is the list of items sent (now or on login)?
     socket.on('ordering', (data) => {
 
         let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
-        let createUser = database.query(query, [data.admin.login, data.admin.hash])
+        database.query(query, [data.admin.login, data.admin.hash])
         .then(rows => {
 
             //Check if the user sending event is an admin
@@ -247,64 +268,77 @@ io.sockets.on('connection', function(socket) {
         //TODO Testing on orders validating queries
 
         let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
-        let createUser = database.query(query, [order.admin.login, order.admin.hash])
+        database.query(query, [order.admin.login, order.admin.hash])
         .then(rows => {
+            if(rows[0].admin == 1){
 
-            console.log("Command from " + order.admin.login + " for " + users[order.clientId].name);
-            socket.emit('commandRecived');
+                console.log("Command from " + order.admin.login + " for " + users[order.clientId].name);
+                socket.emit('commandReceived');
 
-            let price = 0.0;    //TODO Calculate this shit
 
-            //Build content array (array of IDs, will be stringed before being stored in DB)
-            //WARNING: Assumes commandList is an array, needs to be changed in the front
-            let orderContent = [];
+                //If command was a preorder, check it
+                if ( typeof preordersList[order.clientId] != 'undefined' || (users[order.clientId].hasOrdered) ){
+                    //WARNING Needs refactoring
 
-            for(let i=0; i<order.commandList.length; i++){
-                for(let j=0; j<order.commandList[i].amount; j++){
-                    orderContent.append(commandList[i].id);
+                    socket.broadcast.emit('preorderDone', order.clientId);
+                    socket.emit('preorderDone', order.clientId);
+
+                    delete preordersList[order.clientId];
+                    users[order.clientId].hasOrdered = false;
+
+                    //In DB, edit the existing entry
+                    let query = 'UPDATE orders SET pending = 0 WHERE customer_id = ? AND pending = 1';
+                    database.query(query, [order.clientId])
+                    .then((rows) => {
+                        console.log('Command ended');
+                        let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
+                        return database.query(query, [order.price, order.clientId]);
+                    })
+                    //Update client's sold
+                    .then(rows => {
+                        console.log('Account debited');
+                    });
                 }
-            }
 
-            //If command was a preorder, check it
-            if ( typeof preordersList[order.clientId] != 'undefined' || (users[order.clientId].hasOrdered) ){
-                socket.broadcast.emit('preorderDone', order.clientId);
-                socket.emit('preorderDone', order.clientId);
+                //If it was a 'classic' order:
+                else{
+                    //Insert the order in DB
+                    let query = 'INSERT INTO orders (customer_id, price, content) VALUES(?, ?, ?)';
+                    database.query(query, [order.clientId, order.price, order.commandList.toString()])
+                    .then((rows) => {
+                        console.log('Command ended, added to DB');
+                        let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
+                        return database.query(query, [order.price, order.clientId]);
+                    })
+                    //Update client's sold
+                    .then(rows => {
+                        console.log('Account debited');
+                    });
+                }
 
-                delete preordersList[order.clientId];
-                users[order.clientId].hasOrdered = false;
-
-                //In DB, edit the existing entry
-                let query = 'UPDATE orders SET pending = 0 WHERE customer_id = ? AND pending = 1';
-                database.query(query, [order.clientId])
-                .then((rows) => {
-                    console.log('Command ended');
+                // TODO: debit the account
+                //Calculate price by performing a query on items, and updating client's sold accordingly
+                socket.emit('accountSold', {
+                    clientId: order.clientId,
+                    money: -666.0
                 });
             }
-
-            //If it was a 'classic' order:
-            else{
-                let query = 'INSERT INTO orders (customer_id, price, content) VALUES(?, ?, ?)';
-                database.query(query, [order.clientId, price, orderContent.toString()])
-                .then((rows) => {
-                    console.log('Command ended, added to DB');
-                });
-            }
-
-            // TODO: debit the account
-            //Calculate price by performing a query on items, and updating client's sold accordingly
-            socket.emit('accountSold', {
-                clientId: order.clientId,
-                money: -666.0
-            });
         });
     });
 
 
     socket.on('preorder', (order)=>{
-        preordersList[order.clientId] = order;
-        console.log(order);
-        socket.broadcast.emit('preorders', [order]);
-    })
+        //TODO: Add to DB, broadcast the order to all users
+        console.log('A preorder! yay:)');
+
+
+
+        let query = 'INSERT INTO orders (customer_id, price, content, pending) VALUES(?, ?, ?, 1);';
+        database.query(query, [order.clientId, order.price, order.commandList])
+        .then((rows) => {
+            socket.broadcast.emit('preorder', {clientId: order.clientId, commandList: order.commandList, price: order.price, timestamp: new Date().toLocaleString()});
+        });
+    });
 });
 
 

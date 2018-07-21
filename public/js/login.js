@@ -25,11 +25,19 @@ socket.on('login', (res) => {
     if (res.ok) {
         notif('success', "Connecté en tant que <b>" + connected.login + "</b>");
         connected.id = res.id;
+
+        products = res.itemsList;
+
         if (res.isAdmin){
-            notif('success', 'You are <b>ADMIN</b>')
             connected.isAdmin = true;
+
+
+
+            notif('success', 'You are <b>ADMIN</b>')
             $(".admin").css('display', 'flex').css('visibility', 'visible');
             $('.moldu').hide().css('visibility', 'collapse');
+        } else {
+            connected.isAdmin = false;
         }
         logged = true;
 

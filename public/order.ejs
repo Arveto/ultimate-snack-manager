@@ -9,13 +9,13 @@
               Commande pour : <b id="commandFor"></b>
             </h1>
             <h1 class="title moldu">
-              Fais toi plaiz
+              Passer commande
             </h1>
             <h2 class="subtitle admin">
               Fais le cracher ses thunes !
             </h2>
             <h2 class="subtitle moldu">
-              Met toi bien ;)
+              Mets-toi bien!
             </h2>
           </div>
         </div>
@@ -35,9 +35,11 @@
           %>
 
             <script>
-            productsList.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
+            //Products list is now filled on admin login
+            //OLD: products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
             </script>
-            <div class="tile is-parent <%=i%> product">
+
+            <div class="tile is-parent <%=products[i].id%> product">
               <article class="tile is-child box">
                 <p class="title">
                   <%=products[i].name%>
