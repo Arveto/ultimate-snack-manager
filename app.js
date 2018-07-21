@@ -179,7 +179,6 @@ io.sockets.on('connection', function(socket) {
         database.query(query, [user.email, user.password])
         .then(rows => {
             if(rows.length){
-                console.log("Admin value: "+rows[0].admin);
 
                 if(rows.length > 0){
                     //User found
@@ -328,13 +327,9 @@ io.sockets.on('connection', function(socket) {
 
 
     socket.on('preorder', (order)=>{
-        //TODO: Add to DB, broadcast the order to all users
-        console.log('A preorder! yay:)');
-
-
-
-        let query = 'INSERT INTO orders (customer_id, price, content, pending) VALUES(?, ?, ?, 1);';
-        database.query(query, [order.clientId, order.price, order.commandList])
+        //let query = 'INSERT INTO orders (customer_id, price, content, pending) VALUES(?, ?, ?, 1);';
+        let query = 'SELECT * FROM orders;';
+        database.query(query/*, [order.clientId, order.price, order.commandList]*/)
         .then((rows) => {
             socket.broadcast.emit('preorder', {clientId: order.clientId, commandList: order.commandList, price: order.price, timestamp: new Date().toLocaleString()});
         });

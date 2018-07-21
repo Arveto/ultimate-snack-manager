@@ -2,7 +2,27 @@
 var preorders = [];
 
 socket.on('preorder', (command) =>{
-    console.log("Received preorder! Sugoiiii!")
+
+    //Reconstitute commandList array (with JSON containing ID  and amount)
+    command.commandList = command.commandList.split(',');
+
+    let commandList = [];
+    let articleFound;
+    for(let i=0; i<command.commandList.length; i++){
+        //Check if article is already in commandList
+        articleFound = false;
+
+        for(let j=0; j<commandList.length; j++){
+            if(command.commandList[i] == commandList[j].id){
+                commandList[j].amount++;
+                articleFound = true;
+                break;
+            }
+        }
+
+        if(!articleFound)
+            commandList.push({id: command.commandList[i], amount: 1});
+    }
 
     //TODO Get user's first and family names && Format timestamp
 
@@ -33,15 +53,16 @@ socket.on('preorder', (command) =>{
     </div><br/>');
 
     //Append command content to HTML, look for names
-    for(let i=0; i<command.commandList.length; i++){
+    for(let i=0; i<commandList.length; i++){
         for(let j=0; j<products.length; j++){
-            if(products[j].id == command.commandList[i].id){
-                $('<li>').html(products[command.coommandlist[i].id].name + '(x'+command.coommandlist[i].amount+')').appendTo('#preco'+command.clientId);
+            if(products[j].id == commandList[i].id){
+                $('<li>').html(products[j].name + '(x'+commandList[i].amount+')').appendTo('#preco'+command.clientId);
+                break;
             }
         }
     }
 
-    preorder.append(command);
+    preorders.push(command);
 
 });
 
