@@ -39,7 +39,6 @@ $(".product").on('click', function(e) {
         let productPrice = 0;
         for(let i=0; i<products.length; i++){
             if(products[i].id == productId){
-                console.log('Found! Naisuuu!');
                 productName = products[i].name;
                 productPrice = products[i].price;
                 break;
@@ -75,6 +74,7 @@ $(".product").on('click', function(e) {
         updatePrice();
 
         scrollDown("#commandList");
+
     }
 });
 

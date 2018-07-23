@@ -31,7 +31,10 @@ socket.on('login', (res) => {
         if (res.isAdmin){
             connected.isAdmin = true;
 
-
+            //Add current preoders
+            for(let i=0; i<res.preorders.length; i++){
+                addPreorder(res.preorders[i]);
+            }
 
             notif('success', 'You are <b>ADMIN</b>')
             $(".admin").css('display', 'flex').css('visibility', 'visible');
@@ -99,7 +102,6 @@ $("input.password, input.login").on('keypress', (e) => {
 $("#emailPopup").on('keypress', (e)=>{
     let keycode = e.keyCode || e.which
     if (keycode == 9){
-        console.log("oiu");
         e.preventDefault();
         // e.stopPropagation();
         $("#loginNav").trigger('click')

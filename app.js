@@ -175,28 +175,53 @@ io.sockets.on('connection', function(socket) {
 
     //New user connection
     socket.on('login', (user) => {
+
+        //First get users
     let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
+
         database.query(query, [user.email, user.password])
         .then(rows => {
-            if(rows.length){
 
-                if(rows.length > 0){
-                    //User found
-                    let isAdmin = rows[0].admin;
-                    let id = rows[0].id;
 
-                    //We need to fetch the items (and later users) list(s)
-                    //For items, we currently select needed data only => Fetch graph data later?
-                    let query = 'SELECT id, name, price, stock FROM items ORDER BY id ASC;';
-                    database.query(query)
-                    .then(rows => {
-                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : rows});
-                    });
-                } else
+            if(rows.length > 0){
+
+                //User found
+                let isAdmin = rows[0].admin;
+                let id = rows[0].id;
+
+                let itemsRes;
+
+                //We need to fetch the items (and later users) list(s) and current preorders
+                //For items, we currently select needed data only => Fetch graph data later?
+                let query = 'SELECT id, name, price, stock FROM items ORDER BY id ASC;';
+                database.query(query)
+                .then(rows => {
+                    itemsRes = rows;
+
+                    let query = 'SELECT customer_id, date, price, content FROM orders WHERE pending = 1;';
+                    return database.query(query);
+                })
+                .then(rows => {
+                    if(isAdmin == 1){
+                        let preorders = [];
+
+                        for(let i=0; i<rows.length; i++){
+                            preorders.push({ commandList: rows[i].content, clientId : rows[i].customer_id, timestamp: rows[i].date });
+                        }
+
+                        //We also send preorders
+                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders});
+                    }
+                    else
+                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
+                });
+
+            } else{
                 //User not found
                 socket.emit('login', {ok: false});
             }
-        });
+
+        })
     });
 
 
@@ -327,9 +352,8 @@ io.sockets.on('connection', function(socket) {
 
 
     socket.on('preorder', (order)=>{
-        //let query = 'INSERT INTO orders (customer_id, price, content, pending) VALUES(?, ?, ?, 1);';
-        let query = 'SELECT * FROM orders;';
-        database.query(query/*, [order.clientId, order.price, order.commandList]*/)
+        let query = 'INSERT INTO orders (customer_id, price, content, pending) VALUES (?, ?, ?, 1);';
+        database.query(query, [order.clientId, order.price, order.commandList])
         .then((rows) => {
             socket.broadcast.emit('preorder', {clientId: order.clientId, commandList: order.commandList, price: order.price, timestamp: new Date().toLocaleString()});
         });

@@ -2,7 +2,27 @@
 var preorders = [];
 
 socket.on('preorder', (command) =>{
+    addPreorder(command);
+});
 
+socket.on('preorderDone', (clientId)=>{
+    $("article.preco"+clientId).remove(); // remove order from the preordersList
+    $(".precoBell"+clientId).remove(); //remove the bell in the userSelection
+})
+
+
+
+//Functions
+
+function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(clientId){
+    //What the fuck is that function?
+    //We're gonna talk about that
+    $('button.order.'+clientId).trigger('click');
+}
+
+
+    //Used on login, and when receiving a preorder
+function addPreorder(command){
     //Reconstitute commandList array (with JSON containing ID  and amount)
     command.commandList = command.commandList.split(',');
 
@@ -63,17 +83,4 @@ socket.on('preorder', (command) =>{
     }
 
     preorders.push(command);
-
-});
-
-socket.on('preorderDone', (clientId)=>{
-    $("article.preco"+clientId).remove(); // remove order from the preordersList
-    $(".precoBell"+clientId).remove(); //remove the bell in the userSelection
-})
-
-
-function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(clientId){
-    //What the fuck is that function?
-    //We're gonna talk about that
-    $('button.order.'+clientId).trigger('click');
 }
