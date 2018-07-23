@@ -1,22 +1,22 @@
 
 body{
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  overflow-y: hidden;
-  overflow-x: hidden;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 .admin{
-  visibility: collapse; /*some confilics whit "display: none"*/
-  display: none; /*for elements that are okay with that*/
+    visibility: collapse; /*some confilics whit "display: none"*/
+    display: none; /*for elements that are okay with that*/
 }
 
 #login{
-  //display: none;
-  margin-top: -20vh;
+    //display: none;
+    margin-top: -20vh;
 }
 
 #signup{
@@ -24,35 +24,35 @@ body{
 }
 
 #loginPopup{
-  display: none;
-  position: absolute;
-  top:7vh;
-  right: 2vw;
-  height: 10vh;
-  width: 25vw;
+    display: none;
+    position: absolute;
+    top:7vh;
+    right: 2vw;
+    height: 10vh;
+    width: 25vw;
 
-  z-index: 100;
+    z-index: 100;
 }
 
 #userSelection{
-  display: none;
+    display: none;
 
-  width: 600px;
-  height: 1000px;
-  margin-top: 10vh;
+    width: 600px;
+    height: 1000px;
+    margin-top: 10vh;
 }
 
 #dashboard{
- display: none;
+    display: none;
 }
 column.is-9.animated.fadeIn{
-  overflow-y: scroll;
+    overflow-y: scroll;
 }
 
 #order{
-  display: none;
+    display: none;
 }
 
 #preordersContainer{
-  display: none;
+    display: none;
 }

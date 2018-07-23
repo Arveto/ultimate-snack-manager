@@ -1,8 +1,8 @@
 
 article.tile:hover, article.media p:hover{
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .validate-button{
@@ -18,23 +18,23 @@ article.tile:hover, article.media p:hover{
 }
 
 div.column.is-4 aside.box{
-  overflow-x: hidden;
+    overflow-x: hidden;
 }
 #commandList{
-  height: 50vh;
-  width: 26vw;
-  overflow-y: scroll;
+    height: 50vh;
+    width: 26vw;
+    overflow-y: scroll;
 }
 
 .order-small-modifiers{
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 .order-small-modifiers div{
-  height: 20px;
-  width: 20px;
+    height: 20px;
+    width: 20px;
 }
 .order-small-modifiers div i{
-  height: 20px;
-  width: 20px;
+    height: 20px;
+    width: 20px;
 }

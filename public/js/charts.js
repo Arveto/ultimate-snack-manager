@@ -1,4 +1,4 @@
-    //Creates a placeholder chart for now
+//Creates a placeholder chart for now
 var ctx = document.getElementById("chart");
 
 var chartData = {

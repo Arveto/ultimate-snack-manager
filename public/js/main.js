@@ -67,22 +67,22 @@ $("#loginNav").on('click', () => {
 
 /*
 //KEY BINDING
-    //FUCKED UP BY BROWSER, LL'FIX IT LATER
+//FUCKED UP BY BROWSER, LL'FIX IT LATER
 $(document).on('keypress', (e) => {
-  switch (e.charCode) {
-    case 113: //F2
-      e.preventDefault();
-      changeView('dashboard');
-      break;
-    case 114: //F3
-      e.preventDefault();
-      changeView('userSelection');
-      break;
-    case 115: //F4
-      e.preventDefault();
-      $('#loginPopup').toggle();
-      break;
-    default:
-  }
+    switch (e.charCode) {
+        case 113: //F2
+            e.preventDefault();
+            changeView('dashboard');
+            break;
+        case 114: //F3
+            e.preventDefault();
+            changeView('userSelection');
+            break;
+        case 115: //F4
+            e.preventDefault();
+            $('#loginPopup').toggle();
+            break;
+        default:
+    }
 })
 */

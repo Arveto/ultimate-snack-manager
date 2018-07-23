@@ -1,14 +1,14 @@
 
 article.media p:hover{
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 
-  cursor: pointer;
+    cursor: pointer;
 }
 
 article{
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 .bell{
-  margin-bottom: -1em;
+    margin-bottom: -1em;
 }

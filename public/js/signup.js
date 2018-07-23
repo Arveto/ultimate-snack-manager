@@ -12,22 +12,22 @@ function signup(formData) {
 }
 
 socket.on('signupSuccess', (res)=>{
-  notif('success', "Connecté en tant que <b>"+connected.login+"</b>")
-  logged = true;
-  changeView(gotoOrder ? 'userSelection' : 'dashboard');  //TODO Account management for random unprivileged user
-  $('.username').val('');
-  $("#loginNav").removeClass('is-loading').html('Connecté: <b> &nbsp; '+connected.login+'</b>');
-  $('#loginPopup').hide();
+    notif('success', "Connecté en tant que <b>"+connected.login+"</b>")
+    logged = true;
+    changeView(gotoOrder ? 'userSelection' : 'dashboard');  //TODO Account management for random unprivileged user
+    $('.username').val('');
+    $("#loginNav").removeClass('is-loading').html('Connecté: <b> &nbsp; '+connected.login+'</b>');
+    $('#loginPopup').hide();
 
-  //Empty password fields (4 security, yaknow?)
-  $('#password1').val('');
-  $('#password2').val('');
+    //Empty password fields (4 security, yaknow?)
+    $('#password1').val('');
+    $('#password2').val('');
 });
 
 socket.on('signupFailure', (res)=>{
-  notif('danger', "Addresse déjà utilisée")
-  $("#loginNav").removeClass('is-loading').html('Login');
-  $('#loginPopup').hide();
+    notif('danger', "Addresse déjà utilisée")
+    $("#loginNav").removeClass('is-loading').html('Login');
+    $('#loginPopup').hide();
 });
 
 
@@ -38,7 +38,7 @@ function hash(string){
 }
 
 
-    //Event on Validation button
+//Event on Validation button
 $('#submitSignup').on('click', (e) => {
     let emailInput = $('#emailSignup');
     let passwordValidation = $('#password2');
@@ -64,7 +64,7 @@ $('#submitSignup').on('click', (e) => {
     var notEmpty = true;
     for(key in formData){
         if(formData[key] == '' && key != 'pseudo')  //Pseudo is optionnal
-            notEmpty = false;
+        notEmpty = false;
     }
 
     //Encrypt passwords
@@ -76,7 +76,7 @@ $('#submitSignup').on('click', (e) => {
 
     //Send request or returns errors to client
     if(notEmpty && emailRegex.test(formData.email) && formData.password1 == formData.password2)
-        signup(formData)
+    signup(formData)
 
 
     if(!emailRegex.test(formData.email)){

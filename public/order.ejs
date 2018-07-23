@@ -1,89 +1,90 @@
 <div class="container">
-  <div class="columns animated fadeIn">
+    <div class="columns animated fadeIn">
 
-    <div class="column is-9">
-      <section class="hero welcome is-small">
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title admin">
-              Commande pour : <b id="commandFor"></b>
-            </h1>
-            <h1 class="title moldu">
-              Passer commande
-            </h1>
-            <h2 class="subtitle admin">
-              Fais le cracher ses thunes !
-            </h2>
-            <h2 class="subtitle moldu">
-              Mets-toi bien!
-            </h2>
-          </div>
-        </div>
-      </section>
-
-      <section class="info-tiles">
-        <div class="tile is-ancestor has-text-centered">
-          <%
-            let i;
-            for (i=0 ; i<products.length; i++ ) {
-              if (i!=0 && i%4 == 0){
-          %>
+        <div class="column is-9">
+            <section class="hero welcome is-small">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title admin">
+                            Commande pour : <b id="commandFor"></b>
+                        </h1>
+                        <h1 class="title moldu">
+                            Passer commande
+                        </h1>
+                        <h2 class="subtitle admin">
+                            Fais le cracher ses thunes !
+                        </h2>
+                        <h2 class="subtitle moldu">
+                            Mets-toi bien!
+                        </h2>
+                    </div>
                 </div>
+            </section>
+
+            <section class="info-tiles">
                 <div class="tile is-ancestor has-text-centered">
-          <%
-              }
-          %>
+                    <%
+                    let i;
+                    for (i=0 ; i<products.length; i++ ) {
+                        if (i!=0 && i%4 == 0){
+                            %>
+                        </div>
+                        <div class="tile is-ancestor has-text-centered">
+                            <%
+                        }
+                        %>
 
-            <script>
-            //Products list is now filled on admin login
-            //OLD: products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
-            </script>
+                        <script>
+                        //Products list is now filled on admin login
+                        //OLD: products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
+                        </script>
 
-            <div class="tile is-parent <%=products[i].id%> product">
-              <article class="tile is-child box">
-                <p class="title">
-                  <%=products[i].name%>
-                </p>
-                <p class="subtitle">
-                  <%=products[i].price%>€</p>
-              </article>
-            </div>
+                        <div class="tile is-parent <%=products[i].id%> product">
+                            <article class="tile is-child box">
+                                <p class="title">
+                                    <%=products[i].name%>
+                                </p>
+                                <p class="subtitle">
+                                    <%=products[i].price%>€
+                                </p>
+                            </article>
+                        </div>
 
-          <%
-            }
+                        <%
+                    }
 
-            if (i!=0 && i%4 == 0){
-          %>
-              </div>
-          <%
-            }
-          %>
-      </section>
-    </div>
-
-
-    <div class="column is-4">
-      <aside class="box">
-        <div class="level">
-          <div class="title level-left">Commande</div>
-          <button id="deleteAllProducts" class="button is-large cancel-button">
-                  <span class="icon is-medium is-left">
-                    <i class="fa fa-ban"></i>
-                  </span>
-              </button>
-
-          <button id="submitCommand" class="button is-large validate-button">
-              <span class="icon is-medium is-left">
-                <i class="fa fa-arrow-right"></i>
-              </span>
-            </button>
+                    if (i!=0 && i%4 == 0){
+                        %>
+                    </div>
+                    <%
+                }
+                %>
+            </section>
         </div>
 
-        <div id="commandList" class="box is-shadowless"></div>
-        <div class="level total">
-          <div id="total" class="title level-left">Total: 0.00 €</div>
+
+        <div class="column is-4">
+            <aside class="box">
+                <div class="level">
+                    <div class="title level-left">Commande</div>
+                    <button id="deleteAllProducts" class="button is-large cancel-button">
+                        <span class="icon is-medium is-left">
+                            <i class="fa fa-ban"></i>
+                        </span>
+                    </button>
+
+                    <button id="submitCommand" class="button is-large validate-button">
+                        <span class="icon is-medium is-left">
+                            <i class="fa fa-arrow-right"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <div id="commandList" class="box is-shadowless"></div>
+                <div class="level total">
+                    <div id="total" class="title level-left">Total: 0.00 €</div>
+                </div>
+            </aside>
         </div>
-      </aside>
     </div>
-  </div>
 </div>

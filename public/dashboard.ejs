@@ -1,185 +1,185 @@
 
 <!-- END NAV -->
 <div class="container">
-  <div class="columns">
-    <div class="column is-3">
-      <aside class="menu">
-        <p class="menu-label">
-          Administration
-        </p>
-        <ul class="menu-list">
-            <li>
-            <a>Produits</a>
-            <ul>
-              <li><a>Ajouter un produit</a></li>
-              <li><a>Modifier un produit</a></li>
-              <li><a>Retirer un produit</a></li>
-              <li><a>Liste des produits</a></li>
-            </ul>
-            </li>
+    <div class="columns">
+        <div class="column is-3">
+            <aside class="menu">
+                <p class="menu-label">
+                    Administration
+                </p>
+                <ul class="menu-list">
+                    <li>
+                        <a>Produits</a>
+                        <ul>
+                            <li><a>Ajouter un produit</a></li>
+                            <li><a>Modifier un produit</a></li>
+                            <li><a>Retirer un produit</a></li>
+                            <li><a>Liste des produits</a></li>
+                        </ul>
+                    </li>
 
-            <li>
-              <a>Administrateurs</a>
-              <ul>
-                <li><a>Ajouter un administrateur</a></li>
-                <li><a>Retirer un administrateur</a></li>
-                <li><a>Liste des administrateurs</a></li>
-              </ul>
-            </li>
-        </ul>
+                    <li>
+                        <a>Administrateurs</a>
+                        <ul>
+                            <li><a>Ajouter un administrateur</a></li>
+                            <li><a>Retirer un administrateur</a></li>
+                            <li><a>Liste des administrateurs</a></li>
+                        </ul>
+                    </li>
+                </ul>
 
-        <p class="menu-label">
-          Transactions
-        </p>
-        <ul class="menu-list">
-            <li><a>Liste des transactions</a></li>
-            <li><a>Liste des clients</a></li>
-            <li><a>Solde</a></li>
-        </ul>
+                <p class="menu-label">
+                    Transactions
+                </p>
+                <ul class="menu-list">
+                    <li><a>Liste des transactions</a></li>
+                    <li><a>Liste des clients</a></li>
+                    <li><a>Solde</a></li>
+                </ul>
 
-      </aside>
+            </aside>
+        </div>
+        <div class="column is-9 animated fadeIn">
+            <section class= "hero welcome is-small" >
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title">
+                            Tableau de bord
+                        </h1>
+                        <h2 class="subtitle">
+                            Toutes les informations importantes en un coup d'oeil
+                        </h2>
+                    </div>
+                </div>
+            </section>
+            <section class="info-tiles">
+
+                <div class="tile is-ancestor has-text-centered">
+
+                    <div class="tile is-parent is-7" id="main-graph">
+                        <div class="tile is-child box">
+                            <p class="subtitle">Articles populaires</p>
+                            <div class="chart-container"><canvas id="chart"></canvas></div>
+                            <script src="js/charts.js" style="width: 100%; height: 100%;"></script>
+                        </div>
+                    </div>
+
+                    <div class="admin tile">
+                        <div class="tile is-parent is-vertical">
+                            <div class="tile is-child box">
+                                <p class="tile-title" size="1">Commandes cette session</p>
+                                <p class="subtitle">18</p>
+                            </div>
+                            <div class="tile is-child box">
+                                <p class="tile-title" size="1">Dernière commande</p>
+                                <p class="subtitle">Sadre</p>
+                            </div>
+                        </div>
+                        <div class="tile is-parent is-vertical">
+                            <div class="tile is-child box">
+                                <p class="tile-title" size="1">Bénéfice</p>
+                                <p class="subtitle">82.05$</p>
+                            </div>
+                            <div class="tile is-child box">
+                                <p class="tile-title" size="1">Stock faible</p>
+                                <p class="subtitle">Fanta (x2)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </section>
+            <div class="columns admin">
+                <div class="column is-6">
+                    <div class="card events-card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Liste de course
+                            </p>
+                            <a href="#" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        <div class="card-table">
+                            <div class="content">
+                                <table class="table is-fullwidth is-striped">
+                                    <tbody>
+                                        <%
+                                        shoppingList.forEach((list)=>{
+                                            %>
+                                            <tr>
+                                                <td width="5%"><i class="far fa-bell"></i></td>
+                                                <td> <%=list%> </td>
+                                                <td><a class= "button is-small" href="#">Action</a></td>
+                                            </tr>
+                                            <%
+                                        })
+                                        %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <footer class="card-footer">
+                            <a href="#" class="card-footer-item">View All</a>
+                        </footer>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Recherche dans l'inventaire
+                            </p>
+                            <a href="#" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <div class="control has-icons-left has-icons-right">
+                                    <input class="input is-large" type="text" placeholder="">
+                                    <span class="icon is-medium is-left">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <span class="icon is-medium is-right">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Utilisateurs
+                            </p>
+                            <a href="#" class="card-header-icon" aria-label="more options">
+                                <span class="icon">
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </a>
+                        </header>
+                        <div class="card-content">
+                            <div class="content">
+                                <div class="control has-icons-left has-icons-right">
+                                    <input class="input is-large" type="text" placeholder="">
+                                    <span class="icon is-medium is-left">
+                                        <i class="fa fa-search"></i>
+                                    </span>
+                                    <span class="icon is-medium is-right">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="column is-9 animated fadeIn">
-      <section class= "hero welcome is-small" >
-        <div class="hero-body">
-          <div class="container">
-            <h1 class="title">
-                Tableau de bord
-            </h1>
-            <h2 class="subtitle">
-              Toutes les informations importantes en un coup d'oeil
-            </h2>
-          </div>
-        </div>
-      </section>
-      <section class="info-tiles">
-
-          <div class="tile is-ancestor has-text-centered">
-
-            <div class="tile is-parent is-7" id="main-graph">
-                <div class="tile is-child box">
-                    <p class="subtitle">Articles populaires</p>
-                    <div class="chart-container"><canvas id="chart"></canvas></div>
-                        <script src="js/charts.js" style="width: 100%; height: 100%;"></script>
-                </div>
-            </div>
-
-            <div class="admin tile">
-                <div class="tile is-parent is-vertical">
-                    <div class="tile is-child box">
-                        <p class="tile-title" size="1">Commandes cette session</p>
-                        <p class="subtitle">18</p>
-                    </div>
-                    <div class="tile is-child box">
-                        <p class="tile-title" size="1">Dernière commande</p>
-                        <p class="subtitle">Sadre</p>
-                    </div>
-                </div>
-                <div class="tile is-parent is-vertical">
-                    <div class="tile is-child box">
-                        <p class="tile-title" size="1">Bénéfice</p>
-                        <p class="subtitle">82.05$</p>
-                    </div>
-                    <div class="tile is-child box">
-                        <p class="tile-title" size="1">Stock faible</p>
-                        <p class="subtitle">Fanta (x2)</p>
-                    </div>
-                </div>
-            </div>
-
-          </div>
-
-      </section>
-      <div class="columns admin">
-        <div class="column is-6">
-          <div class="card events-card">
-            <header class="card-header">
-              <p class="card-header-title">
-                Liste de course
-              </p>
-              <a href="#" class="card-header-icon" aria-label="more options">
-                  <span class="icon">
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                </a>
-            </header>
-            <div class="card-table">
-              <div class="content">
-                <table class="table is-fullwidth is-striped">
-                  <tbody>
-                    <%
-                      shoppingList.forEach((list)=>{
-                    %>
-                      <tr>
-                        <td width="5%"><i class="far fa-bell"></i></td>
-                        <td> <%=list%> </td>
-                        <td><a class= "button is-small" href="#">Action</a></td>
-                      </tr>
-                    <%
-                      })
-                    %>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <footer class="card-footer">
-              <a href="#" class="card-footer-item">View All</a>
-            </footer>
-          </div>
-        </div>
-        <div class="column is-6">
-          <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">
-                Recherche dans l'inventaire
-              </p>
-              <a href="#" class="card-header-icon" aria-label="more options">
-                  <span class="icon">
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                </a>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                <div class="control has-icons-left has-icons-right">
-                  <input class="input is-large" type="text" placeholder="">
-                  <span class="icon is-medium is-left">
-                      <i class="fa fa-search"></i>
-                    </span>
-                  <span class="icon is-medium is-right">
-                      <i class="fa fa-check"></i>
-                    </span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">
-                Utilisateurs
-              </p>
-              <a href="#" class="card-header-icon" aria-label="more options">
-                  <span class="icon">
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                </a>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                <div class="control has-icons-left has-icons-right">
-                  <input class="input is-large" type="text" placeholder="">
-                  <span class="icon is-medium is-left">
-                      <i class="fa fa-search"></i>
-                    </span>
-                  <span class="icon is-medium is-right">
-                      <i class="fa fa-check"></i>
-                    </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

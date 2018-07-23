@@ -52,64 +52,6 @@ let shaObj = new jsSHA("SHA-512", "TEXT");
 shaObj.update("toor");
 let passwordHash = shaObj.getHash("HEX");
 
-    //OLD: Now fetched by DB on demand
-// let products = [{
-//     id: 0,
-//     name: 'Coca-cola',
-//     price: 1.49
-// },
-// {
-//     id: 1,
-//     name: 'Fanta',
-//     price: 1.37
-// },
-// {
-//     id: 2,
-//     name: 'Cafe',
-//     price: 0.49
-// },
-// {
-//     id: 3,
-//     name: 'Mountain Dew',
-//     price: 1111
-// },
-// {
-//     id: 4,
-//     name: 'Kinder Bueno',
-//     price: 1.99
-// },
-// {
-//     id: 5,
-//     name: 'Bon pilon',
-//     price: 9.99
-// },
-// {
-//     id: 6,
-//     name: 'Lion',
-//     price: 1.79
-// },
-// {
-//     id: 7,
-//     name: 'Schweppes',
-//     price: 1.20
-// },
-// {
-//     id: 8,
-//     name: 'Prostituée russe',
-//     price: 123.12
-// },
-// {
-//     id: 9,
-//     name: 'Skittles',
-//     price: 1.08
-// },
-// {
-//     id: 10,
-//     name: 'Eau',
-//     price: 0.45
-// }
-// ];
-
 let shoppingList = ["Cafe (x1442)",
 "Skittles de qualité",
 "Ice Tea (x98)",
@@ -117,10 +59,6 @@ let shoppingList = ["Cafe (x1442)",
 "Des choses",
 "D'autres choses"
 ];
-
-/*                    v this is the clientId, to find more simply the order */
-let preordersList = { 1: {clientId: 1, timestamp: '14h12000', commandList: [{id: 6, amount: 12}, {id: 5, amount: 4}]},
-3: {clientId: 3, timestamp: '123h4 du matin', commandList: [{id: 1, amount: 1}]}};
 
 
 /******************************************************************************/
@@ -177,7 +115,7 @@ io.sockets.on('connection', function(socket) {
     socket.on('login', (user) => {
 
         //First get users
-    let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
+        let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
 
         database.query(query, [user.email, user.password])
         .then(rows => {
@@ -213,7 +151,7 @@ io.sockets.on('connection', function(socket) {
                         socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders});
                     }
                     else
-                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
+                    socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
                 });
 
             } else{

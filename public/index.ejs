@@ -2,130 +2,130 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mecatronik Bar</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
-  <script src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/js/sha512.js"></script>
-  <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mecatronik Bar</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/sha512.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
 
 
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
-  <link rel="stylesheet" type="text/css" href="css/bulmaCustomisations.css">
-  <link rel="stylesheet" type="text/css" href="css/master.css">
-  <link rel="stylesheet" type="text/css" href="css/userSelection.css">
-  <link rel="stylesheet" type="text/css" href="css/order.css">
-  <link rel="stylesheet" type="text/css" href="css/dashboard.css">
-  <link rel="stylesheet" type="text/css" href="css/login.css">
-  <link rel="stylesheet" type="text/css" href="css/notifications.css">
-  <link rel="stylesheet" type="text/css" href="css/preorders.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bulmaCustomisations.css">
+    <link rel="stylesheet" type="text/css" href="css/master.css">
+    <link rel="stylesheet" type="text/css" href="css/userSelection.css">
+    <link rel="stylesheet" type="text/css" href="css/order.css">
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/notifications.css">
+    <link rel="stylesheet" type="text/css" href="css/preorders.css">
 
 </head>
 
 <% const theme = 'BLUE' %>
 
-  <body>
+<body>
 
     <nav class="navbar is-white">
-      <div class="container">
-        <div class="navbar-brand">
-          <a class="toDashboard navbar-item brand-text" href="#">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="toDashboard navbar-item brand-text" href="#">
                     MECATRONIK BAR
                 </a>
-          <div class="navbar-burger burger" data-target="navMenu">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-        <div id="navMenu" class="navbar-menu">
-          <div class="navbar-start">
-            <a class="toDashboard navbar-item" href="#">
-              Tableau de bord
-            </a>
-            <a class="toOrder navbar-item admin" href="#">
-              Prende une commande
-            </a>
-              <a class="toOrder navbar-item moldu" href="#">
-                Commander
-              </a>
-            <a class="toAutre navbar-item" href="#">
-              Autre ?
-            </a>
-          </div>
+                <div class="navbar-burger burger" data-target="navMenu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div id="navMenu" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="toDashboard navbar-item" href="#">
+                        Tableau de bord
+                    </a>
+                    <a class="toOrder navbar-item admin" href="#">
+                        Prende une commande
+                    </a>
+                    <a class="toOrder navbar-item moldu" href="#">
+                        Commander
+                    </a>
+                    <a class="toAutre navbar-item" href="#">
+                        Autre ?
+                    </a>
+                </div>
 
-          <a class="navbar-item" href="#">
-            <button id="loginNav" class= "button is-outlined is-big" >Login</button>
-          </a>
+                <a class="navbar-item" href="#">
+                    <button id="loginNav" class= "button is-outlined is-big" >Login</button>
+                </a>
+            </div>
         </div>
-      </div>
     </nav>
 
     <div id="loginPopup" class="container">
-      <div class="has-text-centered">
-        <div class="box animated fadeIn">
-          <figure class="avatar">
-            <img src="img/logo.jpg" class="login-avatar">
-          </figure>
-          <form>
-            <div class="field">
-              <div class="control">
-                <input id='emailPopup' class="input is-large login" type="text" placeholder="E-mail" autofocus>
-              </div>
-            </div>
+        <div class="has-text-centered">
+            <div class="box animated fadeIn">
+                <figure class="avatar">
+                    <img src="img/logo.jpg" class="login-avatar">
+                </figure>
+                <form>
+                    <div class="field">
+                        <div class="control">
+                            <input id='emailPopup' class="input is-large login" type="text" placeholder="E-mail" autofocus>
+                        </div>
+                    </div>
 
-            <div class="field">
-              <div class="control">
-                <input id='passwordPopup' class="input is-large password" type="password" placeholder="Password">
-              </div>
+                    <div class="field">
+                        <div class="control">
+                            <input id='passwordPopup' class="input is-large password" type="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div id="submitLoginPopup" class="button is-block is-large is-fullwidth">Login</div>
+                </form>
             </div>
-            <div id="submitLoginPopup" class="button is-block is-large is-fullwidth">Login</div>
-          </form>
         </div>
-      </div>
     </div>
 
 
     <!-- LOGIN -->
     <div id="login">
-      <%- include('login.ejs', {user: user, theme: theme}); %>
+        <%- include('login.ejs', {user: user, theme: theme}); %>
     </div>
     <!-- /LOGIN -->
 
     <!-- SIGNUP -->
     <div id="signup">
-      <%- include('signup.ejs', {theme: theme}); %>
+        <%- include('signup.ejs', {theme: theme}); %>
     </div>
     <!-- /SIGNUP -->
 
     <!-- USER SELECTION -->
     <script>
-      let usersList = [];
+    let usersList = [];
     </script>
     <div id="userSelection" class="container">
-      <%- include('userSelection.ejs', {users: users, theme: theme}); %>
+        <%- include('userSelection.ejs', {users: users, theme: theme}); %>
     </div>
     <!-- /USER SELECTION -->
 
     <!-- DASHBOARD -->
     <div id="dashboard">
-      <%- include('dashboard.ejs', {shoppingList: shoppingList, theme: theme}); %>
+        <%- include('dashboard.ejs', {shoppingList: shoppingList, theme: theme}); %>
     </div>
     <!-- /DASHBOARD -->
 
     <!-- ORDERED COMMANDS -->
     <script>
-      let products = [];
+    let products = [];
     </script>
 
     <div id="order">
-      <%- include('order.ejs', {products: products, theme: theme}); %>
+        <%- include('order.ejs', {products: products, theme: theme}); %>
     </div>
 
     <!-- /ORDERED COMMANDS -->
@@ -136,13 +136,13 @@
 
     <!-- PREORDER -->
     <section id="preordersContainer">
-      <article class="message">
-        <div class="message-header">
-          <p>Liste des précommandes :</p>
-          <i class="fa fa-sort-up"></i>
-        </div>
-        <div id="preorders" class="message-body"></div>
-      </article>
+        <article class="message">
+            <div class="message-header">
+                <p>Liste des précommandes :</p>
+                <i class="fa fa-sort-up"></i>
+            </div>
+            <div id="preorders" class="message-body"></div>
+        </article>
     </section>
     <!-- /PREORDER -->
 
@@ -160,6 +160,6 @@
     <script type="text/javascript" src="js/notification.js"></script>
     <script type="text/javascript" src="js/preorder.js"></script>
 
-  </body>
+</body>
 
 </html>
