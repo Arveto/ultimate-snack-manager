@@ -1,10 +1,10 @@
 const socket = io.connect('192.168.1.26:8080'); //Put your local IP here
 
-const theme = 'BLUE' // two themes : 'RED' or 'BLUE'
-
 let currentView = 'login';
 let logged = false;
 let gotoOrder = false;
+
+var theme = 'BLUE';
 
 function changeView(target) {
     $('#' + currentView).hide();
@@ -23,7 +23,7 @@ function capitalizeFirstLetter(string) {
 
 //HEADER EVENTS
 $(".toDashboard").on('click', () => {
-    if(clientId)
+    if(customerId)
     leaveOrdering();
     gotoOrder = false;
     if (logged)
@@ -31,18 +31,18 @@ $(".toDashboard").on('click', () => {
 });
 
 $(".toOrder").on('click', () => {
-    if(clientId)
+    if(customerId)
     leaveOrdering();
     if (!logged) {
         gotoOrder = true;
         changeView('login');
     } else {
-        changeView(connected.isAdmin ? 'userSelection' : 'order');
+        changeView(currentUser.isAdmin ? 'userSelection' : 'order');
     }
 });
 
 $(".toAutre").on('click', () => {
-    if(clientId)
+    if(customerId)
     leaveOrdering();
     gotoOrder = false;
     if (logged)
@@ -50,7 +50,7 @@ $(".toAutre").on('click', () => {
 });
 
 $(".toLogin").on('click', () => {
-    if(clientId)
+    if(customerId)
     leaveOrdering();
     gotoOrder = false;
     if (!logged)
@@ -58,12 +58,25 @@ $(".toLogin").on('click', () => {
 });
 
 $("#loginNav").on('click', () => {
-    if(clientId)
+    if(customerId)
     leaveOrdering();
     gotoOrder = false;
     if (currentView != "login")
     $("#loginPopup").toggle();
 })
+
+
+    //Data declaration
+
+//See preorders.js
+var preorders = [];
+
+    //See order.js
+let date = new Date;
+let commandList = []; //IDs of selected products & amount of it
+let totalPrice;
+
+
 
 /*
 //KEY BINDING

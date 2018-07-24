@@ -2,8 +2,8 @@
 
 CREATE TABLE `users` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
-  `faname` varchar(45) NOT NULL,
-  `finame` varchar(45) NOT NULL,
+  `faName` varchar(45) NOT NULL,
+  `fiName` varchar(45) NOT NULL,
   `pseudo` varchar(50) DEFAULT NULL,
   `email` varchar(70) NOT NULL,
   `password` varchar(128) NOT NULL,
@@ -19,15 +19,15 @@ CREATE TABLE `items` (
   `name` varchar(70) NOT NULL,
   `price` float unsigned NOT NULL DEFAULT '0',
   `stock` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `on_sale` tinyint(4) NOT NULL DEFAULT '1',
-  `n_orders` mediumint(9) unsigned NOT NULL DEFAULT '0',
-  `total_income` int(10) unsigned NOT NULL DEFAULT '0',
+  `onSale` tinyint(4) NOT NULL DEFAULT '1',
+  `nOrders` mediumint(9) unsigned NOT NULL DEFAULT '0',
+  `totalIncome` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `orders` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `customer_id` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `customerId` smallint(5) unsigned NOT NULL DEFAULT '0',
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `price` float unsigned NOT NULL,
   `content` text NOT NULL,
@@ -45,10 +45,10 @@ INSERT INTO `users` VALUES (1,'Soursou','Serge','SergiSergio','serge.soursou@ist
 (5,'De la Fuerte','Alberto','PurplePachyderm','Arveto','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-16 21:07:56',99999,0,0),
 (6,'ESSAIM','ESSAIM','ESSAIM','ESSAIM','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-19 15:51:25',99999,1,1);
 
-INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `on_sale`, `n_orders`) VALUES ('Cafe', '0.49', '40', '1', '');
-INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `on_sale`) VALUES ('Coca-Cola', '1.19', '7', '1');
-INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `on_sale`) VALUES ('Coca-Cola Cherry', '1.29', '4', '1');
-INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `on_sale`) VALUES ('Ice Tea', '1.08', '9', '1');
-INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `on_sale`) VALUES ('Kinder Bueno', '1.39', '12', '1');
-INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `on_sale`) VALUES ('Skittles', '0.89', '9', '1');
-INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `on_sale`) VALUES ('Leffe Triple', '1.17', '6', '1');
+INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`, `nOrders`) VALUES ('Cafe', '0.49', '40', '1', '');
+INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`) VALUES ('Coca-Cola', '1.19', '7', '1');
+INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`) VALUES ('Coca-Cola Cherry', '1.29', '4', '1');
+INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`) VALUES ('Ice Tea', '1.08', '9', '1');
+INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`) VALUES ('Kinder Bueno', '1.39', '12', '1');
+INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`) VALUES ('Skittles', '0.89', '9', '1');
+INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`) VALUES ('Leffe Triple', '1.17', '6', '1');

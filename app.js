@@ -85,7 +85,7 @@ app.get('/', (req, res) => {
     //TODO Dynamically fetch users (on admin login?)
 
     //This query only contains useful data for page generation
-    let query = 'SELECT id, name, price FROM items WHERE on_sale = 1 ORDER BY id ASC;'
+    let query = 'SELECT id, name, price FROM items WHERE onSale = 1 ORDER BY id ASC;'
     database.query(query)
     .then(rows => {
         res.render(__dirname + '/public/index.ejs', {
@@ -107,10 +107,6 @@ app.get('/', (req, res) => {
 io.sockets.on('connection', function(socket) {
     console.log('new connected');
 
-    //testing preorder display
-    socket.emit('preorders', preordersList);
-
-
     //New user connection
     socket.on('login', (user) => {
 
@@ -128,6 +124,7 @@ io.sockets.on('connection', function(socket) {
                 let id = rows[0].id;
 
                 let itemsRes;
+                let users;
 
                 //We need to fetch the items (and later users) list(s) and current preorders
                 //For items, we currently select needed data only => Fetch graph data later?
@@ -136,22 +133,41 @@ io.sockets.on('connection', function(socket) {
                 .then(rows => {
                     itemsRes = rows;
 
-                    let query = 'SELECT customer_id, date, price, content FROM orders WHERE pending = 1;';
+                    //Select members
+                    let query = 'SELECT id, faName, fiName, pseudo, email, balance, adherent FROM users WHERE email != ?;';
+                    return database.query(query, [user.email]);
+                })
+                .then(rows => {
+                    users = rows;
+
+                    //Select preorders
+                    let query = 'SELECT customerId, date, price, content FROM orders WHERE pending = 1;';
                     return database.query(query);
                 })
                 .then(rows => {
                     if(isAdmin == 1){
+                        //Send data for an admin member
                         let preorders = [];
+                        let name;
 
+                        //Look for name of customers having a preorder
                         for(let i=0; i<rows.length; i++){
-                            preorders.push({ commandList: rows[i].content, clientId : rows[i].customer_id, timestamp: rows[i].date });
+
+                            for(let j=0; j<users.length; j++){
+                                if(rows[i].customerId == users[j].id){
+                                    name = {faName: users[j].faName, fiName: users[j].fiName, pseudo: users[j].pseudo}
+                                    preorders.push({ commandList: rows[i].content, customerId : rows[i].customerId, date: rows[i].date, name : name });
+                                }
+                            }
+
                         }
 
-                        //We also send preorders
-                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders});
+                        //We also send preorders and users
+                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders, users: users});
                     }
                     else
-                    socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
+                        //Send data for a non admin member
+                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
                 });
 
             } else{
@@ -175,7 +191,7 @@ io.sockets.on('connection', function(socket) {
             if (rows.length) {
                 socket.emit("signupFailure");
             } else {
-                query = "INSERT INTO users (faname, finame, pseudo, email, password) VALUES(?, ?, ?, ?);"
+                query = "INSERT INTO users (faName, fiName, pseudo, email, password) VALUES(?, ?, ?, ?);"
                 database.query(query, [data.faName, data.fiName, data.pseudo, data.email, data.password])
                 .then(rows => {
                     console.log("User added!");
@@ -204,17 +220,17 @@ io.sockets.on('connection', function(socket) {
             }
 
             if (!data.leave && isAdmin) {
-                console.log(users[data.clientId].name + ' est servi par ' + data.admin.login);
+                console.log(users[data.customerId].name + ' est servi par ' + data.admin.login);
                 socket.broadcast.emit('ordering', {
-                    clientId: data.clientId,
+                    customerId: data.customerId,
                     adminName: data.admin.login,
                     leave: data.leave
                 });
             } else if(isAdmin) {
-                // if (data.clientId){ //prevent sovketevents duplication
-                console.log(data.admin.login + ' quitte la commande de ' + users[data.clientId].name);
+                // if (data.customerId){ //prevent sovketevents duplication
+                console.log(data.admin.login + ' quitte la commande de ' + users[data.customerId].name);
                 socket.broadcast.emit('ordering', {
-                    clientId: data.clientId,
+                    customerId: data.customerId,
                     adminName: '',
                     leave: data.leave
                 });
@@ -234,67 +250,54 @@ io.sockets.on('connection', function(socket) {
         .then(rows => {
             if(rows[0].admin == 1){
 
-                console.log("Command from " + order.admin.login + " for " + users[order.clientId].name);
+                console.log("Command from " + order.admin.login + " for " + users[order.customerId].name);
                 socket.emit('commandReceived');
 
 
                 //If command was a preorder, check it
-                if ( typeof preordersList[order.clientId] != 'undefined' || (users[order.clientId].hasOrdered) ){
-                    //WARNING Needs refactoring
-
-                    socket.broadcast.emit('preorderDone', order.clientId);
-                    socket.emit('preorderDone', order.clientId);
-
-                    delete preordersList[order.clientId];
-                    users[order.clientId].hasOrdered = false;
-
-                    //In DB, edit the existing entry
-                    let query = 'UPDATE orders SET pending = 0 WHERE customer_id = ? AND pending = 1';
-                    database.query(query, [order.clientId])
-                    .then((rows) => {
-                        console.log('Command ended');
-                        let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
-                        return database.query(query, [order.price, order.clientId]);
-                    })
-                    //Update client's sold
-                    .then(rows => {
-                        console.log('Account debited');
-                    });
-                }
+                //WARNING Probably needs a dedicated event (eg. 'validatePreorder', sending order or user Id only)
 
                 //If it was a 'classic' order:
-                else{
-                    //Insert the order in DB
-                    let query = 'INSERT INTO orders (customer_id, price, content) VALUES(?, ?, ?)';
-                    database.query(query, [order.clientId, order.price, order.commandList.toString()])
-                    .then((rows) => {
-                        console.log('Command ended, added to DB');
-                        let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
-                        return database.query(query, [order.price, order.clientId]);
-                    })
-                    //Update client's sold
-                    .then(rows => {
-                        console.log('Account debited');
-                    });
-                }
+
+                //Insert the order in DB
+                let query = 'INSERT INTO orders (customerId, price, content) VALUES(?, ?, ?)';
+                database.query(query, [order.customerId, order.price, order.commandList.toString()])
+                .then((rows) => {
+                    console.log('Command ended, added to DB');
+                    let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
+                    return database.query(query, [order.price, order.customerId]);
+                })
+                //Update client's sold
+                .then(rows => {
+                    console.log('Account debited');
+                });
+
 
                 // TODO: debit the account
-                //Calculate price by performing a query on items, and updating client's sold accordingly
-                socket.emit('accountSold', {
-                    clientId: order.clientId,
-                    money: -666.0
-                });
             }
         });
     });
 
 
     socket.on('preorder', (order)=>{
-        let query = 'INSERT INTO orders (customer_id, price, content, pending) VALUES (?, ?, ?, 1);';
-        database.query(query, [order.clientId, order.price, order.commandList])
-        .then((rows) => {
-            socket.broadcast.emit('preorder', {clientId: order.clientId, commandList: order.commandList, price: order.price, timestamp: new Date().toLocaleString()});
-        });
+        let query = 'SELECT id FROM orders WHERE pending = 1 AND customerId = ?';
+        database.query(query, [order.customerId])
+        .then(rows => {
+            //We check that the user has no preorder yet
+            if(rows.length > 0){
+                let query = 'INSERT INTO orders (customerId, price, content, pending) VALUES(?, ?, ?, 1)';
+                database.query(query, [order.customerId, order.price, order.commandList.toString()])
+                .then((rows) => {
+                    let query = 'SELECT faName, fiName, pseudo FROM users WHERE id = ?;';
+                    return database.query(query, [order.customerId]);
+                })
+                .then((rows) => {
+                    socket.broadcast.emit('preorder', {customerId: order.customerId, commandList: order.commandList, price: order.price, date: new Date().toLocaleString(), name: rows[0]});
+                });
+            }
+        })
+
+
     });
 });
 

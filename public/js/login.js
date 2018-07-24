@@ -1,8 +1,11 @@
-let connected = {
-    id: null,
-    login: null,
-    hash: null,
-    isAdmin: false
+let currentUser = {
+    id : null,
+    login : null,
+    hash : null,
+    isAdmin : false,
+    faName : undefined,
+    fiName : undefined,
+    pseudo : undefined
 };
 
 /*
@@ -12,24 +15,25 @@ function login(email, password) {
     $("#loginNav").addClass('is-loading');
     let shaObj = new jsSHA("SHA-512", "TEXT");
     shaObj.update(password);
-    connected.login = email;
-    connected.hash = shaObj.getHash("HEX");
+    currentUser.login = email;
+    currentUser.hash = shaObj.getHash("HEX");
 
     socket.emit("login", {
         email: email,
-        password: connected.hash
+        password: currentUser.hash
     });
 }
 
 socket.on('login', (res) => {
     if (res.ok) {
-        notif('success', "Connecté en tant que <b>" + connected.login + "</b>");
-        connected.id = res.id;
+        notif('success', "Connecté en tant que <b>" + currentUser.login + "</b>");
+        currentUser.id = res.id;
 
         products = res.itemsList;
 
         if (res.isAdmin){
-            connected.isAdmin = true;
+            currentUser.isAdmin = true;
+
 
             //Add current preoders
             for(let i=0; i<res.preorders.length; i++){
@@ -40,7 +44,7 @@ socket.on('login', (res) => {
             $(".admin").css('display', 'flex').css('visibility', 'visible');
             $('.moldu').hide().css('visibility', 'collapse');
         } else {
-            connected.isAdmin = false;
+            currentUser.isAdmin = false;
         }
         logged = true;
 
@@ -48,7 +52,7 @@ socket.on('login', (res) => {
         $("#preordersContainer").show();
 
         $('.login').val('');
-        $("#loginNav").html('Connecté: <b> &nbsp; ' + connected.login + '</b>');
+        $("#loginNav").html('Connecté: <b> &nbsp; ' + currentUser.login + '</b>');
         $('#loginPopup').hide();
     } else {
         notif('danger', 'Wrong credancials');

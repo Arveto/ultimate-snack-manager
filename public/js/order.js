@@ -1,10 +1,4 @@
 
-let date = new Date;
-
-let commandList = []; //IDs of selected products & amount of it
-let totalPrice;
-
-
 //UI EVENTS
 $(".product").on('click', function(e) {
 
@@ -98,7 +92,7 @@ $('#deleteAllProducts').on('click', ()=>{
 
 
 $('#submitCommand').on('click', ()=>{
-    if (logged && connected.login && connected.hash){
+    if (logged && currentUser.login && currentUser.hash){
         $("#submitLogin").addClass('is-loading');
 
         //Build order array
@@ -110,11 +104,11 @@ $('#submitCommand').on('click', ()=>{
             }
         }
 
-        if (connected.isAdmin == 1) {
+        if (currentUser.isAdmin == 1) {
             //prepare the order json
             let order = {};
-            order.admin = connected;
-            order.clientId = clientId;
+            order.admin = currentUser;
+            order.customerId = customerId;
             order.commandList = orderArray.toString();
             order.isPreorder = false;
             order.price = totalPrice;
@@ -124,12 +118,12 @@ $('#submitCommand').on('click', ()=>{
 
         } else {  //It's a preorder
         //prepare the order json
-        let order = {};
-        order.clientId = connected.id;
-        order.commandList = orderArray.toString();
-        order.isPreorder = true;
-        order.price = totalPrice;
-
+        let order = {
+            customerId : currentUser.id,
+            commandList : orderArray.toString(),
+            isPreorder : 1,
+            price : totalPrice
+        };
 
         socket.emit('preorder', order);
     }
@@ -152,7 +146,7 @@ socket.on('commandRecived', ()=>{
     leaveOrdering();
 })
 socket.on('accountSold', (data)=>{
-    notif('success', 'Solde de <b>'+usersList[data.clientId].name+'</b> : <b>'+data.money+'</b>');
+    notif('success', 'Solde de <b>'+usersList[data.customerId].name+'</b> : <b>'+data.money+'</b>');
 });
 
 
@@ -270,11 +264,11 @@ function updatePrice(){
 
 
 function leaveOrdering(){
-    // if (clientId)
-    socket.emit('ordering', {clientId: clientId, admin: connected, leave: true});
+    // if (customerId)
+    socket.emit('ordering', {customerId: customerId, admin: currentUser, leave: true});
     deleteAllProducts();
     changeView("userSelection");
-    clientId = null;
+    customerId = null;
 
     commandList = [];
     $("#commandList").empty();

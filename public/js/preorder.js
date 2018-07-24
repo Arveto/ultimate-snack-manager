@@ -1,23 +1,23 @@
 //used to receive preorders only
-var preorders = [];
+
 
 socket.on('preorder', (command) =>{
     addPreorder(command);
 });
 
-socket.on('preorderDone', (clientId)=>{
-    $("article.preco"+clientId).remove(); // remove order from the preordersList
-    $(".precoBell"+clientId).remove(); //remove the bell in the userSelection
+socket.on('preorderDone', (customerId)=>{
+    $("article.preco"+customerId).remove(); // remove order from the preordersList
+    $(".precoBell"+customerId).remove(); //remove the bell in the userSelection
 })
 
 
 
 //Functions
 
-function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(clientId){
+function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
     //What the fuck is that function?
     //We're gonna talk about that
-    $('button.order.'+clientId).trigger('click');
+    $('button.order.'+customerId).trigger('click');
 }
 
 
@@ -25,6 +25,7 @@ function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(clientId){
 function addPreorder(command){
     //Reconstitute commandList array (with JSON containing ID  and amount)
     command.commandList = command.commandList.split(',');
+    console.log(command.commandList);
 
     let commandList = [];
     let articleFound;
@@ -44,11 +45,27 @@ function addPreorder(command){
             commandList.push({id: command.commandList[i], amount: 1});
     }
 
-    //TODO Get user's first and family names && Format timestamp
+    //Create display name
+    let displayName = command.name.fiName;
+    if(command.name.pseudo != ''){
+        displayName += ' "'+command.name.pseudo+'" ';
+    }
+    displayName += command.name.faName;
+
+    console.log(command.date);
+
+    //Create date object;
+    let date = new Date(Date.parse(command.date))
+
+    console.log(date.getHours());
+
+    let dateString = date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString();
+
+
 
     notif('info', '<b>'+'PlaceHolder Name'+'</b> a envoyé une commande !')
 
-    let container = $('<article>').addClass('media box preco'+command.clientId).appendTo('#preorders');
+    let container = $('<article>').addClass('media box preco'+command.customerId).appendTo('#preorders');
     container.html('\
     <figure class="media-left">\
     <p class="image is-48x48">\
@@ -58,14 +75,14 @@ function addPreorder(command){
     <div class="media-content">\
     <div class="content">\
     <p>\
-    <strong>'+'PlaceHolder Name'+'</strong>&nbsp;·&nbsp;<small class="preorder-uptime">à '+command.timestamp+'</small><br/>\
-    <ul id="preco'+command.clientId+'">\
+    <strong>'+ displayName +'</strong>&nbsp;·&nbsp;<small class="preorder-uptime">à '+dateString+'</small><br/>\
+    <ul id="preco'+command.customerId+'">\
     </ul>\
     </p>\
     </div>\
     </div>\
     <div class="media-right">\
-    <button class="button is-medium is-success preco" onclick="precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts('+command.clientId+')"><!--I m sorry for that..-->\
+    <button class="button is-medium is-success preco" onclick="precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts('+command.customerId+')"><!--I m sorry for that..-->\
     <span class="icon is-large is-left">\
     <i class="fa fa-arrow-right"></i>\
     </span>\
@@ -76,7 +93,7 @@ function addPreorder(command){
     for(let i=0; i<commandList.length; i++){
         for(let j=0; j<products.length; j++){
             if(products[j].id == commandList[i].id){
-                $('<li>').html(products[j].name + '(x'+commandList[i].amount+')').appendTo('#preco'+command.clientId);
+                $('<li>').html(products[j].name + '(x'+commandList[i].amount+')').appendTo('#preco'+command.customerId);
                 break;
             }
         }

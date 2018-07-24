@@ -12,11 +12,11 @@ function signup(formData) {
 }
 
 socket.on('signupSuccess', (res)=>{
-    notif('success', "Connecté en tant que <b>"+connected.login+"</b>")
+    notif('success', "Connecté en tant que <b>"+currentUser.login+"</b>")
     logged = true;
     changeView(gotoOrder ? 'userSelection' : 'dashboard');  //TODO Account management for random unprivileged user
     $('.username').val('');
-    $("#loginNav").removeClass('is-loading').html('Connecté: <b> &nbsp; '+connected.login+'</b>');
+    $("#loginNav").removeClass('is-loading').html('Connecté: <b> &nbsp; '+currentUser.login+'</b>');
     $('#loginPopup').hide();
 
     //Empty password fields (4 security, yaknow?)

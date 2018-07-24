@@ -1,24 +1,26 @@
 
-let clientId;
+let customerId;
+var users = [];
+
 
 $("button.order").on('click', (e)=>{
     //get Id of the user selected
-    clientId = getIdFromClassName( e.target );
+    customerId = getIdFromClassName( e.target );
 
-    $("#commandFor").html(usersList[clientId].name);
+    $("#commandFor").html(usersList[customerId].name);
 
     changeView('order');
 
-    socket.emit('ordering', {clientId: clientId, admin: connected, leave: false});
+    socket.emit('ordering', {customerId: customerId, admin: currentUser, leave: false});
 });
 
 socket.on('ordering', (data)=>{
     if (!data.leave){
-        $(".order."+data.clientId).removeClass('is-success').addClass('is-warning');
+        $(".order."+data.customerId).removeClass('is-success').addClass('is-warning');
     } else {
-        $(".order."+data.clientId).removeClass('is-warning').addClass('is-success');
+        $(".order."+data.customerId).removeClass('is-warning').addClass('is-success');
     }
-    $('.amdin-in-charge.'+data.clientId).html('--servi par '+ data.adminName);
+    $('.amdin-in-charge.'+data.customerId).html('--servi par '+ data.adminName);
 });
 
 
