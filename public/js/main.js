@@ -27,15 +27,15 @@ function capitalizeFirstLetter(string) {
 //HEADER EVENTS
 $(".toDashboard").on('click', () => {
     if(customerId)
-    leaveOrdering();
-    gotoOrder = false;
+        leaveOrdering();
+        gotoOrder = false;
     if (logged)
-    changeView('dashboard');
+        changeView('dashboard');
 });
 
 $(".toOrder").on('click', () => {
     if(customerId)
-    leaveOrdering();
+        leaveOrdering();
     if (!logged) {
         gotoOrder = true;
         changeView('login');
@@ -46,26 +46,32 @@ $(".toOrder").on('click', () => {
 
 $(".toAutre").on('click', () => {
     if(customerId)
-    leaveOrdering();
-    gotoOrder = false;
+        leaveOrdering();
+        gotoOrder = false;
     if (logged)
-    changeView('dashboard');
+        changeView('dashboard');
 });
 
 $(".toLogin").on('click', () => {
     if(customerId)
-    leaveOrdering();
-    gotoOrder = false;
+        leaveOrdering();
+        gotoOrder = false;
     if (!logged)
-    changeView('login');
+        changeView('login');
 });
 
 $("#loginNav").on('click', () => {
     if(customerId)
-    leaveOrdering();
-    gotoOrder = false;
+        leaveOrdering();
+        gotoOrder = false;
     if (currentView != "login")
-    $("#loginPopup").toggle();
+        $("#loginPopup").toggle();
+})
+
+$("#toAdminProducts").on('click', ()=>{
+        gotoOrder = false;
+        if (logged)
+            changeView('adminProducts');
 })
 
 
