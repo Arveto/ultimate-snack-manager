@@ -1,4 +1,4 @@
-const socket = io.connect('192.168.1.26:8080'); //Put your local IP here
+const socket = io.connect('localhost:8080'); //Put your local IP here
 
 let currentView = 'login';
 let logged = false;
@@ -6,8 +6,11 @@ let gotoOrder = false;
 
 var theme = 'BLUE';
 
+changeView(currentView)
+
 function changeView(target) {
-    $('#' + currentView).hide();
+    // $('#' + currentView).hide();
+    $('.pannel').hide();
     $('#' + target).show();
 
     currentView = target;

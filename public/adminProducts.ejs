@@ -1,0 +1,115 @@
+<div class="container">
+    <div class="columns animated fadeIn">
+
+        <div class="column is-9">
+            <section class="hero welcome is-small">
+                <div class="hero-body">
+                    <div class="container">
+                        <h1 class="title admin">
+                            Administrer les produits
+                        </h1>
+                        <h2 class="subtitle admin">
+                            Ajouter, retirer, éditer,...
+                        </h2>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-tiles">
+                <div class="tile is-ancestor has-text-centered">
+                <%
+                    let i;
+                    for (i=0 ; i<products.length; i++ ) {
+                        if (i!=0 && i%4 == 0){
+                %>
+                            </div>
+                            <div class="tile is-ancestor has-text-centered">
+                <%
+                        }
+                %>
+
+                        <script>
+                        //Products list is now filled on admin login
+                        products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
+                        </script>
+
+                        <div class="tile is-parent <%=products[i].id%> adminProduct">
+                            <article class="tile is-child box">
+                                <p class="title">
+                                    <%=products[i].name%>
+                                </p>
+                            </article>
+                        </div>
+
+                <%
+                        if (i == products.length -1) {
+                %>
+                        <div id="addProduct" class="tile is-parent">
+                            <article class="tile is-child box">
+                                    <i class="fa fa-plus"></i>
+                            </article>
+                        </div>
+                <%
+                        }
+                    }
+
+                if (i!=0 && i%4 == 0){
+                %>
+                    </div>
+                <%
+                }
+                %>
+            </section>
+
+    </div>
+
+        <div class="column is-4">
+            <aside class="box">
+                <div class="level">
+                    <div class="title level-left">Editer <br/>le produit</div>
+                    <button id="cancelEdition" class="button is-large cancel-button">
+                        <span class="icon is-medium is-left">
+                            <i class="fa fa-ban"></i>
+                        </span>
+                    </button>
+
+                    <button id="submitEdition" class="button is-large validate-button">
+                        <span class="icon is-medium is-left">
+                            <i class="fa fa-check"></i>
+                        </span>
+                    </button>
+                </div>
+
+                <%# <div class='content has-text-centered'>
+                  <figure class="image is-64x64">
+                    <img src="https://bulma.io/images/placeholders/128x128.png" alt="Image">
+                  </figure>
+                </div> %>
+                <div id="adminEditProduct">
+                  <div class="content">
+                    <p>
+                      <div class="adminProductEditInput content">
+                          <b>Nom :</b>
+                          <p class="box is-small productName" contenteditable="true">PRODUCT NAME</input>
+                      </div><br>
+
+                      <div class="adminProductEditInput content">
+                          <b class="">Prix :</b>
+                          <p class="box is-small productPrice" contenteditable="true">PRICE</p> &nbsp; <b>€</b>
+                      </div><br>
+
+                      <div class="adminProductEditInput content">
+                          <b class=''>Quantité :</b>&nbsp;
+                          <p class="minus"><i class="is-large fa fa-minus-circle"></i></p>
+                          <p class="box is-small productAmount" contenteditable="true">AMOUNT</p>
+                          <p class="plus"><i class="is-large fa fa-plus-circle"></i></p>
+                      </div><br>
+                    </p>
+                  </div>
+                </div>
+
+            </aside>
+        </div>
+
+    </div>
+</div>

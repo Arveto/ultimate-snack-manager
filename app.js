@@ -85,7 +85,7 @@ app.get('/', (req, res) => {
     //TODO Dynamically fetch users (on admin login?)
 
     //This query only contains useful data for page generation
-    let query = 'SELECT id, name, price FROM items WHERE onSale = 1 ORDER BY id ASC;'
+    let query = 'SELECT id, name, price, stock FROM items WHERE onSale = 1 ORDER BY id ASC;'
     database.query(query)
     .then(rows => {
         res.render(__dirname + '/public/index.ejs', {
@@ -299,7 +299,28 @@ io.sockets.on('connection', function(socket) {
 
 
     });
-});
 
+
+    /***********************    ADMINISTRATION  STUFF ******************************/
+
+        //PRODUCTS ADMINISTRATION
+    socket.on('adminProduct', (data)=>{
+        switch (data.action){
+            case 'updateProduct':
+                console.log(' ');
+                console.log("UPDATE PRODUCT : ");
+                console.log(data.product);
+                console.log(' ');
+                break;
+            case 'newProduct':
+                console.log(' ');
+                console.log("NEW PRODUCT : ");
+                console.log(data.product);
+                console.log(' ');
+                break;
+        }
+    })
+
+});
 
 server.listen(8080);

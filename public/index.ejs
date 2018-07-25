@@ -25,12 +25,25 @@
     <link rel="stylesheet" type="text/css" href="css/login.css">
     <link rel="stylesheet" type="text/css" href="css/notifications.css">
     <link rel="stylesheet" type="text/css" href="css/preorders.css">
+    <link rel="stylesheet" type="text/css" href="css/adminProducts.css">
 
 </head>
 
 <% const theme = 'BLUE' %>
 
 <body>
+    <!-- XXX: TESTING BUTTON -->
+  <button id="test" class="button is-danger">TEST</button>
+  <script>$('#test').on('click', ()=>{changeView('adminProducts')})</script>
+  <style>
+    #test{
+        z-index: 1000;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+    }
+  </style>
+
 
     <nav class="navbar is-white">
         <div class="container">
@@ -93,13 +106,13 @@
 
 
     <!-- LOGIN -->
-    <div id="login">
+    <div id="login" class="pannel">
         <%- include('login.ejs', {user: user, theme: theme}); %>
     </div>
     <!-- /LOGIN -->
 
     <!-- SIGNUP -->
-    <div id="signup">
+    <div id="signup" class="pannel">
         <%- include('signup.ejs', {theme: theme}); %>
     </div>
     <!-- /SIGNUP -->
@@ -108,13 +121,13 @@
     <script>
     let usersList = [];
     </script>
-    <div id="userSelection" class="container">
+    <div id="userSelection" class="container pannel">
         <%- include('userSelection.ejs', {users: users, theme: theme}); %>
     </div>
     <!-- /USER SELECTION -->
 
     <!-- DASHBOARD -->
-    <div id="dashboard">
+    <div id="dashboard" class="pannel">
         <%- include('dashboard.ejs', {shoppingList: shoppingList, theme: theme}); %>
     </div>
     <!-- /DASHBOARD -->
@@ -124,10 +137,9 @@
     let products = [];
     </script>
 
-    <div id="order">
+    <div id="order" class="pannel">
         <%- include('order.ejs', {products: products, theme: theme}); %>
     </div>
-
     <!-- /ORDERED COMMANDS -->
 
     <!-- NOTIFICATIONS -->
@@ -135,7 +147,7 @@
     <!-- /NOTIFICATIONS -->
 
     <!-- PREORDER -->
-    <section id="preordersContainer">
+    <section id="preordersContainer" class="pannel">
         <article class="message">
             <div class="message-header">
                 <p>Liste des précommandes :</p>
@@ -146,6 +158,12 @@
     </section>
     <!-- /PREORDER -->
 
+
+    <!-- ADMIN PRODUCS -->
+    <div id="adminProducts" class="pannel">
+        <%- include('adminProducts.ejs', {products: products, theme: theme}); %>
+    </div>
+    <!-- /ADMIN PRODUCS -->
 
 
 
@@ -159,6 +177,7 @@
     <script type="text/javascript" src="js/order.js"></script>
     <script type="text/javascript" src="js/notification.js"></script>
     <script type="text/javascript" src="js/preorder.js"></script>
+    <script type="text/javascript" src="js/adminProducts.js"></script>
 
 </body>
 

@@ -1,5 +1,8 @@
 
 body{
+    /* no selection */
+    -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
+
     position: absolute;
     top: 0;
     right: 0;
@@ -14,17 +17,19 @@ body{
     display: none; /*for elements that are okay with that*/
 }
 
+.pannel{
+  display: none();
+}
+
 #login{
-    //display: none;
     margin-top: -20vh;
 }
 
-#signup{
-    display: none;
-}
 
 #loginPopup{
+
     display: none;
+
     position: absolute;
     top:7vh;
     right: 2vw;
@@ -35,24 +40,11 @@ body{
 }
 
 #userSelection{
-    display: none;
-
     width: 600px;
     height: 1000px;
     margin-top: 10vh;
 }
 
-#dashboard{
-    display: none;
-}
 column.is-9.animated.fadeIn{
     overflow-y: scroll;
-}
-
-#order{
-    display: none;
-}
-
-#preordersContainer{
-    display: none;
 }
