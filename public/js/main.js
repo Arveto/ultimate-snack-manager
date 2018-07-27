@@ -80,9 +80,6 @@ $("#toAdminUsers").on('click', ()=>{
             changeView('adminUsers');
 })
 
-$(document).on('keypress', (e)=>{
-
-})
 
     //Data declaration
 
@@ -96,24 +93,20 @@ let totalPrice;
 
 
 
-/*
+
 //KEY BINDING
-//FUCKED UP BY BROWSER, LL'FIX IT LATER
-$(document).on('keypress', (e) => {
-    switch (e.charCode) {
-        case 113: //F2
-            e.preventDefault();
-            changeView('dashboard');
-            break;
-        case 114: //F3
-            e.preventDefault();
-            changeView('userSelection');
-            break;
-        case 115: //F4
-            e.preventDefault();
-            $('#loginPopup').toggle();
-            break;
+
+$("*").on('keypress', (e) => {
+  let keycode = e.keyCode || e.which;
+    switch (keycode) {
+        case 27: //ESC
+          $('#adminUsers div.blur').removeClass('blur');
+          $("#userAdministrationPopup").hide();
+          $("#loginPopup").hide();
+          break;
+        case 115: //ESC
+          changeView('adminUsers')
+          break;
         default:
     }
 })
-*/

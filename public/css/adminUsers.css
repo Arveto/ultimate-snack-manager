@@ -1,8 +1,17 @@
 
 #adminUsers{
-    width: 50vw;
+    position: absolute;
+    width: 55vw;
     height: 70vh;
-    margin-top: 10vh;
+    top: 10vh;
+    left: calc(50vw - 25vw);
+}
+
+.useradminselectioooooooooon{ //fuckit
+  left: 40%;
+  height: 60vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .adminUserAction:hover{

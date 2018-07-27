@@ -58,6 +58,24 @@ let users = [{
     money: 100000000,
     hasOrdered: false,
     admin: true
+},
+{
+    id: 5,
+    fiName: "Jesus1",
+    faName: "Brakmar",
+    pseudo: "TERRUSS1",
+    money: 100000000,
+    hasOrdered: false,
+    admin: true
+},
+{
+    id: 6,
+    fiName: "Jesus2",
+    faName: "Brakmar",
+    pseudo: "TERRUSS2",
+    money: 100000000,
+    hasOrdered: false,
+    admin: true
 }
 ];
 

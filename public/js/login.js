@@ -86,7 +86,8 @@ $('#submitLoginPopup').on('click', (e) => {
 
 
 $('.password').on('keypress', (e) => {
-    if (e.which == 13) {
+  let keycode = e.keyCode || e.which;
+    if (keycode == 13) {
 
         $("#loginNav").addClass('is-loading');
 
@@ -95,12 +96,6 @@ $('.password').on('keypress', (e) => {
 
         login(username, clear);
     }
-});
-
-
-$("input.password, input.login").on('keypress', (e) => {
-    if (e.charCode == 0)
-    $("#loginPopup").hide();
 });
 
 $("#emailPopup").on('keypress', (e)=>{
