@@ -80,7 +80,6 @@ $("#userAdmin_apply").on('click', ()=>{
 })
 
 
-
   // INNER SOCKIO EVENTS
 
 socket.on('editUser', ()=>{  // TODO: Finish that shit, its too much for me. 7:43am. Hands up. Goona leave thoses awesome lines. Kiss ya.

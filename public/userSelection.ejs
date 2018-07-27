@@ -30,9 +30,10 @@
         <%
         let i=0;
         users.forEach((user)=>{
+          user.name = user.fiName + ' ' + user.faName;
             %>
             <script>
-            usersList.push({id: <%=user.id%>, name: '<%=user.fiName%> <%=user.faName%>', fiName: '<%=user.fiName%>', faName: '<%=user.faName%>', pseudo: '<%=user.pseudo%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>, admin: <%=user.admin%>});
+            usersList.push({id: <%=user.id%>, name: '<%=user.name%>', fiName: '<%=user.fiName%>', faName: '<%=user.faName%>', pseudo: '<%=user.pseudo%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>, admin: <%=user.admin%>});
             </script>
 
             <article class="media user<%=user.id%>">

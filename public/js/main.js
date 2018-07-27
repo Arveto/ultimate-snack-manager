@@ -80,6 +80,9 @@ $("#toAdminUsers").on('click', ()=>{
             changeView('adminUsers');
 })
 
+$(document).on('keypress', (e)=>{
+
+})
 
     //Data declaration
 
