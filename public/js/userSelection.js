@@ -11,7 +11,7 @@ $("button.order").on('click', (e)=>{
 
     changeView('order');
 
-    socket.emit('ordering', {customerId: customerId, admin: currentUser, leave: false});
+    socket.emit('ordering', {customerId: customerId, admin: currentUser, leave: false,});
 });
 
 socket.on('ordering', (data)=>{

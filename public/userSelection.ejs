@@ -32,7 +32,7 @@
         users.forEach((user)=>{
             %>
             <script>
-            usersList.push({id: <%=user.id%>, name: '<%=user.name%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>});
+            usersList.push({id: <%=user.id%>, name: '<%=user.name%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>, admin: <%=user.admin%>});
             </script>
 
             <article class="media user<%=user.id%>">

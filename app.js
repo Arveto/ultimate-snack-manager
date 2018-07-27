@@ -18,31 +18,36 @@ let users = [{
     id: 0,
     name: "Soursou",
     money: 24.03,
-    hasOrdered: false
+    hasOrdered: false,
+    admin: false
 }, //All users
 {
     id: 1,
     name: "Calcado",
     money: -238.00,
-    hasOrdered: true
+    hasOrdered: true,
+    admin: false
 },
 {
     id: 2,
     name: "Pian",
     money: 999.99,
-    hasOrdered: false
+    hasOrdered: false,
+    admin: true
 },
 {
     id: 3,
     name: "Sadre",
     money: 654.58,
-    hasOrdered: false
+    hasOrdered: false,
+    admin: false
 },
 {
     id: 4,
     name: "TERRUSS",
     money: 100000000,
-    hasOrdered: false
+    hasOrdered: false,
+    admin: true
 }
 ];
 
@@ -134,12 +139,11 @@ io.sockets.on('connection', function(socket) {
                     itemsRes = rows;
 
                     //Select members
-                    let query = 'SELECT id, faName, fiName, pseudo, email, balance, adherent FROM users WHERE email != ?;';
+                    let query = 'SELECT id, faName, fiName, pseudo, email, balance, adherent, admin FROM users WHERE email != ?;';
                     return database.query(query, [user.email]);
                 })
                 .then(rows => {
                     users = rows;
-
                     //Select preorders
                     let query = 'SELECT customerId, date, price, content FROM orders WHERE pending = 1;';
                     return database.query(query);
@@ -305,6 +309,7 @@ io.sockets.on('connection', function(socket) {
 
         //PRODUCTS ADMINISTRATION
     socket.on('adminProduct', (data)=>{
+
         switch (data.action){
             case 'updateProduct':
                 console.log(' ');
@@ -320,6 +325,11 @@ io.sockets.on('connection', function(socket) {
                 break;
         }
     })
+
+  socket.on('editUser', (data)=>{
+    socket.emit('editUser', data.edition);
+    socket.broadcast.emit('editUser', data.edition);
+  })
 
 });
 
