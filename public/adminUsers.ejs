@@ -1,0 +1,67 @@
+<!-- TODO:
+> theme handler on userSelection.ejs
+> logic LOGIN -> USERSELECTION -> ORDER
+> serverside
+-->
+
+<div class="box">
+    <div class="column is-12">
+        <header class="card-header">
+            <p class="title">
+                Prendre commande pour :
+            </p>
+            <a href="#" class="card-header-icon" aria-label="more options">
+            </a>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                <div class="control has-icons-left has-icons-right">
+                    <input id="userSelectionInput" class="input is-large" type="text" placeholder="">
+                    <span class="icon is-medium is-left">
+                        <i class="fa fa-search"></i>
+                    </span>
+                    <span class="icon is-medium is-right">
+                        <i class="fa fa-check"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <%
+        let i=0;
+        users.forEach((user)=>{
+            %>
+            <script>
+            usersList.push({id: <%=user.id%>, name: '<%=user.name%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>});
+            </script>
+
+            <article class="media user<%=user.id%>">
+                <figure class="media-left">
+                    <p class="image is-48x48">
+                        <img src="https://bulma.io/images/placeholders/128x128.png">
+                    </p>
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <p>
+                            <strong><%= user.name %></strong><small class="<%=user.id%> admin-in-charge"></small><br/>
+                            <small>Solde : <a><%= user.money %>€</a>
+                            </small>
+                        </p>
+                    </div>
+                </div>
+                <div class="media-right">
+                    <button class="button order is-medium is-success <%=user.id%>">
+                        <span class="icon is-large is-left">
+                            <i class="fa fa-arrow-right"></i>
+                        </span>
+                    </button>
+                </div>
+            </article>
+            <%
+            i++;
+        })
+        %>
+
+    </div>
+</div>

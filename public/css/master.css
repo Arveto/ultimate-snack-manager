@@ -39,12 +39,6 @@ body{
     z-index: 100;
 }
 
-#userSelection{
-    width: 600px;
-    height: 1000px;
-    margin-top: 10vh;
-}
-
 column.is-9.animated.fadeIn{
     overflow-y: scroll;
 }

@@ -26,6 +26,7 @@
     <link rel="stylesheet" type="text/css" href="css/notifications.css">
     <link rel="stylesheet" type="text/css" href="css/preorders.css">
     <link rel="stylesheet" type="text/css" href="css/adminProducts.css">
+    <link rel="stylesheet" type="text/css" href="css/adminUsers.css">
 
 </head>
 
@@ -153,6 +154,12 @@
     </div>
     <!-- /ADMIN PRODUCS -->
 
+    <!-- ADMIN PRODUCS -->
+    <div id="adminUsers" class="pannel">
+        <%- include('adminUsers.ejs', {users: users, theme: theme}); %>
+    </div>
+    <!-- /ADMIN PRODUCS -->
+
 
 
     <!-- JS INCLUDES -->
@@ -166,6 +173,7 @@
     <script type="text/javascript" src="js/notification.js"></script>
     <script type="text/javascript" src="js/preorder.js"></script>
     <script type="text/javascript" src="js/adminProducts.js"></script>
+    <script type="text/javascript" src="js/adminUsers.js"></script>
 
 </body>
 

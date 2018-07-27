@@ -74,6 +74,12 @@ $("#toAdminProducts").on('click', ()=>{
             changeView('adminProducts');
 })
 
+$("#toAdminUsers").on('click', ()=>{
+        gotoOrder = false;
+        if (logged)
+            changeView('adminUsers');
+})
+
 
     //Data declaration
 
