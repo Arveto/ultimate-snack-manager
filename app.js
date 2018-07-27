@@ -16,35 +16,45 @@ const databaseWrapper = require('./db_wrapper.js');
 
 let users = [{
     id: 0,
-    name: "Soursou",
+    fiName: "Serge",
+    faName: "Soursou",
+    pseudo: "Sergi Sergio",
     money: 24.03,
     hasOrdered: false,
     admin: false
 }, //All users
 {
     id: 1,
-    name: "Calcado",
+    fiName: "Fab",
+    faName: "Calcado",
+    pseudo: "La Calcade",
     money: -238.00,
     hasOrdered: true,
     admin: false
 },
 {
     id: 2,
-    name: "Pian",
+    fiName: "Jean",
+    faName: "Pian",
+    pseudo: "The_Punchliner",
     money: 999.99,
     hasOrdered: false,
     admin: true
 },
 {
     id: 3,
-    name: "Sadre",
+    fiName: "Maxime",
+    faName: "Sadre",
+    pseudo: "Maxou",
     money: 654.58,
     hasOrdered: false,
     admin: false
 },
 {
     id: 4,
-    name: "TERRUSS",
+    fiName: "Jesus",
+    faName: "Brakmar",
+    pseudo: "TERRUSS",
     money: 100000000,
     hasOrdered: false,
     admin: true

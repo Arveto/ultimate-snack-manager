@@ -39,10 +39,9 @@
                 </figure>
                 <div class="media-content columns">
                     <div class="content column">
-                        <p>
-                            <strong><%= user.name %></strong><small class="<%=user.id%> admin-in-charge"></small><br/>
-                            <small>Solde : <a><%= user.money %>€</a>
-                            </small>
+                        <p class="userAdmin_info<%= user.name %>">
+                            <strong><%= user.name %></strong><br/>
+                            <small>Solde : <a><%= user.money %>€</a></small>
                         </p>
                     </div>
                     <div class="column"></div>
@@ -50,8 +49,11 @@
                       <p class="heading">
                         Cafetier
                       </p>
-                      <p class="subtitle">
-                        <i class="fa <% if (user.admin) { %> fa-concierge-bell <% } else { %> fa-times <% } %>"></i>
+                      <p class="subtitle isCafetier <% if(user.admin){ %> confirmedAdmin <% } %>">
+                        <i class="fa fa-concierge-bell"></i>
+                      </p>
+                      <p class="subtitle isNotCafetier <% if(user.admin){ %> confirmedAdmin <% } %>">
+                        <i class="fa fa-times"></i>
                       </p>
                     </div>
                     <div class="column has-text-centered <%= user.id %> action_editUser adminUserAction">
@@ -78,3 +80,55 @@
             %>
     </div>
 </div>
+
+
+</div>
+  <section id="userAdministrationPopup" class="hero is-fullheight" style='display: none;'>
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <div class="column is-4 is-offset-4">
+          <div class="box animated fadeIn">
+            <figure class="avatar">
+              <img src="img/logo.jpg" class="login-avatar">
+            </figure>
+            <form>
+              <div class="title userAdminName">
+                TERRUSS
+              </div>
+
+              <div class="field">
+                <div class="control">
+                  <b>Prénom :</b>
+                  <input id='userAdmin_fiName' class="input is-large" type="text"/>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <b>Nom :</b>
+                  <input id='userAdmin_faName' class="input is-large" type="text"/>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <b>Pseudo :</b>
+                  <input id='userAdmin_pseudo' class="input is-large" type="text"/>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <b>Email :</b>
+                  <input id='userAdmin_email' class="input is-large" type="email"/>
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <b>Boulesses :</b>
+                  <input id='userAdmin_money' class="input is-large" type="number"/>
+                </div>
+              </div>
+              <div id="userAdmin_apply" class="button is-block is-large is-fullwidth">Éditer</div>
+          </form>
+        </div>
+    </div>
+  </div>
+</section>
