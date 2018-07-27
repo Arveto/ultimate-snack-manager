@@ -231,14 +231,12 @@ io.sockets.on('connection', function(socket) {
                     leave: data.leave
                 });
             } else if(isAdmin) {
-                // if (data.customerId){ //prevent sovketevents duplication
                 console.log(data.admin.login + ' quitte la commande de ' + users[data.customerId].name);
                 socket.broadcast.emit('ordering', {
                     customerId: data.customerId,
                     adminName: '',
                     leave: data.leave
                 });
-                // }
             }
         });
     });
@@ -311,13 +309,13 @@ io.sockets.on('connection', function(socket) {
     socket.on('adminProduct', (data)=>{
 
         switch (data.action){
-            case 'updateProduct':
+            case 'updateProduct': // TODO: DB link
                 console.log(' ');
                 console.log("UPDATE PRODUCT : ");
                 console.log(data.product);
                 console.log(' ');
                 break;
-            case 'newProduct':
+            case 'newProduct':  // TODO: DB link
                 console.log(' ');
                 console.log("NEW PRODUCT : ");
                 console.log(data.product);
@@ -327,8 +325,16 @@ io.sockets.on('connection', function(socket) {
     })
 
   socket.on('editUser', (data)=>{
-    socket.emit('editUser', data.edition);
-    socket.broadcast.emit('editUser', data.edition);
+    if ( true) {  // TODO: check adminness of data.admin
+                  // TODO: DB link
+      console.log(' ');
+      console.log("USER EDITION : ");
+      console.log(data.edition);
+      console.log(' ');
+
+      socket.emit('editUser', data.edition);
+      socket.broadcast.emit('editUser', data.edition);
+    }
   })
 
 });

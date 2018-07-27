@@ -27,33 +27,36 @@ $('#adminUsersInput').on('keyup', (e)=>{
 
 $(".adminUserAction").on('click', function(e){
     //get Id of the user selected
-    e.preventDefault();
 
     let edition = {};
-    let cache = e.target; //Do not remove ! It works like that, its 6:36am and i dont wanna think too much
-    let userId = getIdFromClassName( e.target );
+    let el = e.target.closest(".adminUserAction"); //Do not remove ! It works like that, its 6:36am and i dont wanna think too much
+    let userId = getIdFromClassName( el );
 
     edition = usersList[userId];
 
-    switch (e.target.className.match(/action/g)){
+    switch (el.className.match(/action_[^ ]*/g)[0]){
       case 'action_toggleSetAdminUser':
         edition.admin = !edition.admin
+        sendEdition(edition);
         break;
       case 'action_editUser':
-
+        sendEdition(edition);
         break;
       case 'action_removeUser':
         edition.remove = true;
+        sendEdition(edition);
         break;
+      default:
+        alert("Impossible, une erreur dans mon code ??")
     }
 
-    if (edition){
-      socket.emit('editUser', {'admin': currentUser, 'edition': edition});
-      delete edition;
-      delete userId;
-    }
 });
 
-socket.on('editUser', (edition)=>{
+function sendEdition(edition){
+    socket.emit('editUser', {'admin': currentUser, 'edition': edition});
+}
 
+
+socket.on('editUser', (edition)=>{  // TODO: Finish that shit, its too much for me. 7:43am. Hands up. Goona leave thoses awesome lines. Kiss ya.
+  console.log(edition);
 })
