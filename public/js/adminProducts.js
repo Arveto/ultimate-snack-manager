@@ -71,10 +71,10 @@ $('#submitEdition').on('click', ()=>{
 
         product.id = adminProduct.id;
 
-        socket.emit('adminProduct', {action: 'updateProduct', 'product': product});
+        socket.emit('adminProduct', {action: 'updateProduct', 'product': product, 'admin': currentUser});
 
     } else {    //It's a new product
-        socket.emit('adminProduct', {action: 'newProduct', 'product': product});
+        socket.emit('adminProduct', {action: 'newProduct', 'product': product, 'admin': currentUser});
     }
 
 })

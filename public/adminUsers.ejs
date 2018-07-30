@@ -19,110 +19,59 @@
                 </div>
             </div>
         </div>
-    <div class="useradminselectioooooooooon">
-        <%
-        let i=0;
-        users.forEach((user)=>{
-            %>
-            <article class="media azerazerazer user<%=user.id%>">
-                <figure class="media-left">
-                    <p class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/128x128.png">
-                    </p>
-                </figure>
-                <div class="media-content columns">
-                    <div class="content column">
-                        <p class="userAdmin_info<%= user.name %>">
-                            <strong><%= user.name %></strong><br/>
-                            <small>Solde : <a><%= user.money %>€</a></small>
-                        </p>
-                    </div>
-                    <div class="column"></div>
-                    <div class="column has-text-centered <%= user.id %> action_toggleSetAdminUser adminUserAction">
-                      <p class="heading">
-                        Cafetier
-                      </p>
-                      <p class="subtitle isCafetier <% if(user.admin){ %> confirmedAdmin <% } %>">
-                        <i class="fa fa-concierge-bell"></i>
-                      </p>
-                      <p class="subtitle isNotCafetier <% if(user.admin){ %> confirmedAdmin <% } %>">
-                        <i class="fa fa-times"></i>
-                      </p>
-                    </div>
-                    <div class="column has-text-centered <%= user.id %> action_editUser adminUserAction">
-                      <p class="heading">
-                        Editer
-                      </p>
-                      <p class="subtitle">
-                        <i class="fa fa-user-edit"></i>
-                      </p>
-                    </div>
-                    <div class="column has-text-centered <%= user.id %> action_removeUser adminUserAction">
-                      <p class="heading">
-                        Supprimer
-                      </p>
-                      <p class="subtitle">
-                        <i class="fa fa-trash"></i>
-                      </p>
-                    </div>
-                </div>
-            </article>
-            <%
-              i++;
-            });
-            %>
+        <div class="useradminselectioooooooooon" id="userSelectionEdit">
         </div>
     </div>
 </div>
 
 
 </div>
-  <section id="userAdministrationPopup" class="hero is-fullheight" style='display: none;'>
+<section id="userAdministrationPopup" class="hero is-fullheight" style='display: none;'>
     <div class="hero-body">
-      <div class="container has-text-centered">
-        <div class="column is-4 is-offset-4">
-          <div class="box animated fadeIn">
-            <figure class="avatar">
-              <img src="img/logo.jpg" class="login-avatar">
-            </figure>
-            <form>
-              <div class="title userAdminName">
-                TERRUSS
-              </div>
+        <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <div class="box animated fadeIn">
+                    <figure class="avatar">
+                        <img src="img/logo.jpg" class="login-avatar">
+                    </figure>
+                    <form>
+                        <div class="title userAdminName">
+                            Editer utilisateur:
+                        </div>
 
-              <div class="field">
-                <div class="control">
-                  <b>Prénom :</b>
-                  <input id='userAdmin_fiName' class="input is-large" type="text"/>
+                        <div class="field">
+                            <div class="control">
+                                <b>Prénom :</b>
+                                <input id='userAdmin_fiName' class="input is-large" type="text"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <b>Nom :</b>
+                                <input id='userAdmin_faName' class="input is-large" type="text"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <b>Pseudo :</b>
+                                <input id='userAdmin_pseudo' class="input is-large" type="text"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <b>Email :</b>
+                                <input id='userAdmin_email' class="input is-large" type="email"/>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <b>Boulaisses :</b>
+                                <input id='userAdmin_money' class="input is-large" type="number"/>
+                            </div>
+                        </div>
+                        <div id="userAdmin_apply" class="button is-block is-large is-fullwidth">Éditer</div>
+                    </form>
                 </div>
-              </div>
-              <div class="field">
-                <div class="control">
-                  <b>Nom :</b>
-                  <input id='userAdmin_faName' class="input is-large" type="text"/>
-                </div>
-              </div>
-              <div class="field">
-                <div class="control">
-                  <b>Pseudo :</b>
-                  <input id='userAdmin_pseudo' class="input is-large" type="text"/>
-                </div>
-              </div>
-              <div class="field">
-                <div class="control">
-                  <b>Email :</b>
-                  <input id='userAdmin_email' class="input is-large" type="email"/>
-                </div>
-              </div>
-              <div class="field">
-                <div class="control">
-                  <b>Boulesses :</b>
-                  <input id='userAdmin_money' class="input is-large" type="number"/>
-                </div>
-              </div>
-              <div id="userAdmin_apply" class="button is-block is-large is-fullwidth">Éditer</div>
-          </form>
+            </div>
         </div>
-    </div>
-  </div>
-</section>
+    </section>

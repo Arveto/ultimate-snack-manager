@@ -14,70 +14,6 @@ const databaseWrapper = require('./db_wrapper.js');
 *  TODO: fill them with weird SQL stuff...
 */
 
-let users = [{
-    id: 0,
-    fiName: "Serge",
-    faName: "Soursou",
-    pseudo: "Sergi Sergio",
-    money: 24.03,
-    hasOrdered: false,
-    admin: false
-}, //All users
-{
-    id: 1,
-    fiName: "Fab",
-    faName: "Calcado",
-    pseudo: "La Calcade",
-    money: -238.00,
-    hasOrdered: true,
-    admin: false
-},
-{
-    id: 2,
-    fiName: "Jean",
-    faName: "Pian",
-    pseudo: "The_Punchliner",
-    money: 999.99,
-    hasOrdered: false,
-    admin: true
-},
-{
-    id: 3,
-    fiName: "Maxime",
-    faName: "Sadre",
-    pseudo: "Maxou",
-    money: 654.58,
-    hasOrdered: false,
-    admin: false
-},
-{
-    id: 4,
-    fiName: "Jesus",
-    faName: "Brakmar",
-    pseudo: "TERRUSS",
-    money: 100000000,
-    hasOrdered: false,
-    admin: true
-},
-{
-    id: 5,
-    fiName: "Jesus1",
-    faName: "Brakmar",
-    pseudo: "TERRUSS1",
-    money: 100000000,
-    hasOrdered: false,
-    admin: true
-},
-{
-    id: 6,
-    fiName: "Jesus2",
-    faName: "Brakmar",
-    pseudo: "TERRUSS2",
-    money: 100000000,
-    hasOrdered: false,
-    admin: true
-}
-];
 
 let user = "ESSAIM";
 
@@ -89,8 +25,8 @@ let shoppingList = ["Cafe (x1442)",
 "Skittles de qualité",
 "Ice Tea (x98)",
 "Kinder Buenos",
-"Des choses",
-"D'autres choses"
+"Des tables de blackjack",
+"Et des putes"
 ];
 
 
@@ -115,14 +51,11 @@ app.use(require('express').static(__dirname + '/public'));
 
 //Get main page
 app.get('/', (req, res) => {
-    //TODO Dynamically fetch users (on admin login?)
-
     //This query only contains useful data for page generation
     let query = 'SELECT id, name, price, stock FROM items WHERE onSale = 1 ORDER BY id ASC;'
     database.query(query)
     .then(rows => {
         res.render(__dirname + '/public/index.ejs', {
-            users: users,
             user: user,
             products: rows,
             shoppingList: shoppingList
@@ -198,8 +131,8 @@ io.sockets.on('connection', function(socket) {
                         socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders, users: users});
                     }
                     else
-                        //Send data for a non admin member
-                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
+                    //Send data for a non admin member
+                    socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
                 });
 
             } else{
@@ -333,37 +266,81 @@ io.sockets.on('connection', function(socket) {
 
     /***********************    ADMINISTRATION  STUFF ******************************/
 
-        //PRODUCTS ADMINISTRATION
+    //PRODUCTS ADMINISTRATION
     socket.on('adminProduct', (data)=>{
 
-        switch (data.action){
-            case 'updateProduct': // TODO: DB link
-                console.log(' ');
-                console.log("UPDATE PRODUCT : ");
-                console.log(data.product);
-                console.log(' ');
-                break;
-            case 'newProduct':  // TODO: DB link
-                console.log(' ');
-                console.log("NEW PRODUCT : ");
-                console.log(data.product);
-                console.log(' ');
-                break;
-        }
+        console.log('Product edition/addition received');
+
+        let query = 'SELECT admin FROM users WHERE email = ?;';
+        database.query(query, [data.admin.login])
+        .then(rows => {
+
+            if (rows[0].admin) {
+
+
+                switch (data.action){
+                    case 'updateProduct': // TODO: DB link
+                        console.log(' ');
+                        console.log("UPDATE PRODUCT  ");
+                        console.log(data.product);
+                        console.log(' ');
+
+                        console
+
+                        let query1 = 'UPDATE items SET name = ?, price = ?, stock = ? WHERE id = ?;';
+                        database.query(query1, [data.product.name, parseFloat(data.product.price), parseFloat(data.product.amount), data.product.id])
+                        .then(rows => {
+                            console.log('Update successfull')
+                        });
+
+                        break;
+
+                    case 'newProduct':  // TODO: DB link
+                        console.log(' ');
+                        console.log("NEW PRODUCT : ");
+                        console.log(data.product);
+                        console.log(' ');
+
+                        let query2 = 'INSERT INTO items (name, price, stock) VALUES(?, ?, ?);';
+                        database.query(query2, [data.product.name, parseFloat(data.product.price), parseFloat(data.product.amount), data.product.id])
+                        .then(rows => {
+                            console.log('Insertion successfull')
+                        });
+
+                        break;
+                }
+            }
+        });
+    });
+
+    //USERS ADMINISTRATION
+    socket.on('editUser', (data)=>{
+
+        console.log('Receiving user edit');
+
+        console.log(data);
+
+        let query = 'SELECT admin FROM users WHERE email = ?';
+        database.query(query, [data.admin.login])
+        .then(rows => {
+            console.log(rows);
+            if (rows[0].admin) {
+                let query = 'UPDATE users SET fiName = ?, faName = ?, pseudo = ?, balance = ?, email = ? WHERE id = ?';
+                database.query(query, [data.edition.fiName, data.edition.faName, data.edition.pseudo, data.edition.balance, data.edition.email, data.edition.id])
+                .then(rows =>{
+                    console.log(' ');
+                    console.log("USER EDITION : ");
+                    console.log(data.edition);
+                    console.log(' ');
+
+                    socket.emit('editUser', data.edition);
+                    socket.broadcast.emit('editUser', data.edition);
+                })
+            }
+        })
+
+
     })
-
-  socket.on('editUser', (data)=>{
-    if ( true) {  // TODO: check adminness of data.admin
-                  // TODO: DB link
-      console.log(' ');
-      console.log("USER EDITION : ");
-      console.log(data.edition);
-      console.log(' ');
-
-      socket.emit('editUser', data.edition);
-      socket.broadcast.emit('editUser', data.edition);
-    }
-  })
 
 });
 

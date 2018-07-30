@@ -146,7 +146,7 @@ socket.on('commandRecived', ()=>{
     leaveOrdering();
 })
 socket.on('accountSold', (data)=>{
-    notif('success', 'Solde de <b>'+usersList[data.customerId].name+'</b> : <b>'+data.money+'</b>');
+    //notif('success', 'Solde de <b>'+usersList[data.customerId].name+'</b> : <b>'+data.money+'</b>');
 });
 
 

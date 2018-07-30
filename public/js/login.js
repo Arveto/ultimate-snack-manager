@@ -43,6 +43,20 @@ socket.on('login', (res) => {
             notif('success', 'You are <b>ADMIN</b>')
             $(".admin").css('display', 'flex').css('visibility', 'visible');
             $('.moldu').hide().css('visibility', 'collapse');
+
+
+            //Add users to HTML
+            let usersOrderDiv = $('#userSelectionOrder');
+            let usersAdminDiv = $('#userSelectionEdit');   //Wtf...
+            res.users.forEach( user =>{
+                insertUserOrder(usersOrderDiv, user);
+                insertUserAdmin(usersAdminDiv, user);
+
+                bindUserOrder();
+                bindUserAdmin();
+            });
+
+
         } else {
             currentUser.isAdmin = false;
         }
@@ -59,6 +73,9 @@ socket.on('login', (res) => {
     }
     $('#loginNav').removeClass('is-loading');
     $('.password').val('');
+
+    //Assign large arrays at end of block to optimize memory consumption
+    users = res.users;
 });
 
 

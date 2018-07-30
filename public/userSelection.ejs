@@ -27,49 +27,13 @@
             </div>
         </div>
 
-        <%
-        let i=0;
-        users.forEach((user)=>{
-          user.name = user.fiName + ' ' + user.faName;
-            %>
-            <script>
-            usersList.push({id: <%=user.id%>, name: '<%=user.name%>', fiName: '<%=user.fiName%>', faName: '<%=user.faName%>', pseudo: '<%=user.pseudo%>', money: <%=user.money%>, hasOrdered: <%=user.hasOrdered%>, admin: <%=user.admin%>});
-            </script>
+        <div id="userSelectionOrder">
 
-            <article class="media user<%=user.id%>">
-                <figure class="media-left">
-                    <p class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/128x128.png">
-                    </p>
-                </figure>
-                <div class="media-content">
-                    <div class="content">
-                        <p>
-                            <strong><%= user.name %></strong><small class="<%=user.id%> admin-in-charge"></small><br/>
-                            <small>Solde : <a><%= user.money %>€</a>
-                                <%
-                                if(user.hasOrdered) {  //Display the red bell
-                                    %>
-                                    <i class="precoBell<%=user.id%>">· <button class="button is-small is-danger bell"><i class="fa fa-bell"></i></button></i>
-                                    <%
-                                }
-                                %>
-                            </small>
-                        </p>
-                    </div>
-                </div>
-                <div class="media-right">
-                    <button class="button order is-medium is-success <%=user.id%>">
-                        <span class="icon is-large is-left">
-                            <i class="fa fa-arrow-right"></i>
-                        </span>
-                    </button>
-                </div>
-            </article>
-            <%
-            i++;
-        })
-        %>
+
+
+
+
+        </div>
 
     </div>
 </div>

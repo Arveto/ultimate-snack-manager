@@ -96,28 +96,25 @@
 
     <!-- LOGIN -->
     <div id="login" class="pannel">
-        <%- include('login.ejs', {user: user, theme: theme}); %>
+        <%- include('login.ejs'); %>
     </div>
     <!-- /LOGIN -->
 
     <!-- SIGNUP -->
     <div id="signup" class="pannel">
-        <%- include('signup.ejs', {theme: theme}); %>
+        <%- include('signup.ejs'); %>
     </div>
     <!-- /SIGNUP -->
 
     <!-- USER SELECTION -->
-    <script>
-    let usersList = [];
-    </script>
     <div id="userSelection" class="container pannel">
-        <%- include('userSelection.ejs', {users: users, theme: theme}); %>
+        <%- include('userSelection.ejs'); %>
     </div>
     <!-- /USER SELECTION -->
 
     <!-- DASHBOARD -->
     <div id="dashboard" class="pannel">
-        <%- include('dashboard.ejs', {shoppingList: shoppingList, theme: theme}); %>
+        <%- include('dashboard.ejs', {shoppingList: shoppingList}); %>
     </div>
     <!-- /DASHBOARD -->
 
@@ -127,7 +124,7 @@
     </script>
 
     <div id="order" class="pannel">
-        <%- include('order.ejs', {products: products, theme: theme}); %>
+        <%- include('order.ejs', {products: products}); %>
     </div>
     <!-- /ORDERED COMMANDS -->
 
@@ -150,13 +147,13 @@
 
     <!-- ADMIN PRODUCTS -->
     <div id="adminProducts" class="pannel">
-        <%- include('adminProducts.ejs', {products: products, theme: theme}); %>
+        <%- include('adminProducts.ejs', {products: products}); %>
     </div>
     <!-- /ADMIN PRODUCTS -->
 
     <!-- ADMIN USERS -->
     <div id="adminUsers" class="pannel container">
-      <%- include('adminUsers.ejs', {products: products, theme: theme}); %>
+      <%- include('adminUsers.ejs'); %>
     </div>
     <!-- /ADMIN USERS -->
 
