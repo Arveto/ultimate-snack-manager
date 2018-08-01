@@ -18,15 +18,15 @@
   background-color: #f5f5f5;
 }
 
-.isCafetier{
+.isCafetier.isMember{
   display: none;
 }
 
-.isCafetier.confirmedAdmin{
+.isCafetier.confirmedAdmin.isMember{
   display: block;
 }
 
-.isNotCafetier{
+.isNotCafetier.isNotMember{
   display: block;
 }
 

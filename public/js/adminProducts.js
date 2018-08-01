@@ -1,8 +1,11 @@
 
 let adminProduct = {};
+let addProduct = false;
 
+    //Editing
 $(".adminProduct").on('click', function(e) {
-    e.stopPropagation()
+    e.stopPropagation();
+    addProduct = false;
 
     //get Id of the product selected
     adminProduct.id = getIdFromClassName(this);
@@ -25,31 +28,36 @@ $(".adminProduct").on('click', function(e) {
     $('.adminProductEditInput .productAmount').html(adminProduct.amount);
 });
 
+
+    //Amount editing
 $('.adminProductEditInput .minus').on('click', ()=>{
     let amount = $('.adminProductEditInput .productAmount').html();
     amount = parseInt(amount);
 
     if (amount > 0)
         $('.adminProductEditInput .productAmount').html( amount-1 );
-})
+});
 $('.adminProductEditInput .plus').on('click', ()=>{
     let amount = $('.adminProductEditInput .productAmount').html();
     amount = parseInt(amount);
 
     $('.adminProductEditInput .productAmount').html( amount+1 );
-})
+});
 
 
+    //Add product
 $('#addProduct').on('click', ()=>{
+    addProduct = true;
+
     $('#adminEditProduct').show();
 
     $('.adminProductEditInput .productName').html("PRODUCT NAME");
     $('.adminProductEditInput .productPrice').html("PRICE");
     $('.adminProductEditInput .productAmount').html("0");
-})
+});
 
 
-
+    //Cancel/Submit
 $('#cancelEdition').on('click', ()=>{
     $('#adminEditProduct').hide();
 
@@ -57,17 +65,22 @@ $('#cancelEdition').on('click', ()=>{
     $('.adminProductEditInput .productName').html("--");
     $('.adminProductEditInput .productPrice').html("--");
     $('.adminProductEditInput .productAmount').html("--");
-})
+});
 
 $('#submitEdition').on('click', ()=>{
     $('#adminEditProduct').hide();
 
     let product = {};
-    product.name = $('.adminProductEditInput .productName').html();
+
+    if(addProduct)
+        product.name = $('.adminProductEditInput .productName').html().slice(0, -4);    //Fixed BUG: '<br>' added after product name
+    else
+        product.name = $('.adminProductEditInput .productName').html(); //We don't want to split an existing name
+
     product.price = $('.adminProductEditInput .productPrice').html();
     product.amount = $('.adminProductEditInput .productAmount').html();
 
-    if (adminProduct.id){   //It's a product update
+    if (!addProduct){   //It's a product update
 
         product.id = adminProduct.id;
 
@@ -75,6 +88,9 @@ $('#submitEdition').on('click', ()=>{
 
     } else {    //It's a new product
         socket.emit('adminProduct', {action: 'newProduct', 'product': product, 'admin': currentUser});
+
+        //TODO Also update HTML
+
     }
 
-})
+});
