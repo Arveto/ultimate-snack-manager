@@ -34,8 +34,7 @@ socket.on('login', (res) => {
         if (res.isAdmin){
             currentUser.isAdmin = true;
 
-
-            //Add current preoders
+                //Add current preoders
             for(let i=0; i<res.preorders.length; i++){
                 addPreorder(res.preorders[i]);
             }
@@ -57,6 +56,39 @@ socket.on('login', (res) => {
             });
 
 
+                //Create dashboard data
+            //Graph
+            createGraph(products);  //Found in charts.js
+
+            //Last order
+            for(let i=0; i<res.users.length; i++){
+                if(res.users[i].id == res.lastCustomer){
+                    $('#lastOrder').html(res.users[i].fiName + ' ' + res.users[i].faName);
+                }
+            }
+
+            //Low stock
+            let lowerStock;
+            let lowerStockIndex;
+            for(let i=0; i<products.length; i++){
+                if(i == 0){
+                    lowerStock = products[i].stock;
+                    lowerStockIndex = i;
+
+                } else {
+                    if(products[i].stock < lowerStock){
+                        lowerStock = products[i].stock;
+                        lowerStockIndex = i;
+                    }
+                }
+
+                if(lowerStock == 0)
+                    break;
+            }
+
+            $("#lowStock").html(products[lowerStockIndex].name+' (x'+lowerStock+')');
+
+
         } else {
             currentUser.isAdmin = false;
         }
@@ -69,7 +101,7 @@ socket.on('login', (res) => {
         $("#loginNav").html('Connecté: <b> &nbsp; ' + currentUser.login + '</b>');
         $('#loginPopup').hide();
     } else {
-        notif('danger', 'Wrong credancials');
+        notif('danger', 'Wrong credentials');
     }
     $('#loginNav').removeClass('is-loading');
     $('.password').val('');

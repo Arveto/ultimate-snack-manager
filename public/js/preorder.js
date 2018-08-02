@@ -25,7 +25,6 @@ function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
 function addPreorder(command){
     //Reconstitute commandList array (with JSON containing ID  and amount)
     command.commandList = command.commandList.split(',');
-    console.log(command.commandList);
 
     let commandList = [];
     let articleFound;
@@ -52,18 +51,14 @@ function addPreorder(command){
     }
     displayName += command.name.faName;
 
-    console.log(command.date);
-
     //Create date object;
     let date = new Date(Date.parse(command.date))
-
-    console.log(date.getHours());
 
     let dateString = date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString();
 
 
 
-    notif('info', '<b>'+'PlaceHolder Name'+'</b> a envoyé une commande !')
+    notif('info', '<b>'+ command.name.fiName + ' ' + command.name.faName +'</b> a envoyé une commande !')
 
     let container = $('<article>').addClass('media box preco'+command.customerId).appendTo('#preorders');
     container.html('\

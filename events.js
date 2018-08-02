@@ -22,7 +22,7 @@ function socketIoEvents(socket, database){
 
                 //We need to fetch the items (and later users) list(s) and current preorders
                 //For items, we currently select needed data only => Fetch graph data later?
-                let query = 'SELECT id, name, price, stock FROM items ORDER BY id ASC;';
+                let query = 'SELECT id, name, price, stock, nOrders FROM items ORDER BY id ASC;';
                 database.query(query)
                 .then(rows => {
                     itemsRes = rows;
@@ -55,12 +55,21 @@ function socketIoEvents(socket, database){
 
                         }
 
-                        //We also send preorders and users
-                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders, users: users});
+                        //Also get data to display on the dashboard (currently the last order)
+                        let query = 'SELECT customerId FROM orders ORDER BY date DESC LIMIT 1;'
+                        database.query(query)
+                        .then(rows => {
+                            let lastCustomer = rows[0].customerId;
+                            socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders, users: users, lastCustomer: lastCustomer});
+                        });
+
+
                     }
-                    else
-                    //Send data for a non admin member
-                    socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
+                    else{
+                        //Send data for a non admin member
+                        //TODO Select data relevant for the user to display it on dashboard
+                        socket.emit('login', {ok: true, id: id, isAdmin: isAdmin, itemsList : itemsRes});
+                    }
                 });
 
             } else{
