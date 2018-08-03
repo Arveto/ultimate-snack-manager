@@ -1,4 +1,4 @@
-function createGraph(products){
+function createAdminGraph(products){
     //Create a pie chart displaying the 6 most sold items
 
         //Sort items by nOrders
@@ -47,4 +47,31 @@ function createGraph(products){
         //Create graph
     var ctx = document.getElementById("chart");
     var chart = new Chart(ctx, chartData);
+}
+
+
+
+function createStandardGraph(graphData, products){
+    //Graph data is an array of order content (formatted for the DB)
+
+    let ownProducts = products;   //Will contain infos about the products, including OUR number of orders
+    for(let i=0; i<ownProducts.length; i++){
+        ownProducts[i].nOrders = 0;
+    }
+
+    for(let i=0; i<graphData.length; i++){
+        graphData[i].content.split(',');
+        for(let j=0; j<graphData[i].content.length; j++){
+            for(let k=0; k<ownProducts.length; k++){
+                if(graphData[i].content[j] == ownProducts[k].id){
+                    ownProducts[i].nOrders++;
+                    break;
+                }
+            }
+        }
+    }
+
+    createAdminGraph(ownProducts);  //We treat this array the same way
+
+    $("#graphTitle").html("Mes articles favoris")
 }

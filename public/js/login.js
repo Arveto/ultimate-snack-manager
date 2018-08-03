@@ -27,7 +27,7 @@ function login(email, password) {
 socket.on('login', (res) => {
     if (res.ok) {
         notif('success', "Connecté en tant que <b>" + currentUser.login + "</b>");
-        currentUser.id = res.id;
+        currentUser.id = res.userData.id;
 
         products = res.itemsList;
 
@@ -58,7 +58,7 @@ socket.on('login', (res) => {
 
                 //Create dashboard data
             //Graph
-            createGraph(products);  //Found in charts.js
+            createAdminGraph(products);  //Found in charts.js
 
             //Last order
             for(let i=0; i<res.users.length; i++){
@@ -90,6 +90,8 @@ socket.on('login', (res) => {
 
 
         } else {
+            //Casual user
+            createStandardGraph(res.graphData, products);
             currentUser.isAdmin = false;
         }
         logged = true;

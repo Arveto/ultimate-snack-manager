@@ -34,7 +34,7 @@ $(".product").on('click', function(e) {
         for(let i=0; i<products.length; i++){
             if(products[i].id == productId){
                 productName = products[i].name;
-                productPrice = products[i].price;
+                productPrice = products[i].price.toFixed(2);
                 break;
             }
         }
@@ -109,9 +109,22 @@ $('#submitCommand').on('click', ()=>{
             let order = {};
             order.admin = currentUser;
             order.customerId = customerId;
-            order.commandList = orderArray.toString();
+            order.commandList = orderArray;
             order.isPreorder = false;
-            order.price = totalPrice;
+            order.price = totalPrice.toFixed(2);
+
+            //Update the dashboard HTML
+            let nOrders = parseInt($("#nOrdersSession").html()) + 1;
+            $("#nOrdersSession").html(nOrders.toString());
+
+            let profit = parseInt($("#profit").html()) + totalPrice.toFixed(2);
+            $("#profit").html(profit.toString() + ' €');
+
+            for(let i=0; i<users.length; i++){
+                if(users[i].id == customerId){
+                    $("#lastOrder").html(users[i].fiName+" "+users[i].faName);
+                }
+            }
 
             //send it
             socket.emit('order', order);
@@ -122,7 +135,7 @@ $('#submitCommand').on('click', ()=>{
             customerId : currentUser.id,
             commandList : orderArray.toString(),
             isPreorder : 1,
-            price : totalPrice
+            price : totalPrice.toFixed(2)
         };
 
         socket.emit('preorder', order);
@@ -142,9 +155,11 @@ updatePrice();
 
 socket.on('commandRecived', ()=>{
     $("#submitLogin").removeClass('is-loading');
-    notif('success', 'La commande #000042 a bien été effectuée');
+    notif('success', 'La commande a bien été effectuée');
+
     leaveOrdering();
 })
+
 socket.on('accountSold', (data)=>{
     //notif('success', 'Solde de <b>'+usersList[data.customerId].name+'</b> : <b>'+data.money+'</b>');
 });
@@ -245,20 +260,20 @@ function deleteAllProducts(){
 
 
 function updatePrice(){
-    totalPrice = 0;  //TODO: Calcuate from commandList (ez)
+    totalPrice = 0;
 
     //Cycle order array
     for(let i=0; i<commandList.length; i++){
         //Look for price in corresponding 'products' index
         for(let j=0; j<products.length; j++){
             if(products[j].id == commandList[i].id){
-                totalPrice += commandList[i].amount * products[j].price;
+                totalPrice += commandList[i].amount * products[j].price.toFixed(2);
             }
         }
     }
 
     //OLD VERSION: $('#total').html((total.reduce((pv, cv) => pv+cv, 0).toFixed(2)));
-    $('#total').html(totalPrice);
+    $('#total').html(totalPrice.toFixed(2) + ' €');
 }
 
 
