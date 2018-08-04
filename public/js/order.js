@@ -73,7 +73,6 @@ $(".product").on('click', function(e) {
         scrollDown("#commandList");
 
     }
-    console.log(commandList);
 });
 
 
@@ -191,7 +190,6 @@ function incrementProduct(productId) {
     $("#p" + productId).html(products[productIndex].name + '&nbsp; (&times ' + commandList[commandIndex].amount + ')');
 
     updatePrice();
-    console.log(commandList);
 }
 
 
@@ -214,7 +212,6 @@ function decrementProduct(productId){
 
             if(commandList[i].amount == 0){
                 deleteProduct(productId);
-                console.log("Product must be removed");
             }
 
 
@@ -231,7 +228,6 @@ function decrementProduct(productId){
 
 
     updatePrice();
-    console.log(commandList);
 }
 
 
@@ -249,7 +245,6 @@ function deleteProduct(productId) {
     }
 
     updatePrice();
-    console.log(commandList);
 }
 
 
@@ -279,7 +274,6 @@ function updatePrice(){
     }
 
     $('#total').html(totalPrice.toFixed(2) + ' €');
-    console.log(commandList);
 }
 
 

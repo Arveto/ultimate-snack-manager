@@ -12,6 +12,9 @@ function signup(formData) {
 }
 
 socket.on('signupSuccess', (res)=>{
+    //First we'll send a login event with our newly created values
+    login($('#emailSignup').val(), $('#password1').val());
+
     notif('success', "Votre compte a bien été créé!")
     logged = true;
     changeView('dashboard');
@@ -22,6 +25,7 @@ socket.on('signupSuccess', (res)=>{
     //Empty password fields (4 security, yaknow?)
     $('#password1').val('');
     $('#password2').val('');
+
 });
 
 socket.on('signupFailure', (res)=>{

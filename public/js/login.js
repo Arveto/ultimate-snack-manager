@@ -10,6 +10,8 @@ let currentUser = {
 /*
 *   ENCRYPTION WITH https://github.com/Caligatio/jsSHA
 */
+
+//Sends login event to server
 function login(email, password) {
     $("#loginNav").addClass('is-loading');
     let shaObj = new jsSHA("SHA-512", "TEXT");

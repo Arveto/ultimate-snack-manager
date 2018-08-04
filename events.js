@@ -95,8 +95,6 @@ function socketIoEvents(socket, database){
     //Receiving an account creation request
     socket.on('signup', (data) => {
 
-        //TODO Allow the user to login immediatly (needsss queries, etc)
-
         let query = 'SELECT email FROM users WHERE email = ?;';
         database.query(query, data.email)
         .then(rows => {
@@ -104,7 +102,7 @@ function socketIoEvents(socket, database){
             if (rows.length) {
                 socket.emit("signupFailure");
             } else {
-                query = "INSERT INTO users (faName, fiName, pseudo, email, password) VALUES(?, ?, ?, ?);"
+                query = "INSERT INTO users (faName, fiName, pseudo, email, password) VALUES(?, ?, ?, ?, ?);"
                 database.query(query, [data.faName, data.fiName, data.pseudo, data.email, data.password])
                 .then(rows => {
                     console.log("User added!");
