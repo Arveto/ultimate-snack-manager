@@ -10,11 +10,6 @@ const events = require('./events.js');
 
 /******************************************************************************/
 
-/*
-*  Testing variables
-*  TODO: fill them with weird SQL stuff...
-*/
-
 
 let user = "ESSAIM";
 

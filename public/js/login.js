@@ -1,11 +1,10 @@
+let connectionData = {
+    login: undefined,
+    hash: undefined,
+}
+
 let currentUser = {
-    id : null,
-    login : null,
-    hash : null,
-    isAdmin : false,
-    faName : undefined,
-    fiName : undefined,
-    pseudo : undefined
+    //Will contain data bout the connected user
 };
 
 /*
@@ -15,19 +14,19 @@ function login(email, password) {
     $("#loginNav").addClass('is-loading');
     let shaObj = new jsSHA("SHA-512", "TEXT");
     shaObj.update(password);
-    currentUser.login = email;
-    currentUser.hash = shaObj.getHash("HEX");
+    connectionData.login = email;
+    connectionData.hash = shaObj.getHash("HEX");
 
     socket.emit("login", {
         email: email,
-        password: currentUser.hash
+        password: connectionData.hash
     });
 }
 
 socket.on('login', (res) => {
     if (res.ok) {
-        notif('success', "Connecté en tant que <b>" + currentUser.login + "</b>");
-        currentUser.id = res.userData.id;
+        notif('success', "Connecté en tant que <b>" + res.userData.fiName + ' ' + res.userData.faName + "</b>");
+        currentUser = res.userData;
 
         products = res.itemsList;
 
@@ -96,11 +95,11 @@ socket.on('login', (res) => {
         }
         logged = true;
 
-        changeView(gotoOrder ? 'userSelection' : 'dashboard');
+        changeView('dashboard');
         $("#preordersContainer").show();
 
         $('.login').val('');
-        $("#loginNav").html('Connecté: <b> &nbsp; ' + currentUser.login + '</b>');
+        $("#loginNav").html('Connecté: <b> &nbsp; ' + currentUser.fiName + ' ' + currentUser.faName + '</b>');
         $('#loginPopup').hide();
     } else {
         notif('danger', 'Wrong credentials');

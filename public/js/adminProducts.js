@@ -1,6 +1,6 @@
 
-let adminProduct = {};
-let addProduct = false;
+let adminProduct = {};  //Acts as a buffer to store data of a product being modified
+let addProduct = false; //Tells us if we are adding or modifying a product
 
     //Editing
 $(".adminProduct").on('click', function(e) {

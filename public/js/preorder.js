@@ -1,5 +1,5 @@
 //used to receive preorders only
-
+var preorders = [];
 
 socket.on('preorder', (command) =>{
     addPreorder(command);

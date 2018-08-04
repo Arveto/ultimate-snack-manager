@@ -1,4 +1,7 @@
 
+let commandList = []; //IDs of selected products & amount of it
+let totalPrice;
+
 //UI EVENTS
 $(".product").on('click', function(e) {
 
@@ -104,7 +107,7 @@ $('#submitCommand').on('click', ()=>{
             }
         }
 
-        if (currentUser.isAdmin == 1) {
+        if (currentUser.isAdmin == 1 && currentUser.id != customerId) {
             //prepare the order json
             let order = {};
             order.admin = currentUser;
@@ -130,24 +133,23 @@ $('#submitCommand').on('click', ()=>{
             socket.emit('order', order);
 
         } else {  //It's a preorder
-        //prepare the order json
-        let order = {
-            customerId : currentUser.id,
-            commandList : orderArray.toString(),
-            isPreorder : 1,
-            price : totalPrice.toFixed(2)
-        };
+            //prepare the order json
+            let order = {
+                customerId : currentUser.id,
+                commandList : orderArray.toString(),
+                isPreorder : 1,
+                price : totalPrice.toFixed(2)
+            };
 
-        socket.emit('preorder', order);
+            socket.emit('preorder', order);
+        }
     }
-}
 
-
-//Reset vars
-commandList = [];
-$("#commandList").empty();
-updatePrice();
-});
+    //Reset vars
+    commandList = [];
+    $("#commandList").empty();
+    updatePrice();
+    });
 
 
 
@@ -159,11 +161,6 @@ socket.on('commandRecived', ()=>{
 
     leaveOrdering();
 })
-
-socket.on('accountSold', (data)=>{
-    //notif('success', 'Solde de <b>'+usersList[data.customerId].name+'</b> : <b>'+data.money+'</b>');
-});
-
 
 
 //UTILS
@@ -272,15 +269,12 @@ function updatePrice(){
         }
     }
 
-    //OLD VERSION: $('#total').html((total.reduce((pv, cv) => pv+cv, 0).toFixed(2)));
     $('#total').html(totalPrice.toFixed(2) + ' €');
 }
 
 
 
 function leaveOrdering(){
-    // if (customerId)
-    socket.emit('ordering', {customerId: customerId, admin: currentUser, leave: true});
     deleteAllProducts();
     changeView("userSelection");
     customerId = null;

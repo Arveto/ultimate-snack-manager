@@ -1,7 +1,7 @@
-//User selection in order menu only, see adminUsers.js
+//User selection in order menu only, see adminUsers.js for users administration
 
-let customerId;
-var users = [];
+let customerId; //Customer being served
+
 
     //Bind events when content has been added to DOM
 function bindUserOrder(){
@@ -21,16 +21,6 @@ function bindUserOrder(){
 
         changeView('order');
 
-        socket.emit('ordering', {customerId: customerId, admin: currentUser, leave: false,});
-    });
-
-    socket.on('ordering', (data)=>{
-        if (!data.leave){
-            $(".order."+data.customerId).removeClass('is-success').addClass('is-warning');
-        } else {
-            $(".order."+data.customerId).removeClass('is-warning').addClass('is-success');
-        }
-        $('.amdin-in-charge.'+data.customerId).html('--servi par '+ data.adminName);
     });
 
 

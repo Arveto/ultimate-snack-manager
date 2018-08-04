@@ -1,38 +1,9 @@
 
-let edition = {};
-let editedUser;
+let edition = {};   //Acts as a buffer to store data of a user being modified
+let editedUser; //Id of an edited user
 
 //Bind event after content has been added to the DOM
 function bindUserAdmin(){
-
-    //WARNING Not in code anymore?
-    // $('#adminUsersInput').on('keyup', (e)=>{
-    //     console.log('Triggered event 3');
-    //
-    //     let keycode = e.keyCode || e.which;
-    //
-    //     switch (keycode) {
-    //         case 38:  //arrow up
-    //         e.preventDefault();
-    //         break;
-    //         case 40:  //arrow down
-    //         e.preventDefault();
-    //         break;
-    //         case 13:  //enter key
-    //         e.preventDefault();
-    //         break;
-    //         default:
-    //         let input = $('#adminUsersInput').val();
-    //
-    //         users.forEach((user)=>{
-    //             if (user.name.toLowerCase().search(input.toLowerCase()) < 0){
-    //                 $('.user'+user.id).hide();
-    //             } else {
-    //                 $('.user'+user.id).show();
-    //             }
-    //         })
-    //     }
-    // });
 
     $(".adminUserAction").unbind().click(function(e){
         //^^^ Prevent the event to be triggered multiple times ^^^
@@ -76,13 +47,6 @@ function bindUserAdmin(){
         }
 
     });
-
-    //Send edition to server -> WARNING Not in code anymore?
-//     $('#userAdminApply').on('click', function(e){
-//         console.log('Triggered event 1');
-//         e.stopPropagation();
-//         sendEdition(edition);
-//     });
 
 }
 
@@ -128,11 +92,7 @@ $("#userAdmin_apply").on('click', ()=>{
 
 // INNER SOCKIO EVENTS
 
-socket.on('editUser', (edition)=>{  // TODO: Finish that shit, its too much for me. 7:43am. Hands up. Goona leave thoses awesome lines. Kiss ya.
-
-    // $('#adminUsers div.blur').removeClass('blur');
-    // $("#userAdministrationPopup").hide();
-
+socket.on('editUser', (edition)=>{
     //Get edited user's index in our array
     let userIndex;
     for(let i=0; i<users.length; i++){

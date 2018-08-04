@@ -1,6 +1,8 @@
 function socketIoEvents(socket, database){
     console.log('new connected');
 
+/***********************  ACCOUNT LOGIN/SIGNUP  ******************************/
+
     //New user connection
     socket.on('login', (user) => {
         let isAdmin;
@@ -112,40 +114,7 @@ function socketIoEvents(socket, database){
         });
     });
 
-
-
-    //An admin is placing an order -> trigger an UI event
-    //WARNING Uncomplete: how is the list of items sent (now or on login)?
-    socket.on('ordering', (data) => {
-
-        let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
-        database.query(query, [data.admin.login, data.admin.hash])
-        .then(rows => {
-
-            //Check if the user sending event is an admin
-            let isAdmin = false;
-            if(rows.length){
-                if(rows[0].admin){
-                    isAdmin = true;
-                }
-            }
-
-            if (!data.leave && isAdmin) {
-                socket.broadcast.emit('ordering', {
-                    customerId: data.customerId,
-                    adminName: data.admin.login,
-                    leave: data.leave
-                });
-            } else if(isAdmin) {
-                socket.broadcast.emit('ordering', {
-                    customerId: data.customerId,
-                    adminName: '',
-                    leave: data.leave
-                });
-            }
-        });
-    });
-
+/***********************  ORDER, PREORDER EVENTS  ******************************/
 
     //Receiving an order
     socket.on('order', (order) => {
