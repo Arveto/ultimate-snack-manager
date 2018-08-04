@@ -73,6 +73,7 @@ $(".product").on('click', function(e) {
         scrollDown("#commandList");
 
     }
+    console.log(commandList);
 });
 
 
@@ -95,7 +96,6 @@ $('#deleteAllProducts').on('click', ()=>{
 
 
 $('#submitCommand').on('click', ()=>{
-    console.log("customerId= "+customerId);
 
     if (logged){
         $("#submitLogin").addClass('is-loading');
@@ -191,11 +191,12 @@ function incrementProduct(productId) {
     $("#p" + productId).html(products[productIndex].name + '&nbsp; (&times ' + commandList[commandIndex].amount + ')');
 
     updatePrice();
+    console.log(commandList);
 }
 
 
 
-function decrementProduct(productId) {
+function decrementProduct(productId){
 
     productIndex = -1;
     for(let i=0; i<products.length; i++){
@@ -211,8 +212,11 @@ function decrementProduct(productId) {
         if(productId == commandList[i].id){
             commandList[i].amount--;
 
-            if(commandList[i].amount == 0)
-            deleteProduct(productId)
+            if(commandList[i].amount == 0){
+                deleteProduct(productId);
+                console.log("Product must be removed");
+            }
+
 
             commandIndex = i;
             break;
@@ -227,6 +231,7 @@ function decrementProduct(productId) {
 
 
     updatePrice();
+    console.log(commandList);
 }
 
 
@@ -244,6 +249,7 @@ function deleteProduct(productId) {
     }
 
     updatePrice();
+    console.log(commandList);
 }
 
 
@@ -273,6 +279,7 @@ function updatePrice(){
     }
 
     $('#total').html(totalPrice.toFixed(2) + ' €');
+    console.log(commandList);
 }
 
 

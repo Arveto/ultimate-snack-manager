@@ -25,6 +25,8 @@ $(".toDashboard").on('click', () => {
         leaveOrdering();
     if (logged)
         changeView('dashboard');
+        if(currentUser.admin)
+            $('#preordersContainer').show();
 });
 
 $(".toOrder").on('click', () => {

@@ -22,7 +22,7 @@ div.column.is-4 aside.box{
 }
 #commandList{
     height: 50vh;
-    width: 26vw;
+    width: 100%;
     overflow-y: scroll;
 }
 

@@ -54,38 +54,12 @@ socket.on('login', (res) => {
                 bindUserAdmin();
             });
 
-
                 //Create dashboard data
-            //Graph
-            createAdminGraph(products);  //Found in charts.js
+            createAdminDashboard(res);
 
-            //Last order
-            for(let i=0; i<res.users.length; i++){
-                if(res.users[i].id == res.lastCustomer){
-                    $('#lastOrder').html(res.users[i].fiName + ' ' + res.users[i].faName);
-                }
-            }
+            $("#preordersContainer").show();
 
-            //Low stock
-            let lowerStock;
-            let lowerStockIndex;
-            for(let i=0; i<products.length; i++){
-                if(i == 0){
-                    lowerStock = products[i].stock;
-                    lowerStockIndex = i;
-
-                } else {
-                    if(products[i].stock < lowerStock){
-                        lowerStock = products[i].stock;
-                        lowerStockIndex = i;
-                    }
-                }
-
-                if(lowerStock == 0)
-                    break;
-            }
-
-            $("#lowStock").html(products[lowerStockIndex].name+' (x'+lowerStock+')');
+            users = res.users;
 
 
         } else {
@@ -96,7 +70,9 @@ socket.on('login', (res) => {
         logged = true;
 
         changeView('dashboard');
-        $("#preordersContainer").show();
+        if(currentUser.admin)
+            $('#preordersContainer').show();
+
 
         $('.login').val('');
         $("#loginNav").html('Connecté: <b> &nbsp; ' + currentUser.fiName + ' ' + currentUser.faName + '</b>');
@@ -107,8 +83,7 @@ socket.on('login', (res) => {
     $('#loginNav').removeClass('is-loading');
     $('.password').val('');
 
-    //Assign large arrays at end of block to optimize memory consumption
-    users = res.users;
+
 });
 
 
