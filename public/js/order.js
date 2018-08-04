@@ -95,7 +95,9 @@ $('#deleteAllProducts').on('click', ()=>{
 
 
 $('#submitCommand').on('click', ()=>{
-    if (logged && currentUser.login && currentUser.hash){
+    console.log("customerId= "+customerId);
+
+    if (logged){
         $("#submitLogin").addClass('is-loading');
 
         //Build order array
@@ -115,6 +117,7 @@ $('#submitCommand').on('click', ()=>{
             order.commandList = orderArray;
             order.isPreorder = false;
             order.price = totalPrice.toFixed(2);
+            order.connectionData = connectionData;
 
             //Update the dashboard HTML
             let nOrders = parseInt($("#nOrdersSession").html()) + 1;

@@ -12,7 +12,7 @@ function signup(formData) {
 }
 
 socket.on('signupSuccess', (res)=>{
-    notif('success', "Connecté en tant que <b>"+currentUser.login+"</b>")
+    notif('success', "Votre compte a bien été créé!")
     logged = true;
     changeView('dashboard');
     $('.username').val('');

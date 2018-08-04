@@ -95,7 +95,7 @@ function socketIoEvents(socket, database){
     //Receiving an account creation request
     socket.on('signup', (data) => {
 
-        //TODO Maybe add more contraints for account creation?
+        //TODO Allow the user to login immediatly (needsss queries, etc)
 
         let query = 'SELECT email FROM users WHERE email = ?;';
         database.query(query, data.email)
@@ -108,7 +108,7 @@ function socketIoEvents(socket, database){
                 database.query(query, [data.faName, data.fiName, data.pseudo, data.email, data.password])
                 .then(rows => {
                     console.log("User added!");
-                    socket.emit("signupSuccess");
+                    socket.emit("signupSuccess", {faName: data.faName, fiName: data.fiName, pseudo: data.pseudo, email: data.email, admin: false});
                 });
             }
         });
@@ -120,8 +120,10 @@ function socketIoEvents(socket, database){
     socket.on('order', (order) => {
         //TODO Also support preorders (different query for the order INSERTION)
 
+        console.log("Received an order =)");
+
         let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
-        database.query(query, [order.admin.login, order.admin.hash])
+        database.query(query, [order.connectionData.login, order.connectionData.hash])
         .then(rows => {
             if(rows[0].admin == 1){
 
