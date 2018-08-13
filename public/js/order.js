@@ -10,69 +10,7 @@ $(".product").on('click', function(e) {
     //get Id of the product selected
     let productId = getIdFromClassName(this);
 
-    //First, check if product is already in list
-    let itemFound = false;
-
-    for(let i=0; i<commandList.length; i++){
-        if(commandList[i].id == productId){
-            //If the product is already in list
-            itemFound = true;
-            incrementProduct(productId);
-        }
-    }
-
-    if(!itemFound){
-        //Append to list
-        commandList.push({
-            id: productId,
-            amount: 1
-        });
-
-
-        //Append to HTML
-        //First, we look for the product's name and price, from its ID
-
-        let productName = '';
-        let productPrice = 0;
-        for(let i=0; i<products.length; i++){
-            if(products[i].id == productId){
-                productName = products[i].name;
-                productPrice = products[i].price.toFixed(2);
-                break;
-            }
-        }
-
-
-        $("<article>").addClass('media productContainer' + productId).html('\
-        <figure class="media-left">\
-        <p class="image is-48x48">\
-        <img src="https://bulma.io/images/placeholders/128x128.png">\
-        </p>\
-        </figure>\
-        <div class="media-content">\
-        <div class="content">\
-        <p>\
-        <strong id="p' + productId + '">' + productName+ ' (x1)'+'</strong><br/>\
-        <small>Prix <a>' + productPrice + '</a> €</small>\
-        </p>\
-        </div>\
-        </div>\
-        <div class="media-right order-small-modifiers">\
-        <button onclick="deleteProduct('+productId+')" class="delete is-bigger"></button>\
-        <div onclick="incrementProduct('+productId+')" class="incProd is-big">\
-        <i class="fa fa-plus-circle" ></i>\
-        </div>\
-        <div onclick="decrementProduct('+productId+')" class="decProd is-small">\
-        <i class="fa fa-minus-circle"></i>\
-        </div>\      </div>\
-        ').appendTo('#commandList');
-
-
-        updatePrice();
-
-        scrollDown("#commandList");
-
-    }
+    appendProduct(productId);
 });
 
 
@@ -166,6 +104,76 @@ socket.on('commandRecived', ()=>{
 
 
 //UTILS
+
+function appendProduct(productId){
+    console.log("Appending product "+productId);
+    //First, check if product is already in list
+    let itemFound = false;
+
+    for(let i=0; i<commandList.length; i++){
+        if(commandList[i].id == productId){
+            //If the product is already in list
+            itemFound = true;
+            incrementProduct(productId);
+        }
+    }
+
+    if(!itemFound){
+        //Append to list
+        commandList.push({
+            id: productId,
+            amount: 1
+        });
+
+
+        //Append to HTML
+        //First, we look for the product's name and price, from its ID
+
+        let productName = '';
+        let productPrice = 0;
+        for(let i=0; i<products.length; i++){
+            if(products[i].id == productId){
+                productName = products[i].name;
+                productPrice = products[i].price.toFixed(2);
+                break;
+            }
+        }
+
+
+        $("<article>").addClass('media productContainer' + productId).html('\
+        <figure class="media-left">\
+        <p class="image is-48x48">\
+        <img src="https://bulma.io/images/placeholders/128x128.png">\
+        </p>\
+        </figure>\
+        <div class="media-content">\
+        <div class="content">\
+        <p>\
+        <strong id="p' + productId + '">' + productName+ ' (x1)'+'</strong><br/>\
+        <small>Prix <a>' + productPrice + '</a> €</small>\
+        </p>\
+        </div>\
+        </div>\
+        <div class="media-right order-small-modifiers">\
+        <button onclick="deleteProduct('+productId+')" class="delete is-bigger"></button>\
+        <div onclick="incrementProduct('+productId+')" class="incProd is-big">\
+        <i class="fa fa-plus-circle" ></i>\
+        </div>\
+        <div onclick="decrementProduct('+productId+')" class="decProd is-small">\
+        <i class="fa fa-minus-circle"></i>\
+        </div>\      </div>\
+        ').appendTo('#commandList');
+
+
+        updatePrice();
+
+        scrollDown("#commandList");
+
+    }
+}
+
+
+
 function incrementProduct(productId) {
 
     productIndex = -1;

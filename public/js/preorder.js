@@ -17,6 +17,23 @@ socket.on('preorderDone', (customerId)=>{
 function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
     //What the fuck is that function?
     //We're gonna talk about that
+
+    for(let i=0; i<preorders.length; i++){
+        console.log("Looking for user");
+        if(preorders[i].customerId == customerId){
+            console.log("Found user!");
+
+            //Once proerder is found, append its content to the order menu
+            for(let j=0; j<preorders[i].commandList.length; j++){
+                for(let k=0; k<preorders[i].commandList[j].amount; k++){
+                    appendProduct(preorders[i].commandList[j].id);
+                }
+            }
+
+            break;
+        }
+    }
+
     $('button.order.'+customerId).trigger('click');
 }
 
@@ -43,6 +60,9 @@ function addPreorder(command){
         if(!articleFound)
             commandList.push({id: command.commandList[i], amount: 1});
     }
+
+    //Needed to automatically add preorder content when selected
+    command.commandList = commandList;
 
     //Create display name
     let displayName = command.name.fiName;
