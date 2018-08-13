@@ -12,29 +12,45 @@ socket.on('preorderDone', (customerId)=>{
 
 
 
-//Functions
+    //Functions
 
+//Triggered when clicking a preorder (now validates and closes it)
 function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
     //What the fuck is that function?
     //We're gonna talk about that
 
     for(let i=0; i<preorders.length; i++){
-        console.log("Looking for user");
         if(preorders[i].customerId == customerId){
-            console.log("Found user!");
 
-            //Once proerder is found, append its content to the order menu
+
+
+            //Once preorder is found, reformats its content for the DB
+            let orderContent = '';
+            let price = 0.00;
+
             for(let j=0; j<preorders[i].commandList.length; j++){
                 for(let k=0; k<preorders[i].commandList[j].amount; k++){
-                    appendProduct(preorders[i].commandList[j].id);
+
+                    orderContent.concat(preorders[i].commandList[j].id.toString());
+
+                    for(let l=0; l<products.length; l++){   //Thats a lot of counters =/
+                        if(l == preorders[i].commandList[j].id){
+                            price = parseFloat(price + products[l].price.toFixed(2));
+                            break;
+                        }
+
+                    }
                 }
             }
+
+            socket.emit("validatePreorder", {customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
+
+            notif('La commande a bien été traitée!')
+            $('.media box preco'+customerId).remove();
 
             break;
         }
     }
-
-    $('button.order.'+customerId).trigger('click');
 }
 
 

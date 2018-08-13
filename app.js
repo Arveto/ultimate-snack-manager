@@ -67,7 +67,7 @@ app.get('/', (req, res) => {
 //Socket.io events
 
 io.sockets.on('connection', function(socket) {
-    events.socketIoEvents(socket, database);    //Create events listenets
+    events.socketIoEvents(socket, database);    //Create events listeners
 });
 
 server.listen(8080);

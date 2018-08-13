@@ -46,7 +46,7 @@ $('#submitCommand').on('click', ()=>{
             }
         }
 
-        if (currentUser.isAdmin == 1 && currentUser.id != customerId) {
+        if (currentUser.isAdmin == 1 && currentUser.id != customerId) { // Incomplete/bad condition
             //prepare the order json
             let order = {};
             order.admin = currentUser;
@@ -89,7 +89,7 @@ $('#submitCommand').on('click', ()=>{
     commandList = [];
     $("#commandList").empty();
     updatePrice();
-    });
+});
 
 
 

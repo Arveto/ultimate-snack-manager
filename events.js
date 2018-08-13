@@ -25,8 +25,6 @@ function socketIoEvents(socket, database){
                 let itemsRes;
                 let users;
 
-                //We need to fetch the items (and later users) list(s) and current preorders
-                //For items, we currently select needed data only => Fetch graph data later?
                 let query = 'SELECT id, name, price, stock, nOrders FROM items ORDER BY id ASC;';
                 database.query(query)
                 .then(rows => {
@@ -156,7 +154,7 @@ function socketIoEvents(socket, database){
         database.query(query, [order.customerId])
         .then(rows => {
             //We check that the user has no preorder yet
-            if(rows.length > 0){
+            if(rows.length == 0){
                 let query = 'INSERT INTO orders (customerId, price, content, pending) VALUES(?, ?, ?, 1)';
                 database.query(query, [order.customerId, order.price, order.commandList.toString()])
                 .then((rows) => {
@@ -167,9 +165,44 @@ function socketIoEvents(socket, database){
                     socket.broadcast.emit('preorder', {customerId: order.customerId, commandList: order.commandList, price: order.price, date: new Date().toLocaleString(), name: rows[0]});
                 });
             }
+
+            // TODO: else{ Send error message to user? }
         })
 
 
+    });
+
+
+    //Event to close a preorder (facturation is done here)
+    socket.on('validatePreorder', (data) =>{
+
+        //Check that the preorder exists and is unique (as expected)
+        let query = 'SELECT id FROM orders WHERE pending = 1 AND customerId = ?;';
+        database.query(query, [data.customerId])
+        .then(rows => {
+            if(rows[0].length == 1){
+
+                //Set the command to closed
+                let query = 'UPDATE orders SET pending = 0 WHERE customerId = ?;';
+                database.query(query, [data.customerId])
+                .then(rows =>{
+
+                    //Updtaes the users balance
+                    let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
+                    return database.query(query, [data.price, data.customerId]);
+                })
+                .then(rows => {
+                    console.log("Preorder closed");
+                });
+
+                //Update the nOrders Factor (WARNING Ugly as f***)
+                query = 'UPDATE items SET nOrders = nOrders + 1, stock = stock - 1 WHERE id = ? AND stock > 0;'
+                for(let i=0; i<order.commandList.length; i++){
+                    database.query(query, [data.commandList[i]])
+                    .then(rows => {});
+                }
+            }
+        });
     });
 
 
