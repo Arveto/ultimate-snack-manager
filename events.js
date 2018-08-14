@@ -180,11 +180,11 @@ function socketIoEvents(socket, database){
         let query = 'SELECT id FROM orders WHERE pending = 1 AND customerId = ?;';
         database.query(query, [data.customerId])
         .then(rows => {
-            if(rows[0].length == 1){
+            if(rows.length == 1){
 
                 //Set the command to closed
-                let query = 'UPDATE orders SET pending = 0 WHERE customerId = ?;';
-                database.query(query, [data.customerId])
+                let query = 'UPDATE orders SET pending = 0 WHERE id = ?;';
+                database.query(query, [rows[0].id])
                 .then(rows =>{
 
                     //Updtaes the users balance
@@ -197,9 +197,10 @@ function socketIoEvents(socket, database){
 
                 //Update the nOrders Factor (WARNING Ugly as f***)
                 query = 'UPDATE items SET nOrders = nOrders + 1, stock = stock - 1 WHERE id = ? AND stock > 0;'
-                for(let i=0; i<order.commandList.length; i++){
+                for(let i=0; i<data.commandList.length; i++){
                     database.query(query, [data.commandList[i]])
-                    .then(rows => {});
+                    .then(rows => {
+                    });
                 }
             }
         });
