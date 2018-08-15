@@ -73,6 +73,16 @@ function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
 }
 
 
+//Used when clicking remove button
+function removePreorder(customerId){
+    $('.media.box.preco'+customerId.toString()).remove();
+    notif('info', 'Commande supprimée')
+
+    //Send event to remove DB entry
+    socket.emit("removePreorder", {customerId: customerId});
+}
+
+
     //Used on login, and when receiving a preorder
 function addPreorder(command){
     //Reconstitute commandList array (with JSON containing ID  and amount)
@@ -132,6 +142,11 @@ function addPreorder(command){
     </div>\
     </div>\
     <div class="media-right">\
+    <button class="button is-medium is-failure preco" onclick="removePreorder('+command.customerId+')">\
+    <span class="icon is-large is-left">\
+    <i class="fa fa-times-octagon "></i>\
+    </span>\
+    </button>\
     <button class="button is-medium is-success preco" onclick="precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts('+command.customerId+')"><!--I m sorry for that..-->\
     <span class="icon is-large is-left">\
     <i class="fa fa-arrow-right"></i>\

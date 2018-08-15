@@ -206,6 +206,12 @@ function socketIoEvents(socket, database){
         });
     });
 
+    socket.on("removePreorder", (data) =>{
+        let query="DELETE FROM orders WHERE customerId = ?;"
+        database.query(query, [data.customerId])
+        .then(rows =>{console.log("Order deleted")});
+    })
+
 
     /***********************    ADMINISTRATION  STUFF ******************************/
 
