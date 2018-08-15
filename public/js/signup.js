@@ -7,7 +7,7 @@ function signup(formData) {
         fiName: formData.fiName,
         pseudo: formData.pseudo,
         email: formData.email,
-        password: formData.password1,
+        password: formData.password1
     });
 }
 

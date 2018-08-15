@@ -110,6 +110,46 @@ function socketIoEvents(socket, database){
         });
     });
 
+
+    //User wants to change its account data
+    socket.on("editAccount", data =>{
+            console.log("Receive account edit");
+
+            let query ="SELECT id FROM users WHERE email = ?;"
+            database.query(query, [data.email])
+            .then(rows =>{
+
+                console.log(rows.length + " email matches");
+
+                //If the user let the password field empty
+                if((rows.length == 0 || rows[0].id == data.id) && data.password == ""){
+                    let query ="UPDATE users SET faName = ?, fiName = ?, pseudo = ?, email = ? WHERE id = ?;"
+                    database.query(query, [data.faName, data.fiName, data.pseudo, data.email, data.id])
+                    .then(rows =>{
+                        console.log("Account edited, password unchanged");
+                        socket.emit("editSuccess");
+                    });
+                }
+
+                //If the password must be changed
+                else if((rows.length == 0 || rows[0].id == data.id) && data.password != ""){
+                    let query ="UPDATE users SET faName = ?, fiName = ?, pseudo = ?, email = ?, password = ? WHERE id = ?;"
+                    database.query(query, [data.faName, data.fiName, data.pseudo, data.email, data.password, data.id])
+                    .then(rows =>{
+                        console.log("Account edited, password changed");
+                        socket.emit("editSuccess");
+                    });
+                }
+
+                //User entered a used email
+                else{
+                    console.log("Edit failure");
+                    socket.emit("editFailure");
+                }
+            });
+
+    });
+
 /***********************  ORDER, PREORDER EVENTS  ******************************/
 
     //Receiving an order

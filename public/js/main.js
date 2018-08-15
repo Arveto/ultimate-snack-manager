@@ -61,13 +61,20 @@ $("#loginNav").on('click', () => {
 })
 
 $("#toAdminProducts").on('click', ()=>{
-        if (logged)
+        if (logged && currentUser.admin)
             changeView('adminProducts');
 })
 
 $("#toAdminUsers").on('click', ()=>{
-        if (logged)
+        if (logged && currentUser.admin)
             changeView('adminUsers');
+})
+
+$("#toAccountManagement").on('click', ()=>{
+        if (logged){
+            fillEditForm(currentUser);
+            changeView('accountManagement');
+        }
 })
 
 

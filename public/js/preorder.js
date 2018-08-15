@@ -144,7 +144,7 @@ function addPreorder(command){
     <div class="media-right">\
     <button class="button is-medium is-failure preco" onclick="removePreorder('+command.customerId+')">\
     <span class="icon is-large is-left">\
-    <i class="fa fa-times-octagon "></i>\
+    <i class="fa fa-trash-alt "></i>\
     </span>\
     </button>\
     <button class="button is-medium is-success preco" onclick="precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts('+command.customerId+')"><!--I m sorry for that..-->\

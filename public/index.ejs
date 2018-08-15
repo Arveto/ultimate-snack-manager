@@ -98,11 +98,13 @@
     </div>
     <!-- /LOGIN -->
 
+
     <!-- SIGNUP -->
     <div id="signup" class="pannel">
         <%- include('signup.ejs'); %>
     </div>
     <!-- /SIGNUP -->
+
 
     <!-- USER SELECTION -->
     <div id="userSelection" class="container pannel">
@@ -110,11 +112,13 @@
     </div>
     <!-- /USER SELECTION -->
 
+
     <!-- DASHBOARD -->
     <div id="dashboard" class="pannel">
         <%- include('dashboard.ejs', {shoppingList: shoppingList}); %>
     </div>
     <!-- /DASHBOARD -->
+
 
     <!-- ORDERED COMMANDS -->
     <script>
@@ -126,9 +130,18 @@
     </div>
     <!-- /ORDERED COMMANDS -->
 
+
     <!-- NOTIFICATIONS -->
     <section id="notifications"></section>
     <!-- /NOTIFICATIONS -->
+
+
+    <!-- ACCOUNT MANAGEMENT -->
+    <div id="accountManagement" class="pannel">
+        <%- include('account-management.ejs'); %>
+    </div>
+    <!-- /ACCOUNT MANAGEMENT -->
+
 
     <!-- PREORDER -->
     <section id="preordersContainer" class="pannel">
@@ -170,6 +183,7 @@
     <script type="text/javascript" src="js/preorder.js"></script>
     <script type="text/javascript" src="js/adminProducts.js"></script>
     <script type="text/javascript" src="js/adminUsers.js"></script>
+    <script type="text/javascript" src="js/account-management.js"></script>
 
 </body>
 
