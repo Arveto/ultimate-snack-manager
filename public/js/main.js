@@ -76,21 +76,3 @@ $("#toAccountManagement").on('click', ()=>{
             changeView('accountManagement');
         }
 })
-
-
-//KEY BINDING
-
-$("*").on('keypress', (e) => {
-  let keycode = e.keyCode || e.which;
-    switch (keycode) {
-        case 27: //ESC
-          $('#adminUsers div.blur').removeClass('blur');
-          $("#userAdministrationPopup").hide();
-          $("#loginPopup").hide();
-          break;
-        case 115: //ESC
-          changeView('adminUsers')
-          break;
-        default:
-    }
-})
