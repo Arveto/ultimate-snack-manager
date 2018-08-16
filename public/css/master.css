@@ -39,6 +39,6 @@ body{
     z-index: 100;
 }
 
-column.is-9.animated.fadeIn{
-    overflow-y: scroll;
+div.column.is-9.animated.fadeIn{
+    /* overflow-y: scroll; */
 }

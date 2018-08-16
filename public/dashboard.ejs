@@ -104,23 +104,42 @@
                                 <table class="table is-fullwidth is-striped">
                                     <tbody>
                                         <%
-                                        shoppingList.forEach((list)=>{
+                                        let i = 0;
+                                        shoppingList.forEach((product)=>{
                                             %>
-                                            <tr>
-                                                <td width="5%"><i class="far fa-bell"></i></td>
-                                                <td> <%=list%> </td>
-                                                <td><a class= "button is-small" href="#">Action</a></td>
+                                            <tr class="has-icons-right">
+                                                <td class="shoppingProduct<%=i%>_name"> <%=product%> </td>
+                                                <td class="icon is-right">
+                                                  <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'<%=product%>', id: <%=i%>})" href="#">
+                                                    <i class="fa fa-edit "></i>
+                                                  </a><a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'<%=product%>', id: <%=i%>})" href="#">
+                                                    <i class="fa fa-check "></i>
+                                                  </a><a class= "button is-small is-danger" onclick="shoppingListDeleteProduct( {name:'<%=product%>', id: <%=i%>})" href="#">
+                                                    <i class="fa fa-trash"></i>
+                                                  </a>
+                                                </td>
                                             </tr>
                                             <%
+                                            i++;
                                         })
                                         %>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <footer class="card-footer">
-                            <a href="#" class="card-footer-item">View All</a>
-                        </footer>
+                        <div class="content">
+                          <div class="control has-icons-left has-icons-right">
+                            <input id="shoppingListInput" class="input is-large" type="text" placeholder="Ajouter un produit...">
+                            <span class="icon is-medium is-left">
+                              <!-- <i class="fa fa-search"></i> -->
+                            </span>
+                            <span class="icon is-medium is-right" id="button_addProductShoppingList" style="cursor: pointer">
+                              <a class= "button is-big" href="#" >
+                                <i class="fa fa-cart-plus "></i>
+                              </a>
+                            </span>
+                          </div>
+                        </div>
                     </div>
                 </div>
                 <div class="column is-6">

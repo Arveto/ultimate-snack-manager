@@ -17,7 +17,7 @@ let shaObj = new jsSHA("SHA-512", "TEXT");
 shaObj.update("toor");
 let passwordHash = shaObj.getHash("HEX");
 
-let shoppingList = ["Cafe (x1442)",
+global.shoppingList = ["Cafe (x1442)",
 "Skittles de qualité",
 "Ice Tea (x98)",
 "Kinder Buenos",
