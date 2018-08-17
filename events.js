@@ -325,21 +325,30 @@ function socketIoEvents(socket, database){
     });
 
     socket.on('addProductShoppingList', (product)=>{
-      shoppingList.push(product.name);
+      product.id = shoppingList.push(product.name);
+
+      socket.broadcast.emit('shoppingListAddProduct', product);
+      socket.emit('shoppingListAddProduct', product);
     })
     socket.on('ShoppingListProductEdit', (product)=>{
-      console.log('edit product : ');
-      console.log(shoppingList);
+      console.log(product);
       shoppingList[product.id].name = product.name;
-      console.log(shoppingList);
+
+      socket.broadcast.emit('shoppingListEdition', product);
+      socket.emit('shoppingListEdition', product);
     })
+
     socket.on('ShoppingListDeleteProduct', (product)=>{
-      console.log('delete product : ' + product.name);
       shoppingList.splice(product.id, 1);
+
+      socket.broadcast.emit('shoppingListDeleteProduct', product);
+      socket.emit('shoppingListDeleteProduct', product);
     })
     socket.on('ShoppingListCheckProduct', (product)=>{
-      console.log('check product : ' + product.name);
       shoppingList.splice(product.id, 1);
+
+      socket.broadcast.emit('shoppingListDeleteProduct', product);
+      socket.emit('shoppingListDeleteProduct', product);
     })
 }
 

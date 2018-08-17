@@ -101,13 +101,13 @@
                         </header>
                         <div class="card-table">
                             <div class="content">
-                                <table class="table is-fullwidth is-striped">
+                                <table class="table is-fullwidth is-striped" id="shoppingListProducts">
                                     <tbody>
                                         <%
                                         let i = 0;
                                         shoppingList.forEach((product)=>{
                                             %>
-                                            <tr class="has-icons-right">
+                                            <tr class="has-icons-right shoppingProduct<%=i%>">
                                                 <td class="shoppingProduct<%=i%>_name"> <%=product%> </td>
                                                 <td class="icon is-right">
                                                   <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'<%=product%>', id: <%=i%>})" href="#">
