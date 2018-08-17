@@ -48,6 +48,8 @@ socket.on('login', (res) => {
             //Add users to HTML
             let usersOrderDiv = $('#userSelectionOrder');
             let usersAdminDiv = $('#userSelectionEdit');   //Wtf...
+            // window.users = res.users
+            // users.forEach
             res.users.forEach( user =>{
                 insertUserOrder(usersOrderDiv, user);
                 insertUserAdmin(usersAdminDiv, user);
@@ -62,6 +64,9 @@ socket.on('login', (res) => {
             $("#preordersContainer").show();
 
             users = res.users;
+            users.forEach((user)=>{
+              user.name = user.fiName + ' ' + ' "' + user.pseudo + '" '+ user.faName;
+            })
 
 
         } else {
