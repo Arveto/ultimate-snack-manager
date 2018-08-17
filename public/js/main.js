@@ -4,10 +4,12 @@ let currentView = 'login';
 let logged = false;
 
 var users = []; //Users data, filled only for an admin account
+let personalOrder = false;
 
 changeView(currentView);
 
 function changeView(target) {
+    personalOrder = false;
     $('.pannel').hide();
     $('#' + target).show();
 
@@ -36,6 +38,19 @@ $(".toOrder").on('click', () => {
         changeView('login');
     } else {
         changeView(currentUser.isAdmin ? 'userSelection' : 'order');
+    }
+});
+$(".toOrderPers").on('click', () => {
+    if(customerId)
+        leaveOrdering();
+    if (!logged) {
+        changeView('login');
+    } else {
+        personalOrder = true;
+        $(".moldu").css('display', 'flex').css('visibility', 'visible');
+        $('h1.title.admin, h2.subtitle.admin').hide().css('visibility', 'collapse');
+        personalOrder = false;
+        changeView('order');
     }
 });
 

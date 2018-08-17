@@ -2,8 +2,9 @@
 let commandList = []; //IDs of selected products & amount of it
 let totalPrice;
 
+
 //UI EVENTS
-$(".product").on('click', function(e) {
+$(".product").on('click', function(e){
 
     e.stopPropagation()
 
@@ -46,7 +47,7 @@ $('#submitCommand').on('click', ()=>{
             }
         }
 
-        if (currentUser.isAdmin == 1 && currentUser.id != customerId) { // Incomplete/bad condition
+        if (currentUser.isAdmin == 1 && currentUser.id != customerId && !personalOrder) { // Incomplete/bad condition
             //prepare the order json
             let order = {};
             order.admin = currentUser;
@@ -82,6 +83,12 @@ $('#submitCommand').on('click', ()=>{
             };
 
             socket.emit('preorder', order);
+
+            if (personalOrder){
+              $(".admin").css('display', 'flex').css('visibility', 'visible');
+              $('.moldu').hide().css('visibility', 'collapse');
+              personalOrder = false;
+            }
         }
     }
 
