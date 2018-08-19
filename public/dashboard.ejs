@@ -114,9 +114,9 @@
                                                     <i class="fa fa-edit "></i>
                                                   </a><a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'<%=product%>', id: <%=i%>})" href="#">
                                                     <i class="fa fa-check "></i>
-                                                  </a><a class= "button is-small is-danger" onclick="shoppingListDeleteProduct( {name:'<%=product%>', id: <%=i%>})" href="#">
+                                                  <!--</a><a class= "button is-small is-danger" onclick="shoppingListDeleteProduct( {name:'<%=product%>', id: <%=i%>})" href="#">
                                                     <i class="fa fa-trash"></i>
-                                                  </a>
+                                                </a> -->
                                                 </td>
                                             </tr>
                                             <%
@@ -133,11 +133,13 @@
                             <span class="icon is-medium is-left">
                               <!-- <i class="fa fa-search"></i> -->
                             </span>
-                            <span class="icon is-medium is-right" id="button_addProductShoppingList" style="cursor: pointer">
+
+                            <div class="icon is-medium is-right" id="button_addProductShoppingList" style="cursor: pointer">
                               <a class= "button is-big" href="#" >
                                 <i class="fa fa-cart-plus "></i>
                               </a>
-                            </span>
+                            </div>
+
                           </div>
                         </div>
                     </div>

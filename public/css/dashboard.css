@@ -9,3 +9,15 @@
     height: 27vh;
     width: 25vw;
 }
+
+#button_addProductShoppingList{
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+}
+
+#shoppingListInput{
+    position: absolute;
+    padding: 0px;
+    z-index: 0;
+}

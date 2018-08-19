@@ -8,7 +8,7 @@ function bindUserAdmin(){
     $(".adminUserAction").unbind().click(function(e){
         //^^^ Prevent the event to be triggered multiple times ^^^
         e.stopPropagation();
-
+        
         //get Id of the user selected
         let el = e.target.closest(".adminUserAction"); //Do not remove ! It works like that, its 6:36am and i dont wanna think too much
         let userId = getIdFromClassName( el );
@@ -52,7 +52,6 @@ function bindUserAdmin(){
 
 
 function sendEdition(edition){
-    //console.log('Emitting editUser');
     socket.emit('editUser', {'admin': currentUser, 'edition': edition});
     $('#adminUsers div.blur').removeClass('blur');
     $("#userAdministrationPopup").hide();

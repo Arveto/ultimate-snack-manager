@@ -113,13 +113,10 @@ function socketIoEvents(socket, database){
 
     //User wants to change its account data
     socket.on("editAccount", data =>{
-            console.log("Receive account edit");
 
             let query ="SELECT id FROM users WHERE email = ?;"
             database.query(query, [data.email])
             .then(rows =>{
-
-                console.log(rows.length + " email matches");
 
                 //If the user let the password field empty
                 if((rows.length == 0 || rows[0].id == data.id) && data.password == ""){
@@ -266,7 +263,7 @@ function socketIoEvents(socket, database){
 
 
                 switch (data.action){
-                    case 'updateProduct': // TODO: DB link
+                    case 'updateProduct':
                     console.log('Product update:');
 
                     let query1 = 'UPDATE items SET name = ?, price = ?, stock = ? WHERE id = ?;';
@@ -277,7 +274,7 @@ function socketIoEvents(socket, database){
 
                     break;
 
-                    case 'newProduct':  // TODO: DB link
+                    case 'newProduct':
                     console.log('Product addition:');
                     let query2 = 'INSERT INTO items (name, price, stock) VALUES(?, ?, ?);';
                     database.query(query2, [data.product.name, parseFloat(data.product.price), parseFloat(data.product.amount), data.product.id])
@@ -294,10 +291,8 @@ function socketIoEvents(socket, database){
     //USERS ADMINISTRATION
     socket.on('editUser', (data)=>{
 
-        console.log("Receiving edit");
-
         let query = 'SELECT admin FROM users WHERE email = ?';
-        database.query(query, [data.admin.login])
+        database.query(query, [data.admin.email])
         .then(rows => {
 
             //For an edition
@@ -324,32 +319,37 @@ function socketIoEvents(socket, database){
         });
     });
 
+
+/*********************** SHOPPING LIST ******************************/
+
     socket.on('addProductShoppingList', (product)=>{
-      product.id = shoppingList.push(product.name);
+        product.id = shoppingList.push(product.name);
 
-      socket.broadcast.emit('shoppingListAddProduct', product);
-      socket.emit('shoppingListAddProduct', product);
-    })
+        socket.broadcast.emit('shoppingListAddProduct', product);
+        socket.emit('shoppingListAddProduct', product);
+    });
+
     socket.on('ShoppingListProductEdit', (product)=>{
-      console.log(product);
-      shoppingList[product.id].name = product.name;
+        shoppingList[product.id].name = product.name;
 
-      socket.broadcast.emit('shoppingListEdition', product);
-      socket.emit('shoppingListEdition', product);
-    })
+        socket.broadcast.emit('shoppingListEdition', product);
+        socket.emit('shoppingListEdition', product);
+    });
 
-    socket.on('ShoppingListDeleteProduct', (product)=>{
-      shoppingList.splice(product.id, 1);
+    // socket.on('ShoppingListDeleteProduct', (product)=>{
+    //   shoppingList.splice(product.id, 1);
+    //
+    //   socket.broadcast.emit('shoppingListDeleteProduct', product);
+    //   socket.emit('shoppingListDeleteProduct', product);
+    // });
 
-      socket.broadcast.emit('shoppingListDeleteProduct', product);
-      socket.emit('shoppingListDeleteProduct', product);
-    })
     socket.on('ShoppingListCheckProduct', (product)=>{
-      shoppingList.splice(product.id, 1);
+        shoppingList.splice(product.id, 1);
 
-      socket.broadcast.emit('shoppingListDeleteProduct', product);
-      socket.emit('shoppingListDeleteProduct', product);
-    })
+        socket.broadcast.emit('shoppingListDeleteProduct', product);
+        socket.emit('shoppingListDeleteProduct', product);
+    });
+
 }
 
 module.exports = {socketIoEvents};
