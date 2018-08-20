@@ -6,8 +6,9 @@ let customerId; //Customer being served
     //Bind events when content has been added to DOM
 function bindUserOrder(){
     $("button.order").on('click', (e)=>{
-        //get Id of the user selected
+        e.preventDefault();
 
+        //get Id of the user selected
         customerId = getIdFromClassName( e.target );
 
         let customerIndex;
@@ -22,11 +23,10 @@ function bindUserOrder(){
         changeView('order');
         personalOrder = false;
 
-        $('#titleAdminOrder').show();
-        $('#titleMolduOrder').hide();
+        console.log("Event détéctède");
 
-        $('#subtitleAdminOrder').show();
-        $('#subtitleMolduOrder').hide();
+        $(".moldu")/*.css('display', 'flex').css('visibility', 'collapse')*/.hide();    //Works this way ¯\_(ツ)_/¯
+        $('h1.title.admin, h2.subtitle.admin')/*.css('visibility', 'collapse')*/.show();    //Works this way ¯\_(ツ)_/¯
 
     });
 

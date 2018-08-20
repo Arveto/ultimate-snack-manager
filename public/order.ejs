@@ -5,16 +5,16 @@
             <section class="hero welcome is-small">
                 <div class="hero-body">
                     <div class="container">
-                        <h1 class="title admin" id="titleAdminOrder">
+                        <h1 class="title admin">
                             Commande pour : &nbsp; <b id="commandFor"></b>
                         </h1>
-                        <h1 class="title moldu" id="titleMolduOrder">
+                        <h1 class="title moldu">
                             Passer commande
                         </h1>
-                        <h2 class="subtitle admin" id="subtitleAdminOrder">
+                        <h2 class="subtitle admin">
                             Fais le cracher ses thunes !
                         </h2>
-                        <h2 class="subtitle moldu" id="subtitleMolduOrder">
+                        <h2 class="subtitle moldu">
                             Mets-toi bien!
                         </h2>
                     </div>
@@ -33,12 +33,10 @@
                             <%
                         }
                         %>
-
                         <script>
                         //Products list is now filled on admin login
                         //OLD: products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
                         </script>
-
                         <div class="tile is-parent <%=products[i].id%> product">
                             <article class="tile is-child box">
                                 <p class="title">
@@ -49,10 +47,8 @@
                                 </p>
                             </article>
                         </div>
-
                         <%
                     }
-
                     if (i!=0 && i%4 == 0){
                         %>
                     </div>

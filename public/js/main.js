@@ -46,8 +46,8 @@ $(".toOrderPers").on('click', () => {
     if (!logged) {
         changeView('login');
     } else {
-        $(".moldu").css('display', 'flex').css('visibility', 'visible');
-        $('h1.title.admin, h2.subtitle.admin').hide().css('visibility', 'collapse');
+        $(".moldu").css('display', 'flex').css('visibility', 'visible').show();
+        $('h1.title.admin, h2.subtitle.admin')/*.css('visibility', 'collapse')*/.hide();    //Works this way ¯\_(ツ)_/¯
         changeView('order');
         personalOrder = true;
     }
@@ -68,10 +68,12 @@ $(".toLogin").on('click', () => {
 });
 
 $("#loginNav").on('click', () => {
-    if(customerId)
-        leaveOrdering();
-    if (currentView != "login")
-        $("#loginPopup").toggle();
+    // if(customerId)
+    //     leaveOrdering();
+    // if (currentView != "login")
+    //     $("#loginPopup").toggle();
+    
+    location.reload();  //Simpler than managing in popup
 })
 
 $("#toAdminProducts").on('click', ()=>{
@@ -88,5 +90,11 @@ $("#toAccountManagement").on('click', ()=>{
         if (logged){
             fillEditForm(currentUser);
             changeView('accountManagement');
+        }
+})
+
+$("#toSold").on('click', ()=>{
+        if (logged){
+            changeView('sold');
         }
 })

@@ -33,6 +33,9 @@ socket.on('login', (res) => {
 
         products = res.itemsList;
 
+        //Add own sold to HTML
+        $("#ownSold").html('Mon solde: '+res.userData.balance.toFixed(2).toString() + '€');
+
         if (res.isAdmin || res.isSuperAdmin){
             currentUser.admin = true;
 
@@ -44,7 +47,6 @@ socket.on('login', (res) => {
             notif('success', 'You are <b>ADMIN</b>')
             $(".admin").css('display', 'flex').css('visibility', 'visible');
             $('.moldu').hide().css('visibility', 'collapse');
-
 
             //Add users to HTML
             let usersOrderDiv = $('#userSelectionOrder');
@@ -75,6 +77,18 @@ socket.on('login', (res) => {
             createStandardGraph(res.graphData, products);
             currentUser.admin = false;
             $("#productsNav").hide;
+
+            //Add sold tile
+            $("#main-graph").after('<div class ="tile is-parent is-vertical">\
+                <div class="tile is-child is-8 is-vertical box">\
+                    <p class="tile-title" size="1">\
+                        Mon solde\
+                    </p>\
+                    <p class="subtitle">\
+                        42.42€\
+                    </p>\
+                </div>\
+            </div>');
         }
 
         //Hide administration elements to not superadmin users
