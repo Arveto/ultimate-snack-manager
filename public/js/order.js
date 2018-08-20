@@ -47,15 +47,14 @@ $('#submitCommand').on('click', ()=>{
             }
         }
 
-        if (currentUser.isAdmin == 1 && currentUser.id != customerId && !personalOrder) { // Incomplete/bad condition
+        if (!personalOrder) { // Incomplete/bad condition
+
             //prepare the order json
             let order = {};
             order.admin = currentUser;
             order.customerId = customerId;
             order.commandList = orderArray;
-            order.isPreorder = false;
             order.price = totalPrice.toFixed(2);
-            order.connectionData = connectionData;
 
             //Update the dashboard HTML
             let nOrders = parseInt($("#nOrdersSession").html()) + 1;
@@ -74,11 +73,11 @@ $('#submitCommand').on('click', ()=>{
             socket.emit('order', order);
 
         } else {  //It's a preorder
+
             //prepare the order json
             let order = {
                 customerId : currentUser.id,
                 commandList : orderArray.toString(),
-                isPreorder : 1,
                 price : totalPrice.toFixed(2)
             };
 
@@ -113,7 +112,6 @@ socket.on('commandRecived', ()=>{
 //UTILS
 
 function appendProduct(productId){
-    console.log("Appending product "+productId);
     //First, check if product is already in list
     let itemFound = false;
 

@@ -45,14 +45,11 @@ function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
 
             socket.emit("validatePreorder", {customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
 
-            console.log('.media.box.preco'+customerId.toString());
-
             notif('success', 'La commande a bien été traitée!');
             $('.media.box.preco'+customerId.toString()).remove();
 
             //Finally, update client-side sold, and nOrders on dashboard
             let clientIndex;
-            console.log(users.length);
 
             for(let i=0; i<users.length; i++){
                 if(customerId == users[i].id){

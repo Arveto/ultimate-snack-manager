@@ -13,8 +13,6 @@ function shoppingListProductEdit(product){ //Ooooh yeah sooo dirty.
     el.on('keypress', (e)=>{
         let keycode = e.keyCode || e.which;
         if (keycode == 13) {
-            console.log("Hello bande de putes");
-            console.log()
             socket.emit('ShoppingListProductEdit', {'name': $('.shoppingProduct'+product.id+'_name').html(), 'id': product.id});
         }
     })
@@ -37,7 +35,6 @@ $('#shoppingListInput').on('keypress', (e)=>{
 });
 
 $('#button_addProductShoppingList').on('click', ()=>{ // TODO: Fix that shit : cannot click on the button
-    console.log('oui');
     addProductShoppingList();
 });
 
@@ -48,7 +45,6 @@ socket.on('shoppingListEdition', (product)=>{
     $('.shoppingProduct'+product.id+'_name').removeClass('input').attr('contenteditable', false).html(product.name);
 })
 socket.on('shoppingListDeleteProduct', (product)=>{
-    console.log(product);
     $('.shoppingProduct'+product.id).remove();
 })
 socket.on('shoppingListAddProduct', (product)=>{

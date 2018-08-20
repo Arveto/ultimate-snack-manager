@@ -9,7 +9,6 @@ let personalOrder = false;
 changeView(currentView);
 
 function changeView(target) {
-    personalOrder = false;
     $('.pannel').hide();
     $('#' + target).show();
 
@@ -36,8 +35,9 @@ $(".toOrder").on('click', () => {
         leaveOrdering();
     if (!logged) {
         changeView('login');
-    } else {
-        changeView(currentUser.isAdmin ? 'userSelection' : 'order');
+    } else if(currentUser.admin){
+        changeView('userSelection');
+        personalOrder = false;
     }
 });
 $(".toOrderPers").on('click', () => {
@@ -46,11 +46,10 @@ $(".toOrderPers").on('click', () => {
     if (!logged) {
         changeView('login');
     } else {
-        personalOrder = true;
         $(".moldu").css('display', 'flex').css('visibility', 'visible');
         $('h1.title.admin, h2.subtitle.admin').hide().css('visibility', 'collapse');
-        personalOrder = false;
         changeView('order');
+        personalOrder = true;
     }
 });
 

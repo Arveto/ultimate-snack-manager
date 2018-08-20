@@ -7,12 +7,14 @@ CREATE TABLE `users` (
   `pseudo` varchar(50) DEFAULT NULL,
   `email` varchar(70) NOT NULL,
   `password` varchar(128) NOT NULL,
-  `inscription_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `balance` float NOT NULL DEFAULT '0',
+  `inscriptionDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `balance` float(6,2) NOT NULL DEFAULT '0.00',
   `adherent` tinyint(4) NOT NULL DEFAULT '0',
   `admin` tinyint(4) NOT NULL DEFAULT '0',
+  `superadmin` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `items` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
@@ -38,12 +40,12 @@ CREATE TABLE `orders` (
 
 /*Placeholder entries insertion commands*/
 
-INSERT INTO `users` VALUES (1,'Soursou','Serge','SergiSergio','serge.soursou@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','0000-00-00 00:00:00',24.03,1,0),
-(2,'Calcado','Fabien','Fabinou','fabien.calcado@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',-238,0,0),
-(3,'Pian','Jean','The Punchline Master','jean.pian@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',999.99,1,1),
-(4,'Sadre','Maxime','Oké?','maxime.sadre@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',654.58,1,0),
-(5,'De la Fuerte','Alberto','PurplePachyderm','Arveto','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-16 21:07:56',99999,0,0),
-(6,'ESSAIM','ESSAIM','ESSAIM','ESSAIM','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-19 15:51:25',99999,1,1);
+INSERT INTO `users` VALUES (1,'Soursou','Serge','SergiSergio','serge.soursou@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','0000-00-00 00:00:00',24.03,1,0,0),
+(2,'Calcado','Fabien','Fabinou','fabien.calcado@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',-238,0,0,0),
+(3,'Pian','Jean','The Punchline Master','jean.pian@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',999.99,1,1,0),
+(4,'Sadre','Maxime','Oké?','maxime.sadre@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',654.58,1,0,0),
+(5,'De la Fuerte','Alberto','PurplePachyderm','Arveto','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-16 21:07:56',99999,0,0,0),
+(6,'ESSAIM','ESSAIM','ESSAIM','ESSAIM','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-19 15:51:25',99999,1,1,1);
 
 INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`, `nOrders`) VALUES ('Cafe', '0.49', '40', '1', '');
 INSERT INTO `snake`.`items` (`name`, `price`, `stock`, `onSale`) VALUES ('Coca-Cola', '1.19', '7', '1');

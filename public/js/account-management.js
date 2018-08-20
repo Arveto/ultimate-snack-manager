@@ -87,7 +87,6 @@ $('#submitEdit').on('click', (e) => {
 
     //Send request or returns errors to client
     if(notEmpty && emailRegex.test(formData.email) && formData.password1 == formData.password2){
-        console.log("Ok, sending event");
         accountEdit(formData);
     }
 

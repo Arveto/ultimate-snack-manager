@@ -20,6 +20,13 @@ function bindUserOrder(){
         $("#commandFor").html(users[customerIndex].faName);
 
         changeView('order');
+        personalOrder = false;
+
+        $('#titleAdminOrder').show();
+        $('#titleMolduOrder').hide();
+
+        $('#subtitleAdminOrder').show();
+        $('#subtitleMolduOrder').hide();
 
     });
 

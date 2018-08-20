@@ -5,12 +5,15 @@ function socketIoEvents(socket, database){
 
     //New user connection
     socket.on('login', (user) => {
+        console.log("Receive login");
+
         let isAdmin;
+        let isSuperAdmin = -1;
         let id;
         let userData;
 
         //First get users
-        let query = 'SELECT admin, id, fiName, faName, pseudo, email, balance, adherent FROM users WHERE (email = ?) AND (password = ?);';
+        let query = 'SELECT superadmin, admin, id, fiName, faName, pseudo, email, balance, adherent FROM users WHERE (email = ?) AND (password = ?);';
 
         database.query(query, [user.email, user.password])
         .then(rows => {
@@ -19,6 +22,7 @@ function socketIoEvents(socket, database){
 
                 //User found
                 isAdmin = rows[0].admin;
+                isSuperAdmin = rows[0].superadmin;
                 id = rows[0].id;
                 userData = rows[0];
 
@@ -41,7 +45,7 @@ function socketIoEvents(socket, database){
                     return database.query(query);
                 })
                 .then(rows => {
-                    if(isAdmin == 1){
+                    if(isAdmin == 1 || isSuperAdmin == 1){
                         //Send data for an admin member
                         let preorders = [];
                         let name;
@@ -62,8 +66,10 @@ function socketIoEvents(socket, database){
                         let query = 'SELECT customerId FROM orders ORDER BY date DESC LIMIT 1;'
                         database.query(query)
                         .then(rows => {
+                            console.log("isSuperAdmin"+isSuperAdmin);
+                            console.log("About to emit");
                             let lastCustomer = rows[0].customerId;
-                            socket.emit('login', {ok: true, isAdmin: isAdmin, itemsList : itemsRes, preorders : preorders, users: users, lastCustomer: lastCustomer, userData: userData});
+                            socket.emit('login', {ok: true, isAdmin: isAdmin, isSuperAdmin: isSuperAdmin, itemsList : itemsRes, preorders : preorders, users: users, lastCustomer: lastCustomer, userData: userData});
                         });
 
 
@@ -75,7 +81,7 @@ function socketIoEvents(socket, database){
                         let query = 'SELECT content FROM orders WHERE id = ? LIMIT 10;';
                         database.query(query, [id])
                         .then(rows =>{
-                            socket.emit('login', {ok: true, isAdmin: isAdmin, itemsList : itemsRes, userData: userData, graphData: rows});
+                            socket.emit('login', {ok: true, isAdmin: isAdmin, isSuperAdmin : isSuperAdmin, itemsList : itemsRes, userData: userData, graphData: rows});
                         });
 
                     }
@@ -153,14 +159,13 @@ function socketIoEvents(socket, database){
     socket.on('order', (order) => {
         //TODO Also support preorders (different query for the order INSERTION)
 
-        console.log("Received an order =)");
 
-        let query = 'SELECT admin, id FROM users WHERE (email = ?) AND (password = ?);';
-        database.query(query, [order.connectionData.login, order.connectionData.hash])
+        let query = 'SELECT admin, id FROM users WHERE (email = ?);';
+        database.query(query, [order.admin.email])
         .then(rows => {
             if(rows[0].admin == 1){
 
-                console.log("Command from " + order.admin.login + " for " + order.customerId);
+                console.log("Command from " + order.admin.email + " for " + order.customerId);
                 socket.emit('commandReceived');
 
                 //Insert the order in DB
@@ -182,16 +187,32 @@ function socketIoEvents(socket, database){
                     .then(rows => {});
                 }
             }
+
+            //Increase price for non member users
+            query = 'SELECT adherent FROM users WHERE id = ?';
+            database.query(query, [order.customerId])
+            .then(rows =>{
+                if(rows[0].adherent == 0){
+                    let additionalPrice = 0.10 * order.commandList.length;
+
+                    let query = 'UPDATE users SET balance = balance - ? WHERE id = ?;'
+                    database.query(query, [additionalPrice.toFixed(2), order.customerId])
+                    .then(rows => {
+                    });
+                }
+            });
         });
     });
 
 
     socket.on('preorder', (order)=>{
+        console.log("Receive preorder from"+order.customerId);
         let query = 'SELECT id FROM orders WHERE pending = 1 AND customerId = ?';
         database.query(query, [order.customerId])
         .then(rows => {
             //We check that the user has no preorder yet
             if(rows.length == 0){
+
                 let query = 'INSERT INTO orders (customerId, price, content, pending) VALUES(?, ?, ?, 1)';
                 database.query(query, [order.customerId, order.price, order.commandList.toString()])
                 .then((rows) => {
@@ -203,7 +224,12 @@ function socketIoEvents(socket, database){
                 });
             }
 
-            // TODO: else{ Send error message to user? }
+            else{
+                console.log("Ah");
+                // TODO: else{ Send error message to user? }
+            }
+
+
         })
 
 
@@ -256,7 +282,7 @@ function socketIoEvents(socket, database){
     socket.on('adminProduct', (data)=>{
 
         let query = 'SELECT admin FROM users WHERE email = ?;';
-        database.query(query, [data.admin.login])
+        database.query(query, [data.admin.email])
         .then(rows => {
 
             if (rows[0].admin) {

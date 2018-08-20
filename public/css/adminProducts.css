@@ -10,3 +10,12 @@
 #addProduct{
     font-size: 4em;
 }
+
+#cancelEdition, #submitEdition{
+    position: relative;
+    z-index: 1;
+}
+
+#productSubtitle{
+    width: 60%;
+}

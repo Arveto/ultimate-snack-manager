@@ -27,13 +27,14 @@ function login(email, password) {
 
 socket.on('login', (res) => {
     if (res.ok) {
+
         notif('success', "Connecté en tant que <b>" + res.userData.fiName + ' ' + res.userData.faName + "</b>");
         currentUser = res.userData;
 
         products = res.itemsList;
 
-        if (res.isAdmin){
-            currentUser.isAdmin = true;
+        if (res.isAdmin || res.isSuperAdmin){
+            currentUser.admin = true;
 
                 //Add current preoders
             for(let i=0; i<res.preorders.length; i++){
@@ -72,9 +73,18 @@ socket.on('login', (res) => {
         } else {
             //Casual user
             createStandardGraph(res.graphData, products);
-            currentUser.isAdmin = false;
+            currentUser.admin = false;
+            $("#productsNav").hide;
         }
+
+        //Hide administration elements to not superadmin users
+        if(!res.isSuperAdmin){
+            $('#toAdminUsers').hide();
+            $('#productsNav').hide();
+        }
+
         logged = true;
+
 
         changeView('dashboard');
         if(currentUser.admin)
