@@ -68,7 +68,10 @@ function socketIoEvents(socket, database){
                         .then(rows => {
                             console.log("isSuperAdmin"+isSuperAdmin);
                             console.log("About to emit");
-                            let lastCustomer = rows[0].customerId;
+                            let lastCustomer = [];
+                            if (typeof image_array !== 'undefined' && image_array.length > 0) {
+                              lastCustomer = rows[0].customerId;
+                            }
                             socket.emit('login', {ok: true, isAdmin: isAdmin, isSuperAdmin: isSuperAdmin, itemsList : itemsRes, preorders : preorders, users: users, lastCustomer: lastCustomer, userData: userData});
                         });
 
