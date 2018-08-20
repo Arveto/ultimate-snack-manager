@@ -164,12 +164,12 @@ $("#emailPopup").on('keypress', (e)=>{
     }
 })
 
-$(document).on('keypress', (e)=>{
-    let keycode = e.keyCode || e.which;
-    if (keycode == 46){
-        $('#loginNav').trigger('click');
-    }
-})
+// $(document).on('keypress', (e)=>{
+//     let keycode = e.keyCode || e.which;
+//     if (keycode == 46){
+//         $('#loginNav').trigger('click');
+//     }
+// })
 
 //Account creation
 $('#toSignUp').on('click', (e) => {
