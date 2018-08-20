@@ -35,7 +35,7 @@ function socketIoEvents(socket, database){
                     itemsRes = rows;
 
                     //Select members
-                    let query = 'SELECT id, faName, fiName, pseudo, email, balance, adherent, admin FROM users WHERE email != ?;';
+                    let query = 'SELECT id, faName, fiName, pseudo, email, balance, adherent, admin FROM users;';
                     return database.query(query, [user.email]);
                 })
                 .then(rows => {

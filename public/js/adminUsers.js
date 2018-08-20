@@ -8,7 +8,7 @@ function bindUserAdmin(){
     $(".adminUserAction").unbind().click(function(e){
         //^^^ Prevent the event to be triggered multiple times ^^^
         e.stopPropagation();
-        
+
         //get Id of the user selected
         let el = e.target.closest(".adminUserAction"); //Do not remove ! It works like that, its 6:36am and i dont wanna think too much
         let userId = getIdFromClassName( el );
@@ -139,7 +139,7 @@ socket.on('editUser', (edition)=>{
 //HTML FILLING
 function insertUserAdmin(div, user){
 
-    div.append('<article class="media user'+user.id+'">\
+    div.append('<article class="media adminUser'+user.id+'">\
     <figure class="media-left">\
         <p class="image is-48x48">\
             <img src="https://bulma.io/images/placeholders/128x128.png">\
@@ -210,3 +210,31 @@ function insertUserAdmin(div, user){
         $('#isNotMember'+user.id).hide().addClass('confirmedAdmin');
     }
 }
+
+
+//*** Research ***
+$('#adminUsersInput').on('keyup', (e)=>{
+    let keycode = e.keyCode || e.which;
+
+    switch (keycode) {
+        case 38:  //arrow up
+        e.preventDefault();
+        break;
+        case 40:  //arrow down
+        e.preventDefault();
+        break;
+        case 13:  //enter key
+        e.preventDefault();
+        break;
+        default:
+        let input = $('#adminUsersInput').val();
+
+        users.forEach((user)=>{
+            if (user.name.toLowerCase().search(input.toLowerCase()) < 0){
+                $('.adminUser'+user.id).hide();
+            } else {
+                $('.adminUser'+user.id).show();
+            }
+        });
+    }
+});

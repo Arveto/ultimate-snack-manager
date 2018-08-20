@@ -33,6 +33,7 @@ function bindUserOrder(){
 
     //AUTOCOMPLETE
 
+    //For main research page
     $('#userSelectionInput').on('keyup', (e)=>{
         let keycode = e.keyCode || e.which;
 
@@ -57,6 +58,38 @@ function bindUserOrder(){
                 }
             });
         }
+    });
+
+    //For dashboard research bar
+    $("#dashboardUserInput").on('keyup', (e)=>{
+        let keycode = e.keyCode || e.which;
+
+        switch (keycode) {
+            case 38:  //arrow up
+                e.preventDefault();
+                break;
+            case 40:  //arrow down
+                e.preventDefault();
+                break;
+            case 13:  //enter key
+                console.log("Enter =)");
+                changeView('userSelection');
+                personalOrder = false;
+                e.preventDefault();
+                break;
+            default:
+                let input = $('#dashboardUserInput').val();
+
+            users.forEach((user)=>{
+                if (user.name.toLowerCase().search(input.toLowerCase()) < 0){
+                    $('.user'+user.id).hide();
+                } else {
+                    $('.user'+user.id).show();
+                }
+            });
+        }
+
+        $('#userSelectionInput').val(input);
     });
 }
 
