@@ -368,11 +368,16 @@ function socketIoEvents(socket, database, mail, mailSender){
 
 /*********************** SHOPPING LIST ******************************/ // XXX: shoppingList[] is shit. Change to shoppingList{}
     socket.on('addProductShoppingList', (product)=>{
+      product.id = shoppingList.push(product.name)
+      console.log(shoppingList);
+
         socket.broadcast.emit('shoppingListAddProduct', product);
         socket.emit('shoppingListAddProduct', product);
     });
 
     socket.on('ShoppingListProductEdit', (product)=>{
+      console.log(shoppingList);
+
         shoppingList[product.id].name = product.name;
 
         socket.broadcast.emit('shoppingListEdition', product);
@@ -380,17 +385,9 @@ function socketIoEvents(socket, database, mail, mailSender){
     });
 
     socket.on('ShoppingListCheckProduct', (product)=>{
-        //sorry for that
-        let i = 0;
-        shoppingList.forEach((el)=>{
-          socket.broadcast.emit('shoppingListDeleteProduct', {'name': el, 'id': i});
-          socket.emit('shoppingListDeleteProduct', {'name': el, 'id': i});
-          i++;
-        })
-
         shoppingList.splice(product.id, 1);
-
-        i=0;
+        console.log(shoppingList);
+        let i=0;
         shoppingList.forEach((el)=>{
           socket.broadcast.emit('shoppingListAddProduct', {'name': el, 'id': i});
           socket.emit('shoppingListAddProduct', {'name': el, 'id': i});

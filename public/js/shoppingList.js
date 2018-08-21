@@ -21,6 +21,7 @@ function shoppingListProductEdit(product){ //Ooooh yeah sooo dirty.
 }
 function shoppingListCheckProduct(product){
     socket.emit('ShoppingListCheckProduct', (product));
+    $('#shoppingListContainer').empty();
 }
 
 
