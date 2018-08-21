@@ -11,7 +11,8 @@
         "socket.io": "",
         "ejs": "",
         "jssha": "",
-        "mysql": ""
+        "mysql": "",
+        "nodemailer": ""
     },
     "author": "ARVETO Ink.",
     "license": "GPU"

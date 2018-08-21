@@ -40,7 +40,7 @@ CREATE TABLE `orders` (
 
 /*Placeholder entries insertion commands*/
 
-INSERT INTO `users` VALUES (1,'Soursou','Serge','SergiSergio','serge.soursou@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','0000-00-00 00:00:00',24.03,1,0,0),
+INSERT INTO `users` VALUES (1,'Soursousky','Sergei','SergiSergio','Sergei','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','0000-00-00 00:00:00',24.03,1,0,0),
 (2,'Calcado','Fabien','Fabinou','fabien.calcado@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',-238,0,0,0),
 (3,'Pian','Jean','The Punchline Master','jean.pian@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',999.99,1,1,0),
 (4,'Sadre','Maxime','Oké?','maxime.sadre@isty.uvsq.fr','2b64f2e3f9fee1942af9ff60d40aa5a719db33b8ba8dd4864bb4f11e25ca2bee00907de32a59429602336cac832c8f2eeff5177cc14c864dd116c8bf6ca5d9a9','2018-07-15 23:47:20',654.58,1,0,0),

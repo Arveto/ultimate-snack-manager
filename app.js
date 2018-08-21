@@ -4,9 +4,12 @@ const io = require('socket.io')(server);
 const ejs = require('ejs');
 const jsSHA = require("jssha");
 const mysql = require('mysql');
+const nodeMailer = require('nodemailer');
+const fs = require('fs'); //Required to read html files to send mails
 
 const databaseWrapper = require('./db_wrapper.js');
 const events = require('./events.js');
+const mailSender = require('./mailsender.js');
 
 /******************************************************************************/
 
@@ -25,14 +28,6 @@ global.shoppingList = ["Cafe (x1442)",
 "Et des putes"
 ];
 
-// global.shoppingList = {
-//   "1": "Cafe (x1442)",
-//   "Skittles de qualité",
-//   "Ice Tea (x98)",
-//   "Kinder Buenos",
-//   "Des tables de blackjack",
-//   "Et des putes"
-// };
 
 /******************************************************************************/
 
@@ -49,6 +44,17 @@ var database = new databaseWrapper.Database(mysql, config);
 
 /******************************************************************************/
 
+// Mailer init
+
+var mail = nodeMailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'arveto.softwares@gmail.com',
+    pass: '***PASSWORD*** (ya know what it is)'
+  }
+});
+
+/******************************************************************************/
 
 //Serve public folder
 app.use(require('express').static(__dirname + '/public'));
@@ -75,7 +81,7 @@ app.get('/', (req, res) => {
 //Socket.io events
 
 io.sockets.on('connection', function(socket) {
-    events.socketIoEvents(socket, database);    //Create events listeners
+    events.socketIoEvents(socket, database, mail, mailSender);    //Create events listeners
 });
 
 server.listen(8080);

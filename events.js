@@ -1,5 +1,6 @@
-function socketIoEvents(socket, database){
+function socketIoEvents(socket, database, mail, mailSender){
     console.log('new connected');
+
 
 /***********************  ACCOUNT LOGIN/SIGNUP  ******************************/
 
@@ -114,6 +115,7 @@ function socketIoEvents(socket, database){
                 .then(rows => {
                     console.log("User added!");
                     socket.emit("signupSuccess", {faName: data.faName, fiName: data.fiName, pseudo: data.pseudo, email: data.email, admin: false});
+                    mailSender.welcome(mail, data.email);
                 });
             }
         });
@@ -180,7 +182,16 @@ function socketIoEvents(socket, database){
                 })
                 //Update client's sold
                 .then(rows => {
+
+
                     console.log("Sold updated!");
+                    let query = 'SELECT balance, email FROM users WHERE id = ?;';
+                    return database.query(query, [order.customerId])
+                })
+                //Check for low sold
+                .then(rows => {
+                    if(rows[0].balance < 1.00)
+                        mailSender.lowSold(mail, rows[0].email);
                 });
 
                 //Update the nOrders Factor (WARNING Ugly as f***)
@@ -232,9 +243,7 @@ function socketIoEvents(socket, database){
                 // TODO: else{ Send error message to user? }
             }
 
-
         })
-
 
     });
 
@@ -259,7 +268,15 @@ function socketIoEvents(socket, database){
                 })
                 .then(rows => {
                     console.log("Preorder closed");
+                    let query = 'SELECT balance, email FROM users WHERE id = ?;';
+                    return database.query(query, [data.customerId])
+                })
+                //Check for low sold
+                .then(rows => {
+                    if(rows[0].balance < 1.00)
+                        mailSender.lowSold(mail, rows[0].email);
                 });
+
 
                 //Update the nOrders Factor (WARNING Ugly as f***)
                 query = 'UPDATE items SET nOrders = nOrders + 1, stock = stock - 1 WHERE id = ? AND stock > 0;'
@@ -342,7 +359,7 @@ function socketIoEvents(socket, database){
                 let query = 'REMOVE FROM users WHERE id = ? LIMIT 1;';
                 database.query(query, [data.edition.id])
                 .then(rows =>{
-                    console.log("Removal successfull")
+                    console.log("Removal successfull");
                 });
             }
         });
