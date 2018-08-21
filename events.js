@@ -349,11 +349,8 @@ function socketIoEvents(socket, database){
     });
 
 
-/*********************** SHOPPING LIST ******************************/
-
+/*********************** SHOPPING LIST ******************************/ // XXX: shoppingList[] is shit. Change to shoppingList{}
     socket.on('addProductShoppingList', (product)=>{
-        product.id = shoppingList.push(product.name);
-
         socket.broadcast.emit('shoppingListAddProduct', product);
         socket.emit('shoppingListAddProduct', product);
     });
@@ -365,20 +362,24 @@ function socketIoEvents(socket, database){
         socket.emit('shoppingListEdition', product);
     });
 
-    // socket.on('ShoppingListDeleteProduct', (product)=>{
-    //   shoppingList.splice(product.id, 1);
-    //
-    //   socket.broadcast.emit('shoppingListDeleteProduct', product);
-    //   socket.emit('shoppingListDeleteProduct', product);
-    // });
-
     socket.on('ShoppingListCheckProduct', (product)=>{
+        //sorry for that
+        let i = 0;
+        shoppingList.forEach((el)=>{
+          socket.broadcast.emit('shoppingListDeleteProduct', {'name': el, 'id': i});
+          socket.emit('shoppingListDeleteProduct', {'name': el, 'id': i});
+          i++;
+        })
+
         shoppingList.splice(product.id, 1);
 
-        socket.broadcast.emit('shoppingListDeleteProduct', product);
-        socket.emit('shoppingListDeleteProduct', product);
+        i=0;
+        shoppingList.forEach((el)=>{
+          socket.broadcast.emit('shoppingListAddProduct', {'name': el, 'id': i});
+          socket.emit('shoppingListAddProduct', {'name': el, 'id': i});
+          i++;
+        })
     });
-
 }
 
 module.exports = {socketIoEvents};

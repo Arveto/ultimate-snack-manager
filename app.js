@@ -25,6 +25,14 @@ global.shoppingList = ["Cafe (x1442)",
 "Et des putes"
 ];
 
+// global.shoppingList = {
+//   "1": "Cafe (x1442)",
+//   "Skittles de qualité",
+//   "Ice Tea (x98)",
+//   "Kinder Buenos",
+//   "Des tables de blackjack",
+//   "Et des putes"
+// };
 
 /******************************************************************************/
 
