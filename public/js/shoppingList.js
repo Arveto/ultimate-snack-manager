@@ -10,10 +10,11 @@ function addProductShoppingList(){
 
 function shoppingListProductEdit(product){ //Ooooh yeah sooo dirty.
     let el = $('.shoppingProduct'+product.id+'_name').addClass('input').attr('contenteditable', true);
-    $('shoppingProduct'+product.id+' .icon.is-right').hide();
+    $('.shoppingProduct'+product.id+' .icon.is-right').hide();
     el.on('keypress', (e)=>{
         let keycode = e.keyCode || e.which;
         if (keycode == 13) {
+            $('.shoppingProduct'+product.id+' .icon.is-right').show();
             socket.emit('ShoppingListProductEdit', {'name': $('.shoppingProduct'+product.id+'_name').html(), 'id': product.id});
         }
     })
