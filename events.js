@@ -124,7 +124,6 @@ function socketIoEvents(socket, database, mail, mailSender){
 
     //User wants to change its account data
     socket.on("editAccount", data =>{
-
             let query ="SELECT id FROM users WHERE email = ?;"
             database.query(query, [data.email])
             .then(rows =>{
@@ -347,7 +346,6 @@ function socketIoEvents(socket, database, mail, mailSender){
                     let query = 'UPDATE users SET fiName = ?, faName = ?, pseudo = ?, balance = ?, email = ?, adherent = ?, admin = ? WHERE id = ?';
                     database.query(query, [data.edition.fiName, data.edition.faName, data.edition.pseudo, data.edition.balance, data.edition.email, data.edition.adherent, data.edition.admin, data.edition.id])
                     .then(rows =>{
-
                         console.log("Edit successfull");
 
                         socket.emit('editUser', data.edition);
