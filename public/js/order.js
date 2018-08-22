@@ -115,7 +115,7 @@ function appendProduct(productId){
     //First, check if product is already in list
     let itemFound = false;
 
-    for(let i=0; i<commandLileavest.length; i++){
+    for(let i=0; i<commandList.length; i++){
         if(commandList[i].id == productId){
             //If the product is already in list
             itemFound = true;
