@@ -14,6 +14,7 @@ str="localhost:8080" #TODO : str array, for multiple replacements
 pathToMainJS="./public/js/main.js" #TODO : < find ./ -name main.js > , stuff like that
 #database creation file path
 pathToDbCreationFile="./tables_creation.sql"
+repo="https://github.com/Arveto/ultimate-snack-manager"
 
 
 ##############
@@ -26,6 +27,15 @@ normal=$(tput sgr0)
 green=$(tput setaf 2)
 red=$(tput setaf 1)
 
+  #CLONE REPO
+echo "${green}${bold}> Clone repo $repo ? (${bold}enter${normal}${green} to clone, ${bold}'N'${normal}${green} to skip)> ${normal}${red}"
+read clone
+tput sgr0
+if [ $clone = "" ]; then
+  git clone $clone
+else
+  echo "${green}${bold}OK !${normal}"
+fi
   #REPLACE IPs
 echo "${green}${bold}> Detecting string to replace...${normal}"
 tput sitm; echo -n " "
