@@ -46,3 +46,8 @@ div.column.is-9.animated.fadeIn{
 img{
   border-radius: 5px;
 }
+
+.superadmin{
+  /* visibility: collapse; */
+  display: none;
+}
