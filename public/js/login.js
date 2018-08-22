@@ -27,6 +27,7 @@ function login(email, password) {
 
 socket.on('login', (res) => {
     if (res.ok) {
+
         notif('success', "Connecté en tant que <b>" + res.userData.fiName + ' ' + res.userData.faName + "</b>");
         currentUser = res.userData;
 
@@ -112,8 +113,8 @@ socket.on('login', (res) => {
     }
     $('#loginNav').removeClass('is-loading');
     $('.password').val('');
-    $(".superadmin").show();
-    
+
+
 });
 
 

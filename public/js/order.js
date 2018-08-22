@@ -101,7 +101,7 @@ $('#submitCommand').on('click', ()=>{
 
 //SOCKETIO EVENTS
 
-socket.on('commandReceived', ()=>{
+socket.on('commandRecived', ()=>{
     $("#submitLogin").removeClass('is-loading');
     notif('success', 'La commande a bien été effectuée');
 

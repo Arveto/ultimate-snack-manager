@@ -333,6 +333,29 @@ function socketIoEvents(socket, database, mail, mailSender){
         });
     });
 
+
+    socket.on('deleteProduct', (data) =>{
+        console.log("Receive product deletion for "+data.id);
+
+        let query = 'UPDATE items SET deleted = 1, onSale = 0 WHERE id = ?'
+        database.query(query, [data.id])
+        .then(rows => {
+            console.log("Product deleted!");
+            socket.emit("productValidation");
+        });
+    });
+
+    socket.on('editOnSale', (data) =>{
+        console.log("Receive onSale edit for "+data.id);
+
+        let query = 'UPDATE items SET `onSale` = IF (`onSale`, 0, 1) WHERE id = ?'
+        database.query(query, [data.id])
+        .then(rows => {
+            console.log("Product edited!");
+            socket.emit("productValidation");
+        });
+    });
+
     //USERS ADMINISTRATION
     socket.on('editUser', (data)=>{
 

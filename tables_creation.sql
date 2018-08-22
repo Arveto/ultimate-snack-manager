@@ -24,6 +24,7 @@ CREATE TABLE `items` (
   `onSale` tinyint(4) NOT NULL DEFAULT '1',
   `nOrders` mediumint(9) unsigned NOT NULL DEFAULT '0',
   `totalIncome` int(10) unsigned NOT NULL DEFAULT '0',
+    `deleted` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 

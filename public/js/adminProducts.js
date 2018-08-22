@@ -17,9 +17,12 @@ $(".adminProduct").on('click', function(e) {
             adminProduct.name = products[i].name;
             adminProduct.price = products[i].price;
             adminProduct.amount = products[i].stock;
+            adminProduct.onSale = products[i].onSale;
             break;
         }
     }
+
+    $('#isOnSale').prop("checked", adminProduct.onSale);
 
     $('#adminEditProduct').show();
 
@@ -93,4 +96,20 @@ $('#submitEdition').on('click', ()=>{
 
     }
 
+});
+
+
+//PRODUCTS SALE, DELETION
+
+$('#isOnSale').on('click',() =>{
+    socket.emit("editOnSale", {id: adminProduct.id});
+});
+
+$('#removeProduct').on('click',() =>{
+    socket.emit("deleteProduct", {id: adminProduct.id});
+});
+
+
+socket.on('productValidation', function(){
+    notif('success', 'Changement effectué! Rafraichissez la page pour la mettre à jour.')
 });

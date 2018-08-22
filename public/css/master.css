@@ -42,12 +42,3 @@ body{
 div.column.is-9.animated.fadeIn{
     /* overflow-y: scroll; */
 }
-
-img{
-  border-radius: 5px;
-}
-
-.superadmin{
-  /* visibility: collapse; */
-  display: none;
-}

@@ -61,7 +61,6 @@ function userAdminPopup(){
     $('#adminUsers div').addClass('blur');
     $('#userAdministrationPopup').show();
 
-    $('#userAdmin_avatar').attr('src', 'https://api.adorable.io/avatars/100/'+edition.faName+edition.fiName+'.png')
     $('.title.userAdminName').html(edition.name);
     $("#userAdmin_fiName").val(edition.fiName);
     $("#userAdmin_faName").val(edition.faName);
@@ -166,7 +165,7 @@ function insertUserAdmin(div, user){
     div.append('<article class="media adminUser'+user.id+'">\
     <figure class="media-left">\
         <p class="image is-48x48">\
-            <img src="https://api.adorable.io/avatars/100/'+user.faName+user.fiName+'.png">\
+            <img src="https://bulma.io/images/placeholders/128x128.png">\
         </p>\
     </figure>\
     <div class="media-content columns">\
@@ -198,7 +197,7 @@ function insertUserAdmin(div, user){
             <i class="fa fa-times"></i>\
           </p>\
         </div>\
-        <div class="column has-text-centered superadmin '+ user.id +' action_editUser adminUserAction">\
+        <div class="column has-text-centered '+ user.id +' action_editUser adminUserAction">\
           <p class="heading">\
             Editer\
           </p>\
@@ -206,7 +205,7 @@ function insertUserAdmin(div, user){
             <i class="fa fa-user-edit"></i>\
           </p>\
         </div>\
-        <div class="column has-text-centered superadmin '+ user.id +' action_removeUser adminUserAction">\
+        <div class="column has-text-centered '+ user.id +' action_removeUser adminUserAction">\
           <p class="heading">\
             Supprimer\
           </p>\

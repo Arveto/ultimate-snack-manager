@@ -26,28 +26,30 @@
                     <%
                     let i;
                     for (i=0 ; i<products.length; i++ ) {
-                        if (i!=0 && i%4 == 0){
+                        if(products[i].onSale == 1){
+                            if (i!=0 && i%4 == 0){
+                                %>
+                            </div>
+                            <div class="tile is-ancestor has-text-centered">
+                                <%
+                            }
                             %>
-                        </div>
-                        <div class="tile is-ancestor has-text-centered">
+                            <script>
+                            //Products list is now filled on admin login
+                            //OLD: products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
+                            </script>
+                            <div class="tile is-parent <%=products[i].id%> product">
+                                <article class="tile is-child box">
+                                    <p class="title">
+                                        <%=products[i].name%>
+                                    </p>
+                                    <p class="subtitle">
+                                        <%=products[i].price%>€
+                                    </p>
+                                </article>
+                            </div>
                             <%
                         }
-                        %>
-                        <script>
-                        //Products list is now filled on admin login
-                        //OLD: products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
-                        </script>
-                        <div class="tile is-parent <%=products[i].id%> product">
-                            <article class="tile is-child box">
-                                <p class="title">
-                                    <%=products[i].name%>
-                                </p>
-                                <p class="subtitle">
-                                    <%=products[i].price%>€
-                                </p>
-                            </article>
-                        </div>
-                        <%
                     }
                     if (i!=0 && i%4 == 0){
                         %>
