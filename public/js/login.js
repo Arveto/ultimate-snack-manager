@@ -113,7 +113,7 @@ socket.on('login', (res) => {
     }
     $('#loginNav').removeClass('is-loading');
     $('.password').val('');
-
+    $(".superadmin").show();
 
 });
 
