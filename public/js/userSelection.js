@@ -100,7 +100,7 @@ function insertUserOrder(div, user){
     div.append('<article class="media user'+user.id+'">\
         <figure class="media-left">\
             <p class="image is-48x48">\
-                <img src="https://bulma.io/images/placeholders/128x128.png">\
+                <img src="https://api.adorable.io/avatars/100/'+user.faName+user.fiName+'.png">\
             </p>\
         </figure>\
         <div class="media-content">\
