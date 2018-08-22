@@ -61,6 +61,7 @@ function userAdminPopup(){
     $('#adminUsers div').addClass('blur');
     $('#userAdministrationPopup').show();
 
+    $('#userAdmin_avatar').attr('src', 'https://api.adorable.io/avatars/100/'+edition.faName+edition.fiName+'.png')
     $('.title.userAdminName').html(edition.name);
     $("#userAdmin_fiName").val(edition.fiName);
     $("#userAdmin_faName").val(edition.faName);
