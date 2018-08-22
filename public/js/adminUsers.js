@@ -198,7 +198,7 @@ function insertUserAdmin(div, user){
             <i class="fa fa-times"></i>\
           </p>\
         </div>\
-        <div class="column has-text-centered '+ user.id +' action_editUser adminUserAction">\
+        <div class="column has-text-centered superadmin '+ user.id +' action_editUser adminUserAction">\
           <p class="heading">\
             Editer\
           </p>\
@@ -206,7 +206,7 @@ function insertUserAdmin(div, user){
             <i class="fa fa-user-edit"></i>\
           </p>\
         </div>\
-        <div class="column has-text-centered '+ user.id +' action_removeUser adminUserAction">\
+        <div class="column has-text-centered superadmin '+ user.id +' action_removeUser adminUserAction">\
           <p class="heading">\
             Supprimer\
           </p>\
