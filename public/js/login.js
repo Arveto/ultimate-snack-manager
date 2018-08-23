@@ -93,8 +93,11 @@ socket.on('login', (res) => {
 
         //Hide administration elements to not superadmin users
         if(!res.isSuperAdmin){
-            $('#toAdminUsers').hide();
             $('#productsNav').hide();
+        }
+
+        if(!res.isAdmin && !res.isSuperAdmin){
+            $('#toAdminUsers').hide();
         }
 
         logged = true;

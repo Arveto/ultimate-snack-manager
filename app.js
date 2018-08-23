@@ -62,7 +62,6 @@ app.use(require('express').static(__dirname + '/public'));
 //Get main page
 app.get('/', (req, res) => {
     //This query only contains useful data for page generation
-    let query = 'SELECT id, name, price, stock FROM items WHERE onSale = 1 ORDER BY id ASC;'
     let query = 'SELECT id, name, price, stock, onSale FROM items WHERE deleted = 0 ORDER BY id ASC;'
     database.query(query)
     .then(rows => {

@@ -8,41 +8,43 @@ function bindUserAdmin(){
     $(".adminUserAction").unbind().click(function(e){
         e.stopPropagation();
 
-        //get Id of the user selected
-        let el = e.target.closest(".adminUserAction"); //It works like that. its 6:36am and i dont wanna search why the fuck it works
-        let userId = getIdFromClassName( el );
+        if(currentUser.superadmin){
+            //get Id of the user selected
+            let el = e.target.closest(".adminUserAction"); //It works like that. its 6:36am and i dont wanna search why the fuck it works
+            let userId = getIdFromClassName( el );
 
 
 
-        let userIndex;
-        for(let i=0; i<users.length; i++){
-            if(users[i].id == userId){
-                userIndex = i;
+            let userIndex;
+            for(let i=0; i<users.length; i++){
+                if(users[i].id == userId){
+                    userIndex = i;
+                }
             }
-        }
 
-        edition = users[userIndex];
+            edition = users[userIndex];
 
-        switch (el.className.match(/action_[^ ]*/g)[0]){
-            case 'action_toggleSetAdminUser':
-                edition.admin = !(edition.admin);
-                sendEdition(edition);
-                break;
-            case 'action_toggleSetMemberUser':
-                edition.adherent = !(edition.adherent);
-                sendEdition(edition);
-                break;
-            case 'action_editUser':
-                editedUser = edition.id;
-                userAdminPopup(edition);
-                break;
-            case 'action_removeUser':
-                edition.remove = true;
-                sendEdition(edition);
-                edition = {};
-                break;
-            default:
-                alert("Impossible, une erreur dans mon code ??")
+            switch (el.className.match(/action_[^ ]*/g)[0]){
+                case 'action_toggleSetAdminUser':
+                    edition.admin = !(edition.admin);
+                    sendEdition(edition);
+                    break;
+                case 'action_toggleSetMemberUser':
+                    edition.adherent = !(edition.adherent);
+                    sendEdition(edition);
+                    break;
+                case 'action_editUser':
+                    editedUser = edition.id;
+                    userAdminPopup(edition);
+                    break;
+                case 'action_removeUser':
+                    edition.remove = true;
+                    sendEdition(edition);
+                    edition = {};
+                    break;
+                default:
+                    alert("Impossible, une erreur dans mon code ??")
+            }
         }
 
     });
@@ -221,6 +223,7 @@ function insertUserAdmin(div, user){
     if(!user.admin){
         $('#isAdmin'+user.id).hide();
         $('#isNotAdmin'+user.id).show();
+
     } else {
         $('#isAdmin'+user.id).addClass('confirmedAdmin');
         $('#isNotAdmin'+user.id).addClass('confirmedAdmin');
@@ -232,6 +235,12 @@ function insertUserAdmin(div, user){
     } else {
         $('#isMember'+user.id).addClass('confirmedAdmin');
         $('#isNotMember'+user.id).hide().addClass('confirmedAdmin');
+    }
+
+    if(!currentUser.superadmin){    //XXX C'est ici que ça fait de la merde
+        console.log("Baisé");
+        $('.action_removeUser').addClass('superadmin');
+        $('.action_editUser').addClass('superadmin');
     }
 }
 
