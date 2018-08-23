@@ -236,12 +236,6 @@ function insertUserAdmin(div, user){
         $('#isMember'+user.id).addClass('confirmedAdmin');
         $('#isNotMember'+user.id).hide().addClass('confirmedAdmin');
     }
-
-    if(!currentUser.superadmin){    //XXX C'est ici que ça fait de la merde
-        console.log("Baisé");
-        $('.action_removeUser').addClass('superadmin');
-        $('.action_editUser').addClass('superadmin');
-    }
 }
 
 

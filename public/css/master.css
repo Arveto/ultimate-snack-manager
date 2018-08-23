@@ -48,8 +48,7 @@ img{
   border-radius: 5px;
 }
 
-.superadmin{
-  /* visibility: collapse; */
+div.column.superadmin{
+  visibility: collapse;
   display: none;
 }
-
