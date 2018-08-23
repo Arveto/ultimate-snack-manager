@@ -1,6 +1,6 @@
 
 #preordersContainer{
-    position: absolute;
+    position: fixed;
     top: 90vh;
     left : 20px;
     width: 30vw;

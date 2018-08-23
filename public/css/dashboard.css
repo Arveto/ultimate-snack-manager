@@ -1,3 +1,9 @@
+/* #dashboardContainer{
+  overflow-x: hidden;
+  overflow-y: auto;
+  width:auto;
+} */
+
 .tile-title{
     font-size: 18px;
     font-weight: bolder;

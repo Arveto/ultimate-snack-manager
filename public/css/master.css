@@ -3,13 +3,13 @@ body{
     /* no selection */
     -moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;
 
-    position: absolute;
+    /* position: absolute;
     top: 0;
     right: 0;
     left: 0;
     bottom: 0;
     overflow-y: hidden;
-    overflow-x: hidden;
+    overflow-x: hidden; */
 }
 
 .admin{
