@@ -116,7 +116,9 @@ socket.on('login', (res) => {
     }
     $('#loginNav').removeClass('is-loading');
     $('.password').val('');
-    $(".superadmin").show();
+
+    if(res.isSuperAdmin)
+      $(".superadmin").show().css('display', 'block').css('visibility', 'visible');
 
 });
 
