@@ -46,3 +46,7 @@ div.column.is-4 aside.box{
 .subtitle.admin{
     margin: 0px;
 }
+
+.isIncreased{
+    color: #db3535;
+}

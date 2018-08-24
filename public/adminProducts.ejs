@@ -33,7 +33,7 @@
                         products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
                         </script>
 
-                        <div class="tile is-parent <%=products[i].id%> adminProduct">
+                        <div class="tile is-parent <%=products[i].id%> adminProduct" id="adminProduct<%=products[i].id%>">
                             <article class="tile is-child box">
                                 <p class="title">
                                     <%=products[i].name%>

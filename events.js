@@ -1,12 +1,10 @@
 function socketIoEvents(socket, database, mail, mailSender){
-    console.log('new connected');
 
 
 /***********************  ACCOUNT LOGIN/SIGNUP  ******************************/
 
     //New user connection
     socket.on('login', (user) => {
-        console.log("Receive login");
 
         let isAdmin;
         let isSuperAdmin = -1;
@@ -30,7 +28,7 @@ function socketIoEvents(socket, database, mail, mailSender){
                 let itemsRes;
                 let users;
 
-                let query = 'SELECT id, name, price, stock, nOrders FROM items ORDER BY id ASC;';
+                let query = 'SELECT id, name, price, stock, nOrders, onSale FROM items ORDER BY id ASC;';
                 database.query(query)
                 .then(rows => {
                     itemsRes = rows;
@@ -161,8 +159,6 @@ function socketIoEvents(socket, database, mail, mailSender){
 
     //Receiving an order
     socket.on('order', (order) => {
-        //TODO Also support preorders (different query for the order INSERTION)
-
 
         let query = 'SELECT admin, id FROM users WHERE (email = ?);';
         database.query(query, [order.admin.email])
@@ -201,19 +197,8 @@ function socketIoEvents(socket, database, mail, mailSender){
                 }
             }
 
-            //Increase price for non member users
-            query = 'SELECT adherent FROM users WHERE id = ?';
-            database.query(query, [order.customerId])
-            .then(rows =>{
-                if(rows[0].adherent == 0){
-                    let additionalPrice = 0.10 * order.commandList.length;
+            //NOTE Majoration is now calculated client-side
 
-                    let query = 'UPDATE users SET balance = balance - ? WHERE id = ?;'
-                    database.query(query, [additionalPrice.toFixed(2), order.customerId])
-                    .then(rows => {
-                    });
-                }
-            });
         });
     });
 
@@ -288,11 +273,41 @@ function socketIoEvents(socket, database, mail, mailSender){
         });
     });
 
+
     socket.on("removePreorder", (data) =>{
         let query="DELETE FROM orders WHERE customerId = ?;"
         database.query(query, [data.customerId])
         .then(rows =>{console.log("Order deleted")});
     })
+
+
+    //Prof order
+    socket.on('profOrder', (order) => {
+        let query = 'SELECT admin, id FROM users WHERE (email = ?);';
+        database.query(query, [order.admin.email])
+        .then(rows => {
+            if(rows[0].admin == 1){
+
+                console.log("Command from " + order.admin.email + " for prof");
+                socket.emit('commandReceived');
+
+                //Insert the order in DB
+                let query = 'INSERT INTO orders (price, content) VALUES(?, ?)';
+                database.query(query, [order.price, order.commandList.toString()])
+                .then((rows) => {
+                    let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
+
+                });
+
+                //Update the nOrders Factor (WARNING Ugly as f***)
+                query = 'UPDATE items SET nOrders = nOrders + 1, stock = stock - 1 WHERE id = ? AND stock > 0;'
+                for(let i=0; i<order.commandList.length; i++){
+                    database.query(query, [order.commandList[i]])
+                    .then(rows => {});
+                }
+            }
+        });
+    });
 
 
     /***********************    ADMINISTRATION  STUFF ******************************/

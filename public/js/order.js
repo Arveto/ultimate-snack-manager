@@ -1,6 +1,8 @@
 
 let commandList = []; //IDs of selected products & amount of it
 let totalPrice;
+let isProf = false;
+let isMember = false;
 
 
 //UI EVENTS
@@ -47,7 +49,7 @@ $('#submitCommand').on('click', ()=>{
             }
         }
 
-        if (!personalOrder) { // Incomplete/bad condition
+        if (!personalOrder && !isProf) { // Incomplete/bad condition
 
             //prepare the order json
             let order = {};
@@ -72,7 +74,8 @@ $('#submitCommand').on('click', ()=>{
             //send it
             socket.emit('order', order);
 
-        } else {  //It's a preorder
+
+        } else if(!isProf) {  //It's a preorder
 
             //prepare the order json
             let order = {
@@ -88,6 +91,18 @@ $('#submitCommand').on('click', ()=>{
               $('.moldu').hide().css('visibility', 'collapse');
               personalOrder = false;
             }
+
+
+        } else {    //It's a prof order
+
+        //prepare the order json
+        let order = {
+            admin : currentUser,
+            commandList : orderArray.toString(),
+            price : totalPrice.toFixed(2)
+        };
+
+        socket.emit('profOrder', order);
         }
     }
 
@@ -282,11 +297,16 @@ function updatePrice(){
         for(let j=0; j<products.length; j++){
             if(products[j].id == commandList[i].id){
                 totalPrice += commandList[i].amount * products[j].price.toFixed(2);
+
+                if(!isMember)
+                    totalPrice += commandList[i].amount * 0.10.toFixed(2);
+
             }
         }
     }
 
     $('#total').html(totalPrice.toFixed(2) + ' €');
+
 }
 
 

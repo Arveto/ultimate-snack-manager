@@ -3,6 +3,28 @@
 let customerId; //Customer being served
 
 
+function bindProfOrder(){
+
+    //get Id of the user selected
+    customerId = -1;
+
+    $("#commandFor").html('Prof');
+
+    isMember = false;
+    isProf = true;
+
+    //Add visual indicator to price for majoration
+    $('#total').addClass('isIncreased');
+
+
+    changeView('order');
+    personalOrder = false;
+
+    $(".moldu").hide();    //Works this way ¯\_(ツ)_/¯
+    $('h1.title.admin, h2.subtitle.admin').show();    //Works this way ¯\_(ツ)_/¯
+}
+
+
     //Bind events when content has been added to DOM
 function bindUserOrder(){
     $("button.order").on('click', (e)=>{
@@ -18,12 +40,21 @@ function bindUserOrder(){
             }
         }
 
-        $("#commandFor").html(users[customerIndex].faName);
+        $("#commandFor").html(users[customerIndex].fiName+''+users[customerIndex].faName);
+
+        isMember = users[customerIndex].adherent;
+        isProf = false;
+
+        //Add visual indicator to price for majoration
+        if(!isMember){
+            $('#total').addClass('isIncreased');
+        } else {
+            $('#total').removeClass('isIncreased');
+        }
 
         changeView('order');
         personalOrder = false;
 
-        console.log("Event détéctède");
 
         $(".moldu")/*.css('display', 'flex').css('visibility', 'collapse')*/.hide();    //Works this way ¯\_(ツ)_/¯
         $('h1.title.admin, h2.subtitle.admin')/*.css('visibility', 'collapse')*/.show();    //Works this way ¯\_(ツ)_/¯
