@@ -16,7 +16,7 @@
     width: 25vw;
 }
 
-#button_addProductShoppingList{
+#button_shoppingListAddProduct{
 
     position: absolute;
     z-index: 1;
@@ -26,4 +26,9 @@
     position: absolute;
     padding: 0px;
     z-index: 0;
+}
+
+#shoppingListProducts{
+    max-height: 300px;
+    overflow-y: scroll;
 }

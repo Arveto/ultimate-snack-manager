@@ -65,8 +65,6 @@ function socketIoEvents(socket, database, mail, mailSender){
                         let query = 'SELECT customerId FROM orders ORDER BY date DESC LIMIT 1;'
                         database.query(query)
                         .then(rows => {
-                            console.log("isSuperAdmin"+isSuperAdmin);
-                            console.log("About to emit");
                             let lastCustomer = [];
                             if (typeof image_array !== 'undefined' && image_array.length > 0) {
                               lastCustomer = rows[0].customerId;
@@ -403,33 +401,37 @@ function socketIoEvents(socket, database, mail, mailSender){
 
 
 /*********************** SHOPPING LIST ******************************/ // XXX: shoppingList[] is shit. Change to shoppingList{}
-    socket.on('addProductShoppingList', (product)=>{
-      product.id = shoppingList.push(product.name)
-      console.log(shoppingList);
+socket.on('shoppingListAddProduct', (item)=>{
+    console.log("Adding product");
 
-        socket.broadcast.emit('shoppingListAddProduct', product);
-        socket.emit('shoppingListAddProduct', product);
+    let query="INSERT INTO shoppingList (content) VALUES (?)";
+    database.query(query, [item.content])
+    .then( (rows) => {
+        socket.broadcast.emit('shoppingListAddProduct', {content: item.content, id: rows.insertId});
+        socket.emit('shoppingListAddProduct', {content: item.content, id: rows.insertId});
     });
 
-    socket.on('ShoppingListProductEdit', (product)=>{
-      console.log(shoppingList);
+});
 
-        shoppingList[product.id].name = product.name;
 
-        socket.broadcast.emit('shoppingListEdition', product);
-        socket.emit('shoppingListEdition', product);
+socket.on('shoppingListProductEdit', (item)=>{
+    let query = "UPDATE shoppingList SET content = ? WHERE id = ?;"
+    database.query(query, [item.content, item.id])
+    .then( (rows) => {
+        socket.broadcast.emit('shoppingListProductEdit', item);
+        socket.emit('shoppingListProductEdit', item);
     });
+});
 
-    socket.on('ShoppingListCheckProduct', (product)=>{
-        shoppingList.splice(product.id, 1);
-        console.log(shoppingList);
-        let i=0;
-        shoppingList.forEach((el)=>{
-          socket.broadcast.emit('shoppingListAddProduct', {'name': el, 'id': i});
-          socket.emit('shoppingListAddProduct', {'name': el, 'id': i});
-          i++;
-        })
+
+socket.on('shoppingListDeleteProduct', (item)=>{
+    let query="DELETE FROM shoppingList WHERE id = ?;"
+    database.query(query, [item.id])
+    .then( (rows) => {
+        socket.broadcast.emit('shoppingListDeleteProduct', {id: item.id});
+        socket.emit('shoppingListDeleteProduct', {id: item.id});
     });
+});
 }
 
 module.exports = {socketIoEvents};

@@ -105,16 +105,13 @@
                                         let i = 0;
                                         shoppingList.forEach((product)=>{
                                             %>
-                                            <tr class="has-icons-right shoppingProduct<%=i%>">
-                                                <td class="shoppingProduct<%=i%>_name"> <%=product%> </td>
+                                            <tr class="has-icons-right shoppingProduct<%=product.id%>">
+                                                <td class="shoppingProduct<%=product.id%>_name"> <%=product.content%> </td>
                                                 <td class="icon is-right">
-                                                  <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'<%=product%>', id: <%=i%>})" href="#">
+                                                  <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'<%=product.content%>', id: <%=product.id%>})" href="#">
                                                     <i class="fa fa-edit "></i>
-                                                  </a><a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'<%=product%>', id: <%=i%>})" href="#">
+                                                  </a><a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'<%=product.content%>', id: <%=product.id%>})" href="#">
                                                     <i class="fa fa-check "></i>
-                                                  <!--</a><a class= "button is-small is-danger" onclick="shoppingListDeleteProduct( {name:'<%=product%>', id: <%=i%>})" href="#">
-                                                    <i class="fa fa-trash"></i>
-                                                </a> -->
                                                 </td>
                                             </tr>
                                             <%
@@ -132,7 +129,7 @@
                               <!-- <i class="fa fa-search"></i> -->
                             </span>
 
-                            <div class="icon is-medium is-right" id="button_addProductShoppingList" style="cursor: pointer">
+                            <div class="icon is-medium is-right" id="button_shoppingListAddProduct" style="cursor: pointer">
                               <a class= "button is-big" href="#" >
                                 <i class="fa fa-cart-plus "></i>
                               </a>

@@ -61,12 +61,21 @@ app.use(require('express').static(__dirname + '/public'));
 
 //Get main page
 app.get('/', (req, res) => {
-    //This query only contains useful data for page generation
-    let query = 'SELECT id, name, price, stock, onSale FROM items WHERE deleted = 0 ORDER BY id ASC;'
+
+    let shoppingList;
+
+    //Those queries only contain useful data for page generation
+    let query = 'SELECT * FROM shoppingList;'
     database.query(query)
     .then(rows => {
+        shoppingList = rows;
+
+        let query = 'SELECT id, name, price, stock, onSale FROM items WHERE deleted = 0 ORDER BY id ASC;'
+        return database.query(query)
+    })
+    .then(rows => {
         res.render(__dirname + '/public/index.ejs', {
-            user: user,
+            //user: user,
             products: rows,
             shoppingList: shoppingList
         });
