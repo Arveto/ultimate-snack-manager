@@ -9,7 +9,6 @@
 */
 
 function getIdFromClassName(el){
-
     let str = el.className.match(/\d/g).map(Number);
     let Id =0;
     for (let i=str.length-1, pos=1; i>-1; i--, pos*=10){
@@ -19,6 +18,16 @@ function getIdFromClassName(el){
     return Id;
 }
 
+function getIdFromClassNameUgly(el){    //Sorry :p
+
+    let str = el.attr("class").match(/\d/g).map(Number);
+    let Id =0;
+    for (let i=str.length-1, pos=1; i>-1; i--, pos*=10){
+        Id += str[i]*pos;
+    }
+
+    return Id;
+}
 
 /**
 * Scroll down the section in parameter

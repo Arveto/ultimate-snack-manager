@@ -30,8 +30,16 @@ function bindUserOrder(){
     $("button.order").on('click', (e)=>{
         e.preventDefault();
 
+        let currentElement = $(e.target);
+        let i=0;    //Just a security to avoid infinite loop
+
+        while(currentElement.prop("tagName") != "BUTTON" && i < 10){
+            currentElement = currentElement.parent();
+            i++;
+        }
+
         //get Id of the user selected
-        customerId = getIdFromClassName( e.target );
+        customerId = getIdFromClassNameUgly( currentElement );
 
         let customerIndex;
         for(let i=0; i<users.length; i++){
@@ -40,7 +48,7 @@ function bindUserOrder(){
             }
         }
 
-        $("#commandFor").html(users[customerIndex].fiName+''+users[customerIndex].faName);
+        $("#commandFor").html(users[customerIndex].fiName+' '+users[customerIndex].faName);
 
         isMember = users[customerIndex].adherent;
         isProf = false;

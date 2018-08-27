@@ -57,7 +57,7 @@ socket.on('login', (res) => {
                 insertUserOrder(usersOrderDiv, user);
                 insertUserAdmin(usersAdminDiv, user);
 
-                bindUserOrder();
+                bindUserOrder(user);
                 bindUserAdmin();
             });
 
