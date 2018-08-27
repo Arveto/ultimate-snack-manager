@@ -65,10 +65,8 @@ function socketIoEvents(socket, database, mail, mailSender){
                         let query = 'SELECT customerId FROM orders ORDER BY date DESC LIMIT 1;'
                         database.query(query)
                         .then(rows => {
-                            let lastCustomer = [];
-                            if (typeof image_array !== 'undefined' && image_array.length > 0) {
-                              lastCustomer = rows[0].customerId;
-                            }
+                            let lastCustomer;
+                            lastCustomer = rows[0].customerId;
                             socket.emit('login', {ok: true, isAdmin: isAdmin, isSuperAdmin: isSuperAdmin, itemsList : itemsRes, preorders : preorders, users: users, lastCustomer: lastCustomer, userData: userData});
                         });
 
@@ -400,9 +398,8 @@ function socketIoEvents(socket, database, mail, mailSender){
     });
 
 
-/*********************** SHOPPING LIST ******************************/ // XXX: shoppingList[] is shit. Change to shoppingList{}
+/*********************** SHOPPING LIST ******************************/
 socket.on('shoppingListAddProduct', (item)=>{
-    console.log("Adding product");
 
     let query="INSERT INTO shoppingList (content) VALUES (?)";
     database.query(query, [item.content])
@@ -415,6 +412,7 @@ socket.on('shoppingListAddProduct', (item)=>{
 
 
 socket.on('shoppingListProductEdit', (item)=>{
+
     let query = "UPDATE shoppingList SET content = ? WHERE id = ?;"
     database.query(query, [item.content, item.id])
     .then( (rows) => {

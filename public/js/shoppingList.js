@@ -9,19 +9,24 @@ function shoppingListAddProduct(){
 }
 
 function shoppingListProductEdit(item){ //Ooooh yeah sooo dirty.
-    let el = $('.shoppingProduct'+item.id+'_name').addClass('input').attr('contenteditable', true);
-    $('.shoppingProduct'+item.id+' .icon.is-right').hide();
-    el.on('keypress', (e)=>{
+    item.content = $('#shoppingContent'+item.id).text();
+
+    $('#shoppingContent'+item.id).html('<input id="shoppingInput'+item.id+'"></input>');
+
+    $("#shoppingInput"+item.id).val(item.content);
+
+    $("#shoppingInput"+item.id).on('keypress', (e)=>{
+        console.log("Keypress");
         let keycode = e.keyCode || e.which;
         if (keycode == 13) {
-            $('.shoppingProduct'+item.id+' .icon.is-right').show();
-            socket.emit('shoppingListProductEdit', {'content': $('.shoppingProduct'+item.id+'_name').html(), 'id': item.id});
+            console.log("Enter?")
+            socket.emit('shoppingListProductEdit', {'content': $("#shoppingInput"+item.id).val(), 'id': item.id});
         }
-    })
+    });
 }
+
 function shoppingListCheckProduct(item){
     socket.emit('shoppingListDeleteProduct', (item));
-    $('#shoppingListContainer').empty();
 }
 
 
@@ -45,23 +50,24 @@ $('#button_shoppingListAddProduct').on('click', ()=>{ // TODO: Fix that shit : c
 // SOCKET EVENTS
 
 socket.on('shoppingListProductEdit', (item)=>{
-    $('.shoppingProduct'+item.id+'_name').removeClass('input').attr('contenteditable', false).html(item.content);
-    $('shoppingProduct'+item.id+' .icon.is-right').show();
+    $('#shoppingContent'+item.id).html(item.content);
 });
 
 socket.on('shoppingListDeleteProduct', (item)=>{
-    console.log("Received instruction to remove "+item.id);
-    $('.shoppingProduct'+item.id).remove();
+    $('#shoppingProduct'+item.id).remove();
 });
 
 socket.on('shoppingListAddProduct', (item)=>{
-    $('<tr>').addClass('<tr class="has-icons-right shoppingProduct'+item.id+'">\
-    <td class="shoppingProduct'+item.id+'_name"> '+item.content+' </td>\
-    <td class="icon is-right">\
-    <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'+item.name+', id:'+item.id+'})" href="#">\
-    <i class="fa fa-edit "></i>\
-    </a><a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'+item.name+', id:'+item.id+'})" href="#">\
-    <i class="fa fa-check "></i>\
-    </td>\
-    </tr>').appendTo('#shoppingListProducts');
+
+    $('#shoppingListContainer').append(`<tr class="has-icons-right" id="shoppingProduct`+item.id+`">\
+        <td id="shoppingContent`+item.id+`"> `+item.content+` </td>\
+            <td class="icon is-right">\
+                <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'`+item.content+`', id:`+item.id+`})" href="#">\
+                    <i class="fa fa-edit "></i>\
+                </a>\
+                <a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'`+item.content+`', id:`+item.id+`})" href="#">\
+                    <i class="fa fa-check "></i>\
+                </a>\
+        </td>\
+        </tr>`).appendTo('#shoppingListProducts');
 });

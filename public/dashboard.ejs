@@ -66,7 +66,7 @@
                             </div>
                             <div class="tile is-child box">
                                 <p class="tile-title" size="1">Dernière commande</p>
-                                <p class="subtitle" id="lastOrder">Sergeï Soursousky</p>
+                                <p class="subtitle" id="lastOrder">Prof</p>
                             </div>
                         </div>
                         <div class="tile is-parent is-vertical">
@@ -76,7 +76,7 @@
                             </div>
                             <div class="tile is-child box">
                                 <p class="tile-title" size="1">Stock faible</p>
-                                <p class="subtitle" id="lowStock">Something's wrong =/</p>
+                                <p class="subtitle" id="lowStock">Produits non trouvés</p>
                             </div>
                         </div>
                     </div>
@@ -105,16 +105,18 @@
                                         let i = 0;
                                         shoppingList.forEach((product)=>{
                                             %>
-                                            <tr class="has-icons-right shoppingProduct<%=product.id%>">
-                                                <td class="shoppingProduct<%=product.id%>_name"> <%=product.content%> </td>
+                                            <tr class="has-icons-right" id="shoppingProduct<%=product.id%>">
+                                            <td id="shoppingContent<%=product.id%>"> <%=product.content%> </td>
                                                 <td class="icon is-right">
-                                                  <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'<%=product.content%>', id: <%=product.id%>})" href="#">
-                                                    <i class="fa fa-edit "></i>
-                                                  </a><a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'<%=product.content%>', id: <%=product.id%>})" href="#">
-                                                    <i class="fa fa-check "></i>
+                                                    <a class= "button is-small is-info" onclick="shoppingListProductEdit( {name:'<%=product.content%>', id: <%=product.id%>})" href="#">
+                                                        <i class="fa fa-edit "></i>
+                                                    </a>
+                                                    <a class= "button is-small is-success" onclick="shoppingListCheckProduct( {name:'<%=product.content%>', id: <%=product.id%>})" href="#">
+                                                        <i class="fa fa-check "></i>
+                                                    </a>
                                                 </td>
                                             </tr>
-                                            <%
+                                                                                            <%
                                             i++;
                                         })
                                         %>

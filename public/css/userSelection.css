@@ -18,3 +18,8 @@ article{
 .bell{
     margin-bottom: -1em;
 }
+
+#userSelectionOrder{
+    max-height: 450px;
+    overflow-y: scroll;
+}

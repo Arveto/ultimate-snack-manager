@@ -29,6 +29,6 @@
 }
 
 #shoppingListProducts{
-    max-height: 300px;
-    overflow-y: scroll;
+    max-height: 175px;
+    overflow: scroll;
 }
