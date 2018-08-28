@@ -61,16 +61,25 @@ function createStandardGraph(graphData, products){
         ownProducts[i].nOrders = 0;
     }
 
-    for(let i=0; i<graphData.length; i++){
-        graphData[i].content.split(',');
-        for(let j=0; j<graphData[i].content.length; j++){
-            for(let k=0; k<ownProducts.length; k++){
-                if(graphData[i].content[j] == ownProducts[k].id){
-                    ownProducts[i].nOrders++;
+    let currentOrder = [];
+
+
+    for(let i=0; i<graphData.length; i++){  //Iterating all orders
+
+        currentOrder = graphData[i].content.split(",");
+
+
+        for(let j=0; j<currentOrder.length; j++){   //Iterating order string
+
+            for(let k=0; k<ownProducts.length; k++){    //Iterating products to find matches
+                if(parseInt(currentOrder[j]) == ownProducts[k].id){
+                    ownProducts[k].nOrders++;
                     break;
                 }
             }
+
         }
+
     }
 
     createAdminGraph(ownProducts);  //We treat this array the same way

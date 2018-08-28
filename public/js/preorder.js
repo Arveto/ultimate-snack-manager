@@ -43,6 +43,8 @@ function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
                 }
             }
 
+
+            console.log({customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
             socket.emit("validatePreorder", {customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
 
             notif('success', 'La commande a bien été traitée!');

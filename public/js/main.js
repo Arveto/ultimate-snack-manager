@@ -38,6 +38,7 @@ $(".toOrder").on('click', () => {
     } else if(currentUser.admin){
         changeView('userSelection');
         personalOrder = false;
+
     }
 });
 $(".toOrderPers").on('click', () => {
@@ -48,8 +49,17 @@ $(".toOrderPers").on('click', () => {
     } else {
         $(".moldu").css('display', 'flex').css('visibility', 'visible').show();
         $('h1.title.admin, h2.subtitle.admin')/*.css('visibility', 'collapse')*/.hide();    //Works this way ¯\_(ツ)_/¯
-        changeView('order');
+
+        isMember = currentUser.admin;
         personalOrder = true;
+
+        if(!isMember){
+            $('#total').addClass('isIncreased');
+        } else {
+            $('#total').removeClass('isIncreased');
+        }
+
+        changeView('order');
     }
 });
 
@@ -72,7 +82,7 @@ $("#loginNav").on('click', () => {
     //     leaveOrdering();
     // if (currentView != "login")
     //     $("#loginPopup").toggle();
-    
+
     location.reload();  //Simpler than managing in popup
 })
 

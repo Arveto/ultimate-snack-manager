@@ -51,8 +51,7 @@ socket.on('login', (res) => {
             //Add users to HTML
             let usersOrderDiv = $('#userSelectionOrder');
             let usersAdminDiv = $('#userSelectionEdit');   //Wtf...
-            // window.users = res.users
-            // users.forEach
+
             res.users.forEach( user =>{
                 insertUserOrder(usersOrderDiv, user);
                 insertUserAdmin(usersAdminDiv, user);
@@ -79,14 +78,17 @@ socket.on('login', (res) => {
             $("#productsNav").hide;
 
             //Add sold tile
-            $("#main-graph").after('<div class ="tile is-parent is-vertical">\
-                <div class="tile is-child is-8 is-vertical box">\
-                    <p class="tile-title" size="1">\
-                        Mon solde\
-                    </p>\
-                    <p class="subtitle">\
-                        42.42€\
-                    </p>\
+            $("#main-graph").after('\
+            <div class="admin tile is-5" style ="display: flex; visibility: visible;">\
+                <div class="tile is-parent is-vertical">\
+                    <div class="tile is-child box">\
+                        <p class="tile-title" size="1">Mon solde</p>\
+                        <p class="subtitle">'+currentUser.balance+'€</p>\
+                    </div>\
+                    <div class="tile is-child box">\
+                        <p class="tile-title" size="1">Merci de votre visite!</p>\
+                        <p class="subtitle">Pour toute aide, addressez-vous à un cafetier ou envoyez-nous un mail à <a href="mailto:arveto.softwares@gmail.com">cette adresse</a>.</p>\
+                    </div>\
                 </div>\
             </div>');
         }

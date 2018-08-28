@@ -76,7 +76,7 @@ function socketIoEvents(socket, database, mail, mailSender){
                         //Send data for a non admin member
                         //TODO Select data relevant for the user to display it on dashboard (currently its recent favorite products)
 
-                        let query = 'SELECT content FROM orders WHERE id = ? LIMIT 10;';
+                        let query = 'SELECT content FROM orders WHERE customerId = ? LIMIT 10;';
                         database.query(query, [id])
                         .then(rows =>{
                             socket.emit('login', {ok: true, isAdmin: isAdmin, isSuperAdmin : isSuperAdmin, itemsList : itemsRes, userData: userData, graphData: rows});
@@ -230,21 +230,23 @@ function socketIoEvents(socket, database, mail, mailSender){
 
     //Event to close a preorder (facturation is done here)
     socket.on('validatePreorder', (data) =>{
+        let price = -1;
 
         //Check that the preorder exists and is unique (as expected)
-        let query = 'SELECT id FROM orders WHERE pending = 1 AND customerId = ?;';
+        let query = 'SELECT id, price FROM orders WHERE pending = 1 AND customerId = ?;';
         database.query(query, [data.customerId])
         .then(rows => {
             if(rows.length == 1){
 
+                price = rows[0].price;
                 //Set the command to closed
                 let query = 'UPDATE orders SET pending = 0 WHERE id = ?;';
                 database.query(query, [rows[0].id])
                 .then(rows =>{
 
-                    //Updtaes the users balance
+                    //Updataes the users balance
                     let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
-                    return database.query(query, [data.price, data.customerId]);
+                    return database.query(query, [price, data.customerId]);
                 })
                 .then(rows => {
                     console.log("Preorder closed");
