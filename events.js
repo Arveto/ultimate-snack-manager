@@ -334,6 +334,7 @@ function socketIoEvents(socket, database, mail, mailSender){
                     database.query(query1, [data.product.name, parseFloat(data.product.price), parseFloat(data.product.amount), data.product.id])
                     .then(rows => {
                         console.log('Update successfull');
+                        socket.emit("productValidation");
                     });
 
                     break;
@@ -344,6 +345,7 @@ function socketIoEvents(socket, database, mail, mailSender){
                     database.query(query2, [data.product.name, parseFloat(data.product.price), parseFloat(data.product.amount), data.product.id])
                     .then(rows => {
                         console.log('Insertion successfull');
+                        socket.emit("productValidation");
                     });
 
                     break;
@@ -392,6 +394,7 @@ function socketIoEvents(socket, database, mail, mailSender){
 
                         socket.emit('editUser', data.edition);
                         socket.broadcast.emit('editUser', data.edition);
+                        socket.emit("productValidation");   //Using this event only to display notification
                     })
                 }
                 //For a removal
