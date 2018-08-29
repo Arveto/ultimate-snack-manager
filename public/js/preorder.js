@@ -2,14 +2,20 @@
 var preorders = [];
 
 socket.on('preorder', (command) =>{
-    addPreorder(command);
+    if(currentUser.admin)   //Avoid normal user to receive notifs
+        addPreorder(command);
 });
 
 socket.on('preorderDone', (customerId)=>{
     $("article.preco"+customerId).remove(); // remove order from the preordersList
     $(".precoBell"+customerId).remove(); //remove the bell in the userSelection
+    editSoldHTML(customerId);
 })
 
+
+socket.on("preorderFailure", () => {
+    notif("danger", "Erreur: vous avez déjà une précommande en cours!");
+});
 
 
     //Functions
@@ -46,6 +52,7 @@ function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
 
             console.log({customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
             socket.emit("validatePreorder", {customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
+            editSoldHTML(customerId, price.toFixed(2));
 
             notif('success', 'La commande a bien été traitée!');
             $('.media.box.preco'+customerId.toString()).remove();
@@ -117,9 +124,13 @@ function addPreorder(command){
 
     //Create date object;
     let date = new Date(Date.parse(command.date))
-
     let dateString = date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString();
 
+    if(dateString == "NaN:NaN:NaN"){
+        //Ugly bug fix for live preorders
+        date = new Date()
+        dateString = date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString();
+    }
 
 
     notif('info', '<b>'+ command.name.fiName + ' ' + command.name.faName +'</b> a envoyé une commande !')

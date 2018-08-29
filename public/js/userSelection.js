@@ -146,7 +146,7 @@ function insertUserOrder(div, user){
             <div class="content">\
                 <p>\
                     <strong>'+user.fiName +' '+user.faName +'</strong><small class="'+user.id+' admin-in-charge"></small><br/>\
-                    <small>Solde : <a>'+user.balance +'€</a>\
+                    <small>Solde : <a id="orderSold'+user.id+'">'+user.balance +'€</a>\
                     </small>\
                 </p>\
             </div>\

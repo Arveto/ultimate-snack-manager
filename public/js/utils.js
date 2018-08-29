@@ -29,17 +29,19 @@ function getIdFromClassNameUgly(el){    //Sorry :p
     return Id;
 }
 
-/**
-* Scroll down the section in parameter
-*
-* @name getIdFromClassName
-* @function
-* @param el {CSS selector}
-* @return {none}
-*/
 
 function scrollDown(el){
     let h = $(el).get(0).scrollHeight;
 
     $(el).animate({scrollTop: h});
+}
+
+
+function editSoldHTML(id, price){
+    let oldSold = parseFloat($('#adminSold'+id).html());
+    let newSold = oldSold - price;
+    newSold = newSold.toFixed(2);
+
+    $('#adminSold'+id).html(newSold);
+    $('#orderSold'+id).html(newSold+'€');
 }

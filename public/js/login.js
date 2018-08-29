@@ -114,7 +114,7 @@ socket.on('login', (res) => {
         $("#loginNav").html('Connecté: <b> &nbsp; ' + currentUser.fiName + ' ' + currentUser.faName + '</b>');
         $('#loginPopup').hide();
     } else {
-        notif('danger', 'Wrong credentials');
+        notif('danger', 'Informations incorrectes =/');
     }
     $('#loginNav').removeClass('is-loading');
     $('.password').val('');

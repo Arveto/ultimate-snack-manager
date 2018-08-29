@@ -214,13 +214,16 @@ function socketIoEvents(socket, database, mail, mailSender){
                     return database.query(query, [order.customerId]);
                 })
                 .then((rows) => {
+                    //BUG Date not sent in correct format
                     socket.broadcast.emit('preorder', {customerId: order.customerId, commandList: order.commandList, price: order.price, date: new Date().toLocaleString(), name: rows[0]});
+                    socket.emit('preorder', {customerId: order.customerId, commandList: order.commandList, price: order.price, date: new Date().toLocaleString(), name: rows[0]});
                 });
             }
 
             else{
-                console.log("Ah");
-                // TODO: else{ Send error message to user? }
+                //User already has a preorder
+                console.log("Already preordered");
+                socket.emit("preorderFailure");
             }
 
         })
@@ -244,7 +247,7 @@ function socketIoEvents(socket, database, mail, mailSender){
                 database.query(query, [rows[0].id])
                 .then(rows =>{
 
-                    //Updataes the users balance
+                    //Updates the users balance
                     let query = 'UPDATE users SET balance = balance - ? WHERE id = ?';
                     return database.query(query, [price, data.customerId]);
                 })

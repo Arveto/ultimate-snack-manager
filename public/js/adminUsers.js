@@ -175,7 +175,7 @@ function insertUserAdmin(div, user){
         <div class="content column">\
             <p class="userAdmin_info'+user.fiName+' '+user.fiName+'">\
                 <strong>'+user.fiName+' '+user.faName+'</strong><br/>\
-                <small>Solde : <a class="user'+user.id+'_solde" onclick="editUsersSolde('+user.id+')">'+ user.balance +'</a>€</small>\
+                <small>Solde : <a class="user'+user.id+'_solde" onclick="editUsersSolde('+user.id+')" id="adminSold'+user.id+'">'+ user.balance +'</a>€</small>\
             </p>\
         </div>\
         <div class="column has-text-centered '+ user.id +' action_toggleSetMemberUser adminUserAction">\

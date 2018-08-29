@@ -16,10 +16,8 @@ function shoppingListProductEdit(item){ //Ooooh yeah sooo dirty.
     $("#shoppingInput"+item.id).val(item.content);
 
     $("#shoppingInput"+item.id).on('keypress', (e)=>{
-        console.log("Keypress");
         let keycode = e.keyCode || e.which;
         if (keycode == 13) {
-            console.log("Enter?")
             socket.emit('shoppingListProductEdit', {'content': $("#shoppingInput"+item.id).val(), 'id': item.id});
         }
     });

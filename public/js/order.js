@@ -49,7 +49,7 @@ $('#submitCommand').on('click', ()=>{
             }
         }
 
-        if (!personalOrder && !isProf) { // Incomplete/bad condition
+        if (!personalOrder && !isProf) { //Standard order
 
             //prepare the order json
             let order = {};
@@ -73,6 +73,7 @@ $('#submitCommand').on('click', ()=>{
 
             //send it
             socket.emit('order', order);
+            editSoldHTML(order.customerId, order.price);
 
 
         } else if(!isProf) {  //It's a preorder
@@ -85,13 +86,6 @@ $('#submitCommand').on('click', ()=>{
             };
 
             socket.emit('preorder', order);
-
-            if (personalOrder){
-              $(".admin").css('display', 'flex').css('visibility', 'visible');
-              $('.moldu').hide().css('visibility', 'collapse');
-              personalOrder = false;
-            }
-
 
         } else {    //It's a prof order
 
