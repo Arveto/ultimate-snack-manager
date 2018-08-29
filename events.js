@@ -214,7 +214,6 @@ function socketIoEvents(socket, database, mail, mailSender){
                     return database.query(query, [order.customerId]);
                 })
                 .then((rows) => {
-                    //BUG Date not sent in correct format
                     socket.broadcast.emit('preorder', {customerId: order.customerId, commandList: order.commandList, price: order.price, date: new Date().toLocaleString(), name: rows[0]});
                     socket.emit('preorder', {customerId: order.customerId, commandList: order.commandList, price: order.price, date: new Date().toLocaleString(), name: rows[0]});
                 });
@@ -242,7 +241,8 @@ function socketIoEvents(socket, database, mail, mailSender){
             if(rows.length == 1){
 
                 price = rows[0].price;
-                //Set the command to closed
+
+                //Set the command to be closed
                 let query = 'UPDATE orders SET pending = 0 WHERE id = ?;';
                 database.query(query, [rows[0].id])
                 .then(rows =>{
@@ -270,6 +270,9 @@ function socketIoEvents(socket, database, mail, mailSender){
                     .then(rows => {
                     });
                 }
+
+                //Send a notice to update sold client side
+                socket.emit("updatePreorderPrice", {customerId: data.customerId, price: price});
             }
         });
     });

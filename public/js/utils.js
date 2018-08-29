@@ -38,6 +38,7 @@ function scrollDown(el){
 
 
 function editSoldHTML(id, price){
+
     let oldSold = parseFloat($('#adminSold'+id).html());
     let newSold = oldSold - price;
     newSold = newSold.toFixed(2);

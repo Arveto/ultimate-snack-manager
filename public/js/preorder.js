@@ -6,17 +6,15 @@ socket.on('preorder', (command) =>{
         addPreorder(command);
 });
 
-socket.on('preorderDone', (customerId)=>{
-    $("article.preco"+customerId).remove(); // remove order from the preordersList
-    $(".precoBell"+customerId).remove(); //remove the bell in the userSelection
-    editSoldHTML(customerId);
-})
-
 
 socket.on("preorderFailure", () => {
     notif("danger", "Erreur: vous avez déjà une précommande en cours!");
 });
 
+
+socket.on("updatePreorderPrice", (data) =>{
+    editSoldHTML(data.customerId, data.price);
+});
 
     //Functions
 
@@ -49,10 +47,7 @@ function precoButtonDirtyFuncBecauseDidntFollowedPOOPrecepts(customerId){
                 }
             }
 
-
-            console.log({customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
             socket.emit("validatePreorder", {customerId: customerId, commandList: orderContent, price: price.toFixed(2)});
-            editSoldHTML(customerId, price.toFixed(2));
 
             notif('success', 'La commande a bien été traitée!');
             $('.media.box.preco'+customerId.toString()).remove();
