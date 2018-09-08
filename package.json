@@ -7,12 +7,13 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "express": "",
-        "socket.io": "",
+        "babel-preset-minify": "^0.4.3",
         "ejs": "",
+        "express": "",
         "jssha": "",
         "mysql": "",
-        "nodemailer": ""
+        "nodemailer": "",
+        "socket.io": ""
     },
     "author": "ARVETO Ink.",
     "license": "GPU"
