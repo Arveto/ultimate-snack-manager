@@ -27,9 +27,8 @@
                 <%
                         }
                 %>
-
+                        <!--Products list is now filled on admin login-->
                         <script>
-                        //Products list is now filled on admin login
                         products.push({id: <%=i%>, name: "<%=products[i].name%>", price: "<%=products[i].price%>"});
                         </script>
 
@@ -52,6 +51,16 @@
                 <%
                         }
                     }
+
+                    if(products.length == 0){
+                        %>
+                        <div id="addProduct" class="tile is-parent">
+                            <article class="tile is-child box">
+                                    <i class="fa fa-plus"></i>
+                            </article>
+                        </div>
+                        <%
+                }
 
                 if (i!=0 && i%4 == 0){
                 %>

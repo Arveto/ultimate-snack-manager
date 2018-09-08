@@ -136,7 +136,6 @@ socket.on('editUser', (edition)=>{
 
     //Edition
   } else {
-    console.log(edition);
       users[userIndex] = edition;
 
       $('.userAdmin_info'+edition.id + ' strong').html(edition.name);

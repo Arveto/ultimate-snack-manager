@@ -118,5 +118,8 @@ function createAdminDashboard(res){
             break;
     }
 
-    $("#lowStock").html(products[lowerStockIndex].name+' (x'+lowerStock+')');
+    if(lowerStockIndex != undefined){
+        $("#lowStock").html(products[lowerStockIndex].name+' (x'+lowerStock+')');
+    }
+
 }

@@ -66,7 +66,14 @@ function socketIoEvents(socket, database, mail, mailSender){
                         database.query(query)
                         .then(rows => {
                             let lastCustomer;
-                            lastCustomer = rows[0].customerId;
+
+                            try{    //If no previous order
+                                lastCustomer = rows[0].customerId;
+                            } catch {
+                                lastCustomer = -1;
+                            }
+
+
                             socket.emit('login', {ok: true, isAdmin: isAdmin, isSuperAdmin: isSuperAdmin, itemsList : itemsRes, preorders : preorders, users: users, lastCustomer: lastCustomer, userData: userData});
                         });
 
@@ -186,6 +193,9 @@ function socketIoEvents(socket, database, mail, mailSender){
                 });
 
                 //Update the nOrders Factor (WARNING Ugly as f***)
+
+
+
                 query = 'UPDATE items SET nOrders = nOrders + 1, stock = stock - 1 WHERE id = ? AND stock > 0;'
                 for(let i=0; i<order.commandList.length; i++){
                     database.query(query, [order.commandList[i]])
@@ -287,6 +297,7 @@ function socketIoEvents(socket, database, mail, mailSender){
 
     //Prof order
     socket.on('profOrder', (order) => {
+        console.log("Prof order");
         let query = 'SELECT admin, id FROM users WHERE (email = ?);';
         database.query(query, [order.admin.email])
         .then(rows => {
@@ -366,6 +377,7 @@ function socketIoEvents(socket, database, mail, mailSender){
         });
     });
 
+
     socket.on('editOnSale', (data) =>{
         console.log("Receive onSale edit for "+data.id);
 
@@ -376,6 +388,7 @@ function socketIoEvents(socket, database, mail, mailSender){
             socket.emit("productValidation");
         });
     });
+
 
     //USERS ADMINISTRATION
     socket.on('editUser', (data)=>{

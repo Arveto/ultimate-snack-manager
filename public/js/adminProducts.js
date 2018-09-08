@@ -10,16 +10,11 @@ $(".adminProduct").on('click', function(e) {
     //get Id of the product selected
     //This line gets the value of I in "adminProductI"
     adminProduct.id = getIdFromClassName(this);
-    console.log("Got ID "+adminProduct.id);
-
-
-    console.log(products);
 
     //First, we look for the product's name and price, from its ID
 
     for(let i=0; i<products.length; i++){
         if(products[i].id == adminProduct.id){
-            console.log("found correspondance at i="+i+", onSale: "+products[i].onSale);
             adminProduct.name = products[i].name;
             adminProduct.price = products[i].price;
             adminProduct.stock = products[i].stock;
@@ -28,7 +23,6 @@ $(".adminProduct").on('click', function(e) {
         }
     }
 
-    console.log("Putting check value to: "+adminProduct.onSale);
     $('#isOnSale').prop("checked", adminProduct.onSale);
 
     $('#adminEditProduct').show();
@@ -89,6 +83,7 @@ $('#submitEdition').on('click', ()=>{
 
     product.price = $('.adminProductEditInput .productPrice').html();
     product.amount = $('.adminProductEditInput .productAmount').html();
+
 
     if (!addProduct){   //It's a product update
 

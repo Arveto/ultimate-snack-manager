@@ -81,7 +81,7 @@ $('#submitCommand').on('click', ()=>{
             //prepare the order json
             let order = {
                 customerId : currentUser.id,
-                commandList : orderArray.toString(),
+                commandList : orderArray,
                 price : totalPrice.toFixed(2)
             };
 
@@ -92,9 +92,11 @@ $('#submitCommand').on('click', ()=>{
         //prepare the order json
         let order = {
             admin : currentUser,
-            commandList : orderArray.toString(),
+            commandList : orderArray,
             price : totalPrice.toFixed(2)
         };
+
+        console.log(order);
 
         socket.emit('profOrder', order);
         }

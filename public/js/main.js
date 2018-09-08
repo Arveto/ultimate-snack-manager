@@ -50,7 +50,8 @@ $(".toOrderPers").on('click', () => {
         $(".moldu").css('display', 'flex').css('visibility', 'visible').show();
         $('h1.title.admin, h2.subtitle.admin')/*.css('visibility', 'collapse')*/.hide();    //Works this way ¯\_(ツ)_/¯
 
-        isMember = currentUser.admin;
+        isMember = currentUser.adherent;
+        console.log(isMember);
         personalOrder = true;
 
         if(!isMember){
@@ -78,10 +79,6 @@ $(".toLogin").on('click', () => {
 });
 
 $("#loginNav").on('click', () => {
-    // if(customerId)
-    //     leaveOrdering();
-    // if (currentView != "login")
-    //     $("#loginPopup").toggle();
 
     location.reload();  //Simpler than managing in popup
 })
