@@ -33,9 +33,21 @@ $('#deleteAllProducts').on('click', ()=>{
     deleteAllProducts();
 })
 
-
+    //Open popup
 
 $('#submitCommand').on('click', ()=>{
+    $("#orderPopup").css("display", "block");
+});
+
+$('#cancelOrder').on('click', ()=>{
+    $("#orderPopup").css("display", "none");
+});
+
+
+
+$('#sendOrder').on('click', ()=>{
+
+    $("#orderPopup").css("display", "none");
 
     if (logged){
         $("#submitLogin").addClass('is-loading');
